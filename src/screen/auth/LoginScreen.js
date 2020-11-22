@@ -1,9 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, KeyboardAvoidingView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, Text, StyleSheet, Image, KeyboardAvoidingView, Platform } from 'react-native';
 import { Button } from '../../components/Button';
 import { TextInput } from '../../components/TextInput';
-import { widthPercentage, heightPercentage } from '../../helper/dimension';
+import { widthPercentage, heightPercentage, screenWidth, screenHeight } from '../../helper/dimension';
 import { Colors, Dimens, Fonts } from '../../base';
 
 export default function LoginScreen(props){
@@ -14,21 +13,24 @@ export default function LoginScreen(props){
 
   return(
     <KeyboardAvoidingView 
-      behavior={'position'} 
-      style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}
+      behavior={Platform.OS == 'ios' && 'position'} 
+      style={styles.rootContainer}
     >
-      <SafeAreaView style={styles.rootContainer}>
       <View style={styles.topContainer}>
         <Image 
           source={require('../../assets/images/logo-white.png')}
           style={styles.imageTop}
         />
-        <Text style={styles.title}>Hai. Apa Kabar?</Text>
-        <Text style={styles.subtitle}>Silahkan masuk untuk melanjutkan</Text>
+        <View style={styles.wrapperTextTop}>
+          <Text style={styles.title}>Hai. Apa Kabar?</Text>
+          <Text style={styles.subtitle}>Silahkan masuk untuk melanjutkan</Text>
+          <View style={styles.horizontalLineWhite}/>
+        </View>
         <Image 
           source={require('../../assets/images/line-wave-white-green.png')}
           style={styles.imageBottom}
         />
+        <View style={styles.maskBottomComponent}/>
       </View>
       <View style={styles.bottomSheet}>
         <TextInput 
@@ -46,9 +48,9 @@ export default function LoginScreen(props){
           label="Masuk Sekarang"
         />
         <View style={styles.wrapperOrLine}>
-          <View style={styles.horizontalLine}/>
+          <View style={styles.horizontalLineGray}/>
           <Text style={styles.textOr}>atau</Text>
-          <View style={styles.horizontalLine}/>
+          <View style={styles.horizontalLineGray}/>
         </View>
         <Button
           type="outline" 
@@ -62,23 +64,26 @@ export default function LoginScreen(props){
           <Text style={{ color: Colors.yellowPrimary }} onPress={()=>gotoSignup()}> Daftar</Text>
         </Text>
       </View>
-    </SafeAreaView>
     </KeyboardAvoidingView>
   )
 }
 
 const styles = StyleSheet.create({
   rootContainer: {
-    flex: 1,
-    alignItems: 'center',
+    flex: 1, 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    width: widthPercentage(100), 
+    height: heightPercentage(100), 
     backgroundColor: Colors.bluePrimary
   },
   topContainer: {
-    width: widthPercentage(100),
-    height: heightPercentage(50),
-    backgroundColor: Colors.bluePrimary,
-    justifyContent: 'center',
-    alignItems: 'center'
+    flex: 1, 
+    width: screenWidth, 
+    height: screenHeight, 
+    justifyContent: 'flex-end', 
+    alignItems: 'center', 
+    backgroundColor: Colors.bluePrimary
   },
   imageTop: {
     position: 'absolute',
@@ -89,37 +94,51 @@ const styles = StyleSheet.create({
     right: -widthPercentage(10),
     opacity: 0.15
   },
+  wrapperTextTop: {
+    alignItems: 'center'
+  },
   title: {
     color: Colors.white,
     fontSize: Dimens.FONT_SIZE_27,
     fontFamily: Fonts.poppinsBold,
-    marginTop: -heightPercentage(12)
   },
   subtitle: {
     color: Colors.white,
     fontSize: Dimens.FONT_SIZE_17,
     fontFamily: Fonts.poppinsRegular
   },
+  horizontalLineWhite: {
+    width: widthPercentage(30),
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: Colors.white,
+    marginTop: heightPercentage(2)
+  },
   imageBottom: {
     width: widthPercentage(110),
     height: undefined,
     aspectRatio: 375/55,
-    position: 'absolute',
-    bottom: heightPercentage(13)
+  },
+  maskBottomComponent: {
+    width: screenWidth, 
+    height: undefined, 
+    aspectRatio: 375/440
   },
   bottomSheet: {
     width: widthPercentage(100),
-    height: heightPercentage(64),
+    height: undefined,
+    aspectRatio: 375/440,
     backgroundColor: Colors.white,
-    marginTop: -heightPercentage(13),
-    paddingTop: '12%',
+    position: 'absolute',
+    bottom: 0,
+    paddingTop: '7%',
     borderTopLeftRadius: 34,
     borderTopRightRadius: 34,
     alignItems: 'center',
   },
   input: {
-    marginTop: 18,
-    marginBottom: 22
+    marginTop: heightPercentage(2),
+    marginBottom: heightPercentage(4)
   },
   labelSignin: {
     color: Colors.white
@@ -129,12 +148,12 @@ const styles = StyleSheet.create({
     height: undefined,
     aspectRatio: 313/27,
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 13,
-    marginBottom: 7
+    marginTop: heightPercentage(2),
+    marginBottom: heightPercentage(1)
   },
-  horizontalLine: {
+  horizontalLineGray: {
     width: widthPercentage(32),
     height: 2,
     borderRadius: 2,
@@ -145,7 +164,6 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.poppinsRegular,
     fontSize: Dimens.FONT_SIZE_19,
     color: Colors.grayText,
-    marginHorizontal: 12
   },
   labelSigninGoogle: {
     color: Colors.grayText,
@@ -154,7 +172,7 @@ const styles = StyleSheet.create({
   textSignupWrapper: {
     width: widthPercentage(83.5),
     textAlign: 'left',
-    marginTop: 13,
+    marginTop: heightPercentage(2),
     fontSize: Dimens.FONT_SIZE_13,
     fontFamily: Fonts.poppinsRegular,
     color: Colors.grayText
