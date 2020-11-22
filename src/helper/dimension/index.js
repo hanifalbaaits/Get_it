@@ -1,4 +1,6 @@
 import {
+  screenWidth,
+  screenHeight,
   widthPercentage,
   heightPercentage,
   listenOrientationChange,
@@ -8,6 +10,8 @@ import {
 import {scale, verticalScale, moderateScale, em} from './Scaling';
 
 export {
+  screenWidth,
+  screenHeight,
   widthPercentage,
   heightPercentage,
   listenOrientationChange,

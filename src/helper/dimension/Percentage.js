@@ -74,6 +74,8 @@ const removeOrientationListener = () => {
 };
 
 export {
+  screenWidth,
+  screenHeight,
   widthPercentage,
   heightPercentage,
   listenOrientationChange,
