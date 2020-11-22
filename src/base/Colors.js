@@ -8,6 +8,7 @@ const Colors = {
   grayText3: '#707070',
   grayOutline: '#00000063',
   grayOutlineCircle: '#707070',
+  grayInactiveTab: '#858585',
   bluePrimary: '#089AEB',
   blueText: '#344FD9',
   greenPrimary: '#109DA2'

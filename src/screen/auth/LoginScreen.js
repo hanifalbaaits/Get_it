@@ -11,6 +11,10 @@ export default function LoginScreen(props){
     props.navigation.navigate('SignupScreen');
   }
 
+  function onLogin(){
+    props.navigation.navigate('MenuTab');
+  }
+
   return(
     <KeyboardAvoidingView 
       behavior={Platform.OS == 'ios' && 'position'} 
@@ -46,6 +50,7 @@ export default function LoginScreen(props){
           color={Colors.yellowPrimary}
           styleLabel={styles.labelSignin}
           label="Masuk Sekarang"
+          onPress={()=>onLogin()}
         />
         <View style={styles.wrapperOrLine}>
           <View style={styles.horizontalLineGray}/>
