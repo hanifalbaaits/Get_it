@@ -5,7 +5,7 @@ import { Button } from '../Button';
 import { Colors, Fonts, Dimens } from '../../base';
 import { heightPercentage, widthPercentage } from '../../helper/dimension';
 
-export default function ModalAlert({modalVisible, setModalVisible, setAccept}){
+export default function ModalTnc({modalVisible, setModalVisible, setAccept}){
   return(
     <Modal 
       swipeDirection={'down'}
