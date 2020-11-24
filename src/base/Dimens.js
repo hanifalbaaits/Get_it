@@ -1,6 +1,8 @@
 import { moderateScale } from '../helper/dimension';
 
 const Dimens = {
+  FONT_SIZE_7: moderateScale(7),
+  FONT_SIZE_8: moderateScale(8),
   FONT_SIZE_9: moderateScale(9),
   FONT_SIZE_10: moderateScale(10),
   FONT_SIZE_11: moderateScale(11),
