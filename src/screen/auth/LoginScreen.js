@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, KeyboardAvoidingView, Platform } from 'react-native';
 import { Button } from '../../components/Button';
+import { HeaderImageLogoBG } from '../../components/Header';
 import { TextInput } from '../../components/TextInput';
 import { widthPercentage, heightPercentage, screenWidth, screenHeight } from '../../helper/dimension';
 import { Colors, Dimens, Fonts } from '../../base';
@@ -21,10 +22,7 @@ export default function LoginScreen(props){
       style={styles.rootContainer}
     >
       <View style={styles.topContainer}>
-        <Image 
-          source={require('../../assets/images/logo-white.png')}
-          style={styles.imageTop}
-        />
+        <HeaderImageLogoBG />
         <View style={styles.wrapperTextTop}>
           <Text style={styles.title}>Hai. Apa Kabar?</Text>
           <Text style={styles.subtitle}>Silahkan masuk untuk melanjutkan</Text>
@@ -89,15 +87,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end', 
     alignItems: 'center', 
     backgroundColor: Colors.bluePrimary
-  },
-  imageTop: {
-    position: 'absolute',
-    width: widthPercentage(40),
-    height: undefined,
-    aspectRatio: 56/54,
-    top: -heightPercentage(8),
-    right: -widthPercentage(10),
-    opacity: 0.15
   },
   wrapperTextTop: {
     alignItems: 'center'

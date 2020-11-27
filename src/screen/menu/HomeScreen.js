@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { HeaderImageLogoBG } from '../../components/Header';
 import { CardBalance, CardMenu, CardPromo } from '../../components/Card';
 import { VIcon } from '../../components/Icon';
 import { Colors, Dimens, Fonts } from '../../base';
@@ -42,10 +43,7 @@ export default function HomeScreen(){
 
   return(
     <SafeAreaView style={styles.rootContainer}>
-      <Image 
-        source={require('../../assets/images/logo-white.png')}
-        style={styles.imageTop}
-      />
+      <HeaderImageLogoBG />
       <View style={styles.headerWrapper}>
         <Image 
           source={require('../../assets/images/logo-text-white.png')}
@@ -119,15 +117,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     backgroundColor: Colors.bluePrimary
-  },
-  imageTop: {
-    position: 'absolute',
-    width: widthPercentage(40),
-    height: undefined,
-    aspectRatio: 56/54,
-    top: -heightPercentage(6),
-    right: -widthPercentage(10),
-    opacity: 0.15
   },
   headerWrapper: {
     flexDirection: 'row',
