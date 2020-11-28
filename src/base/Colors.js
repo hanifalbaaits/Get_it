@@ -2,6 +2,7 @@ const Colors = {
   white: '#FFFFFF',
   black: '#000000',
   blackText: '#2A2A2A',
+  blackTextProfileName: '#373737',
   blackTextPackage: '#343434',
   yellowPrimary: '#F5AF19',
   yellowTextTopup: '#FFD885',
