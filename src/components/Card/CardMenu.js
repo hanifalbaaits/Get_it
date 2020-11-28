@@ -1,13 +1,17 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { Colors, Dimens, Fonts } from '../../base';
 import { VIcon } from '../Icon';
 import { widthPercentage } from '../../helper/dimension';
 
-export default function CardMenu(props){
+export default function CardMenu(){
+
+  const navigation = useNavigation();
+
   return(
     <View style={styles.rootContainer}>
-      <TouchableOpacity onPress={props.onPress} style={styles.menuContainer}>
+      <TouchableOpacity onPress={()=>navigation.navigate('PackageStack', {screen: 'SelectPackageScreen', params: {type: 1}})} style={styles.menuContainer}>
         <VIcon
           type={'MaterialIcons'}
           name={'phone-android'}
@@ -19,7 +23,7 @@ export default function CardMenu(props){
         </View>
         <Text style={styles.menuName}>{'Pulsa'}</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={props.onPress} style={styles.menuContainer}>
+      <TouchableOpacity onPress={()=>navigation.navigate('PackageStack', {screen: 'SelectPackageScreen', params: {type: 2}})} style={styles.menuContainer}>
         <VIcon
           type={'MaterialIcons'}
           name={'signal-wifi-4-bar'}
@@ -29,7 +33,7 @@ export default function CardMenu(props){
         <View style={styles.badgeGB}>
           <Text style={styles.textBadge}>{'GB'}</Text>
         </View>
-        <Text style={styles.menuName}>{'Pulsa'}</Text>
+        <Text style={styles.menuName}>{'Paket Data'}</Text>
       </TouchableOpacity>
     </View>
   )
