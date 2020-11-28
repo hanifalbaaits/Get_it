@@ -94,20 +94,7 @@ export default function HomeScreen(){
         type={'pending'}
         alertText={'Saldo tidak cukup'}
       />
-      <Text>Home Screen</Text>
-      <CardMenu />
-      <CardPromo 
-        image={'https://tri.co.id/image/files/20201012WebsiteMochanOffline3GBdesktop.jpg'}
-      />
-      <CardPromo 
-        image={'https://assets.indosatooredoo.com/Assets/Upload/01%20Personal/Promo/Bank/BCA/210420/07_BCA%20BAHASA.jpg'}
-      />
-      <CardSelectPackage 
-        packageName={'5.000'}
-        packageDuration={'Menambahkan Masa Aktif 7 Hari'}
-        packagePrice={'Rp. 5.650'}
-        onPress={()=>setModalConfirm({...modalConfirm, isVisible: true})}
-      /> */}
+      */}
     </SafeAreaView>
   )
 }
