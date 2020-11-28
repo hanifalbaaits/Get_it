@@ -57,11 +57,6 @@ export default function PromoScreen(){
               />
             )
           }}
-          ItemSeparatorComponent={()=>{
-            return(
-              <View style={styles.lineSeparator}/>
-            )
-          }}
         />
       </View>
     </SafeAreaView>

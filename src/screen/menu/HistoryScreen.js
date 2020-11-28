@@ -44,6 +44,7 @@ export default function HistoryScreen(){
       <View style={styles.bottomSheet}>
         <FlatList 
           data={dataHistory}
+          keyExtractor={(item) => item.id.toString()}
           renderItem={({item, index}) => {
             return(
               <CardHistory 
