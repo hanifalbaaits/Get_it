@@ -14,8 +14,10 @@ const Colors = {
   bluePrimary: '#089AEB',
   blueText: '#344FD9',
   blueTextBadge: '#067DBE',
+  blueTextDetail: '#2E7FC5',
   greenPrimary: '#109DA2',
   greenAlert: '#00C99F',
+  greenStatusHistory: '#01C99F',
   redAlert: '#FF2121'
 }
 
