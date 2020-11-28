@@ -1,2 +1,3 @@
 import HeaderImageLogoBG from './HeaderImageLogoBG';
-export { HeaderImageLogoBG }
+import HeaderNav from './HeaderNav';
+export { HeaderImageLogoBG, HeaderNav }
