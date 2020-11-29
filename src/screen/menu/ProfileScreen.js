@@ -6,34 +6,20 @@ import { HeaderImageLogoBG } from '../../components/Header';
 import { Colors, Fonts, Dimens } from '../../base';
 import { heightPercentage, widthPercentage } from '../../helper/dimension';
 
-export default function ProfileScreen(){
+export default function ProfileScreen(props){
 
   const ListItemIcon = ({iconName, value, onPress, style, isLogout}) => {
-    if(onPress){
-      return(
-        <TouchableOpacity style={[styles.listContainer, style]}>
-          <VIcon
-            type={'MaterialIcons'}
-            name={iconName}
-            size={Dimens.FONT_SIZE_18}
-            color={isLogout ? Colors.redAlert : Colors.blackTextProfileName}
-          />
-          <Text style={[styles.listTextValue, isLogout && { color: Colors.redAlert }]}>{value}</Text>
-        </TouchableOpacity>
-      )
-    } else {
-      return(
-        <View style={[styles.listContainer, style]}>
-          <VIcon
-            type={'MaterialIcons'}
-            name={iconName}
-            size={Dimens.FONT_SIZE_16}
-            color={isLogout ? Colors.redAlert : Colors.blackTextProfileName}
-          />
-          <Text style={[styles.listTextValue, isLogout && { color: Colors.redAlert }]}>{value}</Text>
-        </View>
-      )
-    }
+    return(
+      <TouchableOpacity style={[styles.listContainer, style]} onPress={onPress} disabled={onPress ? false : true}>
+        <VIcon
+          type={'MaterialIcons'}
+          name={iconName}
+          size={Dimens.FONT_SIZE_18}
+          color={isLogout ? Colors.redAlert : Colors.blackTextProfileName}
+        />
+        <Text style={[styles.listTextValue, isLogout && { color: Colors.redAlert }]}>{value}</Text>
+      </TouchableOpacity>
+    )
   }
 
   return(
@@ -76,6 +62,7 @@ export default function ProfileScreen(){
         <ListItemIcon 
           iconName={'lock'}
           value={'Ganti Kata Sandi'}
+          onPress={()=>props.navigation.navigate('ProfileDetailStack', {screen: 'ChangePasswordScreen'})}
         />
         <View style={[styles.lineSeparator, { marginTop: heightPercentage(1) }]}/>
         <ListItemIcon 

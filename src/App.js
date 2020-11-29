@@ -22,6 +22,7 @@ import PaymentProcessScreen from './screen/payment/PaymentProcessScreen';
 import TopupScreen from './screen/topup/TopupScreen';
 import UploadReceiptScreen from './screen/topup/UploadReceiptScreen';
 import HistoryDetailScreen from './screen/history/HistoryDetailScreen';
+import ChangePasswordScreen from './screen/profile/ChangePasswordScreen';
 
 const headerShown = false;
 const gestureEnabled = true;
@@ -64,6 +65,18 @@ const HistoryDetailStackScreen = () => (
   }}>
     <HistoryDetailStack.Screen name="HistoryDetailScreen" component={HistoryDetailScreen}/>
   </HistoryDetailStack.Navigator>
+)
+
+const ProfileDetailStack = createStackNavigator();
+const ProfileDetailStackScreen = () => (
+  <ProfileDetailStack.Navigator
+  screenOptions={{
+    headerShown: headerShown,
+    gestureEnabled: gestureEnabled,
+    ...TransitionPresets.SlideFromRightIOS,
+  }}>
+    <ProfileDetailStack.Screen name="ChangePasswordScreen" component={ChangePasswordScreen}/>
+  </ProfileDetailStack.Navigator>
 )
 
 const AuthStack = createStackNavigator();
@@ -211,7 +224,8 @@ const RootStackScreen = () => (
     <RootStack.Screen name="MenuTab" component={TabsScreen} /> 
     <RootStack.Screen name="PackageStack" component={PackageStackScreen} />
     <RootStack.Screen name="TopupStack" component={TopupStackScreen} />
-    <RootStack.Screen name="HistoryStack" component={HistoryDetailStackScreen} />
+    <RootStack.Screen name="HistoryDetailStack" component={HistoryDetailStackScreen} />
+    <RootStack.Screen name="ProfileDetailStack" component={ProfileDetailStackScreen} />
   </RootStack.Navigator>
 )
 
