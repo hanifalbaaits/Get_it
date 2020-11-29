@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, KeyboardAvoidingView, Platform } from 'react-native';
 import { Button } from '../../components/Button';
 import { HeaderImageLogoBG } from '../../components/Header';
 import { TextInput } from '../../components/TextInput';
+import { ModalAlert } from '../../components/Modal';
 import { widthPercentage, heightPercentage, screenWidth, screenHeight } from '../../helper/dimension';
 import { Colors, Dimens, Fonts } from '../../base';
 
 export default function LoginScreen(props){
+
+  const [modalAlert, setModalAlert] = useState({
+    isVisible: false,
+    type: 'error'
+  })
 
   function gotoSignup(){
     props.navigation.navigate('SignupScreen');
@@ -14,6 +20,10 @@ export default function LoginScreen(props){
 
   function onLogin(){
     props.navigation.navigate('MenuTab');
+  }
+
+  function onError(){
+    setModalAlert({...modalAlert, isVisible: true})
   }
 
   return(
@@ -48,7 +58,7 @@ export default function LoginScreen(props){
           color={Colors.yellowPrimary}
           styleLabel={styles.labelSignin}
           label="Masuk Sekarang"
-          onPress={()=>onLogin()}
+          onPress={()=>onError()}
         />
         <View style={styles.wrapperOrLine}>
           <View style={styles.horizontalLineGray}/>
@@ -61,11 +71,18 @@ export default function LoginScreen(props){
           styleLabel={styles.labelSigninGoogle}
           label="Masuk Dengan Akun Google"
           image={require('../../assets/images/logo-google.png')}
+          onPress={()=>onLogin()}
         />
         <Text style={styles.textSignupWrapper}>
           <Text>Belum punya Akun?</Text>
           <Text style={{ color: Colors.yellowPrimary }} onPress={()=>gotoSignup()}> Daftar</Text>
         </Text>
+        <ModalAlert 
+          modalVisible={modalAlert.isVisible}
+          setModalVisible={()=>setModalAlert({...modalAlert, isVisible: false})}
+          onPress={()=>setModalAlert({...modalAlert, isVisible: false})}
+          type={modalAlert.type}
+        />
       </View>
     </KeyboardAvoidingView>
   )
