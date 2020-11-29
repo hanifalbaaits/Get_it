@@ -20,6 +20,7 @@ import PaymentConfirmScreen from './screen/payment/PaymentConfirmScreen';
 import PaymentProcessScreen from './screen/payment/PaymentProcessScreen';
 import TopupScreen from './screen/topup/TopupScreen';
 import UploadReceiptScreen from './screen/topup/UploadReceiptScreen';
+import HistoryDetailScreen from './screen/history/HistoryDetailScreen';
 
 const headerShown = false;
 const gestureEnabled = true;
@@ -50,6 +51,18 @@ const TopupStackScreen = () => (
     <TopupStack.Screen name="TopupScreen" component={TopupScreen}/>
     <TopupStack.Screen name="UploadReceiptScreen" component={UploadReceiptScreen}/>
   </TopupStack.Navigator>
+)
+
+const HistoryDetailStack = createStackNavigator();
+const HistoryDetailStackScreen = () => (
+  <HistoryDetailStack.Navigator
+  screenOptions={{
+    headerShown: headerShown,
+    gestureEnabled: gestureEnabled,
+    ...TransitionPresets.SlideFromRightIOS,
+  }}>
+    <HistoryDetailStack.Screen name="HistoryDetailScreen" component={HistoryDetailScreen}/>
+  </HistoryDetailStack.Navigator>
 )
 
 const AuthStack = createStackNavigator();
@@ -196,6 +209,7 @@ const RootStackScreen = () => (
     <RootStack.Screen name="MenuTab" component={TabsScreen} /> 
     <RootStack.Screen name="PackageStack" component={PackageStackScreen} />
     <RootStack.Screen name="TopupStack" component={TopupStackScreen} />
+    <RootStack.Screen name="HistoryStack" component={HistoryDetailStackScreen} />
   </RootStack.Navigator>
 )
 

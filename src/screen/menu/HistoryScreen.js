@@ -5,8 +5,9 @@ import { HeaderImageLogoBG } from '../../components/Header';
 import { CardHistory } from '../../components/Card';
 import { Colors, Fonts, Dimens } from '../../base';
 import { heightPercentage, widthPercentage } from '../../helper/dimension';
+import { currencyFormat } from '../../helper/format';
 
-export default function HistoryScreen(){
+export default function HistoryScreen(props){
 
   // status 0 pending - 1 success - 2 failed
   const dataHistory = [
@@ -50,8 +51,9 @@ export default function HistoryScreen(){
               <CardHistory 
                 date={item.date}
                 status={item.status}
-                price={item.price}
+                price={currencyFormat(item.price)}
                 packageName={item.name}
+                onPress={()=>props.navigation.navigate('HistoryStack', {screen: 'HistoryDetailScreen', params: item})}
               />
             )
           }}
