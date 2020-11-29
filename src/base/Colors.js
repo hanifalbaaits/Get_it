@@ -4,6 +4,7 @@ const Colors = {
   blackText: '#2A2A2A',
   blackTextProfileName: '#373737',
   blackTextPackage: '#343434',
+  blackTextTopup: '#6D6D6D',
   yellowPrimary: '#F5AF19',
   yellowTextTopup: '#FFD885',
   grayText: '#686868',
