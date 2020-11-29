@@ -53,7 +53,7 @@ export default function HistoryScreen(props){
                 status={item.status}
                 price={currencyFormat(item.price)}
                 packageName={item.name}
-                onPress={()=>props.navigation.navigate('HistoryStack', {screen: 'HistoryDetailScreen', params: item})}
+                onPress={()=>props.navigation.navigate('HistoryDetailStack', {screen: 'HistoryDetailScreen', params: item})}
               />
             )
           }}
