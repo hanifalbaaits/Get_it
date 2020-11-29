@@ -14,9 +14,28 @@ import HomeScreen from './screen/menu/HomeScreen';
 import HistoryScreen from './screen/menu/HistoryScreen';
 import PromoScreen from './screen/menu/PromoScreen';
 import ProfileScreen from './screen/menu/ProfileScreen';
+import SelectPackageScreen from './screen/menu/SelectPackageScreen';
+import PaymentMethodScreen from './screen/menu/PaymentMethodScreen';
+import PaymentConfirmScreen from './screen/menu/PaymentConfirmScreen';
+import PaymentProcessScreen from './screen/menu/PaymentProcessScreen';
 
 const headerShown = false;
 const gestureEnabled = true;
+
+const PackageStack = createStackNavigator();
+const PackageStackScreen = () => (
+  <PackageStack.Navigator
+  screenOptions={{
+    headerShown: headerShown,
+    gestureEnabled: gestureEnabled,
+    ...TransitionPresets.SlideFromRightIOS,
+  }}>
+    <PackageStack.Screen name="SelectPackageScreen" component={SelectPackageScreen} />
+    <PackageStack.Screen name="PaymentMethodScreen" component={PaymentMethodScreen} />
+    <PackageStack.Screen name="PaymentConfirmScreen" component={PaymentConfirmScreen} />
+    <PackageStack.Screen name="PaymentProcessScreen" component={PaymentProcessScreen} />
+  </PackageStack.Navigator>
+)
 
 const AuthStack = createStackNavigator();
 const AuthStackScreen = () => (
@@ -160,6 +179,7 @@ const RootStackScreen = () => (
   }}>
     <RootStack.Screen name="Auth" component={AuthStackScreen}/>
     <RootStack.Screen name="MenuTab" component={TabsScreen} /> 
+    <RootStack.Screen name="PackageStack" component={PackageStackScreen} />
   </RootStack.Navigator>
 )
 
