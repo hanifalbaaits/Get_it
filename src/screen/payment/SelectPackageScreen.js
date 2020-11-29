@@ -155,28 +155,31 @@ export default function SelectPackageScreen(props){
             </View>
             <Text style={styles.titleCardContent}>{title}</Text>
           </View>
-          <FlatList 
-            style={styles.flatlist}
-            data={props.route.params.type == 1 ? dataPulsa : props.route.params.type == 2 ? dataInternet : []}
-            keyExtractor={(item)=>item.id.toString()}
-            renderItem={({item, index}) => {
-              return(
-                <CardSelectPackage 
-                  id={item.id}
-                  packageName={item.name}
-                  packageDuration={item.period}
-                  packagePrice={item.price}
-                  onPress={()=>onSelectPackage(item.id)}
-                  selectedId={selectedPackage}
-                />
-              )
-            }}
-            ItemSeparatorComponent={()=>{
-              return(
-                <View style={styles.separatorContent}/>
-              )
-            }}
-          />
+          <View style={{width: '100%', height: '85%'}}>
+            <FlatList 
+              style={{ width: '100%', flex: 1 }}
+              contentContainerStyle={{ alignItems: 'center', paddingHorizontal: widthPercentage(7.5), paddingTop: 10, paddingBottom: heightPercentage(15) }}
+              data={props.route.params.type == 1 ? dataPulsa : props.route.params.type == 2 ? dataInternet : []}
+              keyExtractor={(item)=>item.id.toString()}
+              renderItem={({item, index})=>{
+                return(
+                  <CardSelectPackage 
+                    id={item.id}
+                    packageName={item.name}
+                    packageDuration={item.period}
+                    packagePrice={item.price}
+                    onPress={()=>onSelectPackage(item.id)}
+                    selectedId={selectedPackage}
+                  />
+                )
+              }}
+              ItemSeparatorComponent={()=>{
+                return(
+                  <View style={styles.separatorContent}/>
+                )
+              }}
+            />
+          </View>
         </View>
       </View>
       <View style={styles.footerMenu}>
@@ -260,7 +263,9 @@ const styles = StyleSheet.create({
     marginLeft: widthPercentage(5)
   },
   flatlist: {
-    paddingTop: heightPercentage(2)
+    paddingTop: heightPercentage(2),
+    height: heightPercentage(100),
+    paddingBottom: heightPercentage(10)
   },
   separatorContent: {
     width: '100%',
