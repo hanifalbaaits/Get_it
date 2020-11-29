@@ -4,24 +4,24 @@ import { VIcon } from '../Icon';
 import { Colors, Dimens, Fonts } from '../../base';
 import { widthPercentage } from '../../helper/dimension';
 
-export default function CardHistoryStatus({type, date, alertText, styleContainer}){
+export default function CardHistoryStatus({status, date, alertText, styleContainer}){
   return(
     <View style={[styles.rootContainer, 
-      type == 'success' || type == 'error' ? { aspectRatio: 212/77, width: widthPercentage(56.5) } :
-      type == 'pending' ? { aspectRatio: 259/77, width: widthPercentage(69) } : { }, styleContainer ]}>
+      status == 1 || status == 2 ? { aspectRatio: 212/77, width: widthPercentage(56.5) } :
+      status == 0 ? { aspectRatio: 259/77, width: widthPercentage(69) } : { }, styleContainer ]}>
       <View style={styles.titleWrapper}>
         <VIcon
           type={'MaterialIcons'}
-          name={type == 'success' ? 'check-circle' : type == 'pending' ? 'hourglass-full' : 'report-problem'}
+          name={status == 1 ? 'check-circle' : status == 0 ? 'hourglass-full' : 'report-problem'}
           size={Dimens.FONT_SIZE_30}
-          color={type == 'success' ? Colors.greenAlert : type == 'pending' ? Colors.yellowPrimary : Colors.redAlert}
+          color={status == 1 ? Colors.greenAlert : status == 0 ? Colors.yellowPrimary : Colors.redAlert}
         />
         <Text style={[styles.title, 
-        type == 'success' ? { color: Colors.greenAlert } :
-        type == 'pending' ? { color: Colors.yellowPrimary } :
-        { color: Colors.redAlert }]}>{type == 'success' ? 'BERHASIL' : type == 'pending' ? 'SEDANG PROSES' : 'GAGAL'}</Text>
+        status == 1 ? { color: Colors.greenAlert } :
+        status == 0 ? { color: Colors.yellowPrimary } :
+        { color: Colors.redAlert }]}>{status == 1 ? 'BERHASIL' : status == 0 ? 'SEDANG PROSES' : 'GAGAL'}</Text>
       </View>
-      <Text style={styles.subtitle}>{type == 'pending' ? 'Mohon Tunggu' : type == 'error' ? alertText : date}</Text>
+      <Text style={styles.subtitle}>{status == 0 ? 'Mohon Tunggu' : status == 2 ? alertText : date}</Text>
     </View>
   )
 }

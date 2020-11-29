@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Colors, Fonts, Dimens } from '../../base';
 import { widthPercentage } from '../../helper/dimension';
 
-export default function CardHistory({date, status, price, packageName}){
+export default function CardHistory({date, status, price, packageName, onPress}){
   // status 0 pending - 1 success - 2 failed
   return(
     <View style={styles.rootContainer}>
@@ -23,7 +23,7 @@ export default function CardHistory({date, status, price, packageName}){
           null
         }
         <Text style={styles.textPrice}>Rp. {price}</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={onPress}>
           <Text style={styles.textDetail}>Lihat Detail</Text>
         </TouchableOpacity>
       </View>
