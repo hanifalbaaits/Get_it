@@ -5,7 +5,7 @@ import { VIcon } from '../Icon';
 import { Colors, Dimens, Fonts } from '../../base';
 import { widthPercentage, heightPercentage } from '../../helper/dimension';
 
-export default function HeaderNav({title}){
+export default function HeaderNav({title, themes}){
 
   const navigation = useNavigation();
 
@@ -16,10 +16,10 @@ export default function HeaderNav({title}){
           type={'MaterialIcons'}
           name={'arrow-back'}
           size={Dimens.FONT_SIZE_24}
-          color={Colors.white}
+          color={themes == 'dark' ? Colors.blackTextPackage : Colors.white}
         />
       </TouchableOpacity>
-      <Text style={styles.title}>{title}</Text>
+      <Text style={[styles.title, themes == 'dark' && { color: Colors.blackTextPackage }]}>{title}</Text>
     </View>
   )
 }

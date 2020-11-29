@@ -2,11 +2,11 @@ import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 import { heightPercentage, widthPercentage } from '../../helper/dimension';
 
-export default function HeaderImageLogoBG(){
+export default function HeaderImageLogoBG({themes}){
   return(
     <Image 
-      source={require('../../assets/images/logo-white.png')}
-      style={styles.image}
+      source={themes == 'dark' ? require('../../assets/images/logo-grey.png') : require('../../assets/images/logo-white.png')}
+      style={[styles.image, themes == 'dark' && { opacity: 1 }]}
     />
   )
 }
