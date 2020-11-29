@@ -46,6 +46,8 @@ export default function PromoScreen(){
       />
       <View style={styles.bottomSheet}>
         <FlatList 
+          style={{ width: widthPercentage(100) }}
+          contentContainerStyle={{alignItems: 'center', paddingTop: 10 }}
           data={dataPromo}
           keyExtractor={(item) => item.id.toString()}
           showsVerticalScrollIndicator={false}
@@ -55,6 +57,11 @@ export default function PromoScreen(){
                 title={item.title}
                 image={item.image}
               />
+            )
+          }}
+          ItemSeparatorComponent={()=>{
+            return(
+              <View style={{ height: heightPercentage(1)}}/>
             )
           }}
         />
