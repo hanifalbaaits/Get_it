@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { widthPercentage } from '../../helper/dimension';
 import { Colors, Dimens, Fonts } from '../../base';
+import { VIcon } from '../Icon';
 
 export default function ButtonFill(props){
   return(
@@ -16,6 +17,15 @@ export default function ButtonFill(props){
         <Image 
           source={props.image}
           style={styles.image}
+        />
+      }
+      {
+        props.iconName &&
+        <VIcon
+          type={'MaterialIcons'}
+          name={props.iconName}
+          size={widthPercentage(6)}
+          color={props.iconColor}
         />
       }
       <Text style={[styles.label, props.styleLabel]}>{props.label}</Text>
