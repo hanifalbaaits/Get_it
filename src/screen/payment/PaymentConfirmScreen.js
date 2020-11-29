@@ -124,7 +124,8 @@ const styles = StyleSheet.create({
     height: undefined,
     aspectRatio: 1/1,
     position: 'absolute',
-    bottom: 0
+    bottom: 0,
+    zIndex: -1
   },
   buttonNext: {
     position: 'absolute',
