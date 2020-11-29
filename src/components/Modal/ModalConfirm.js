@@ -6,7 +6,7 @@ import { Button } from '../Button';
 import { Colors, Fonts, Dimens } from '../../base';
 import { widthPercentage } from '../../helper/dimension';
 
-export default function ModalConfirm({modalVisible, setModalVisible, onConfirm}){
+export default function ModalConfirm({modalVisible, setModalVisible, onConfirm, subtitle}){
   return(
     <Modal 
       swipeDirection={'down'}
@@ -25,7 +25,7 @@ export default function ModalConfirm({modalVisible, setModalVisible, onConfirm})
         </View>
         <Text style={styles.textSubtitle}>
           <Text>{'Apakah Anda yakin untuk \n'}</Text>
-          <Text style={{ color: Colors.bluePrimary }}>{'Ganti Kata Sandi'}</Text>
+          <Text style={{ color: Colors.bluePrimary }}>{subtitle}</Text>
         </Text>
         <View style={styles.buttonWrapper}>
           <Button
