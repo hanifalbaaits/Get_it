@@ -63,7 +63,7 @@ export default function HomeScreen(){
       </View>
       <CardBalance 
         styleContainer={styles.cardBalance}
-        balance={'10.000'}
+        balance={10000}
       />
       <Image 
         source={require('../../assets/images/line-wave-white-green.png')}
