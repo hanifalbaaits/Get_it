@@ -1,9 +1,12 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { widthPercentage } from '../../helper/dimension';
+import { currencyFormat } from '../../helper/format';
 import { Colors, Dimens, Fonts } from '../../base';
 
-export default function CardBalance({styleContainer, balance, onTopup}){
+export default function CardBalance({styleContainer, balance}){
+  const navigation = useNavigation();
   return(
     <View style={[styles.rootContainer, styleContainer]}>
       <View style={styles.wrapperContent}>
@@ -15,9 +18,9 @@ export default function CardBalance({styleContainer, balance, onTopup}){
           <Text style={styles.textBalance}>Saldo</Text>
           <Text style={styles.textBalanceValueWrapper}>
             <Text style={styles.textCurrency}>Rp. </Text>
-            <Text style={styles.textBalanceValue}>{balance}</Text>
+            <Text style={styles.textBalanceValue}>{currencyFormat(balance)}</Text>
           </Text>
-          <Text style={styles.textTopup}>Isi Saldo</Text>
+          <Text style={styles.textTopup} onPress={()=>navigation.navigate('TopupStack', {screen: 'TopupScreen'})}>Isi Saldo</Text>
         </View>
       </View>
       <Image 
