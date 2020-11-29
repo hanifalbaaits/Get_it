@@ -13,10 +13,12 @@ export default function PaymentProcessScreen(props){
   const [imageReceipt, setImageReceipt] = useState(null);
 
   function onSelectImage(){
+    console.log('test');
     let options = {
       mediaType: 'photo'
     };
     ImagePicker.launchImageLibrary(options, (response) => {
+      console.log(response);
       if(response.uri !== undefined){
         console.log('Response = ', response.uri);
         setImageReceipt(response.uri);
@@ -66,7 +68,7 @@ export default function PaymentProcessScreen(props){
           color={imageReceipt == null ? Colors.yellowPrimary : Colors.white}
           styleContainer={styles.buttonDone}
           styleLabel={{color: Colors.white, marginLeft: widthPercentage(3) }}
-          label="Upload Bukti"
+          label={imageReceipt == null ? "Upload Bukti" : "Upload Ulang"}
           iconName="cloud-upload"
           iconColor={Colors.white}
           onPress={()=>onSelectImage()}

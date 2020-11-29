@@ -70,6 +70,10 @@ export default function ProfileScreen(props){
           iconName={'power-settings-new'}
           value={'Keluar'}
           isLogout={true}
+          onPress={()=>props.navigation.reset({
+            index: 0,
+            routes: [{ name: 'Auth'}]
+          })}
         />
       </View>
     </SafeAreaView>

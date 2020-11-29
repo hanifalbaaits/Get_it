@@ -19,7 +19,10 @@ export default function LoginScreen(props){
   }
 
   function onLogin(){
-    props.navigation.navigate('MenuTab');
+    props.navigation.reset({
+      index: 0,
+      routes: [{ name: 'MenuTab'}]
+    });
   }
 
   function onError(){

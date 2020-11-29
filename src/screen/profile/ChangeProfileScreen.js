@@ -76,6 +76,7 @@ export default function ChangeProfileScreen(props){
           value={address}
           onChangeText={(val)=>setAddress(val)}
           multiline={true}
+          textAlignVertical={'top'}
         />
         <Button
           type={'fill'} 
@@ -128,6 +129,7 @@ const styles = StyleSheet.create({
   },
   containerButtonNext: {
     aspectRatio: 329/39,
+    // marginTop: heightPercentage(16.4)
     position: 'absolute',
     bottom: heightPercentage(4.5)
   },
@@ -137,7 +139,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     position: 'absolute',
     bottom: 0,
-    paddingTop: '15%',
+    paddingTop: '10%',
     borderTopLeftRadius: 34,
     borderTopRightRadius: 34,
     alignItems: 'center',

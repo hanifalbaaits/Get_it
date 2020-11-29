@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, KeyboardAvoidingView, TouchableOpacity, ScrollView, Keyboard } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, Image, KeyboardAvoidingView, TouchableOpacity, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button } from '../../components/Button';
 import { TextInput } from '../../components/TextInput';
 import { ModalTnc } from '../../components/Modal';
@@ -13,26 +14,6 @@ export default function LoginScreen(props){
     isVisible: false,
     isAccept: false
   })
-  const [marginScroll, setMarginScroll] = useState(0);
-
-  useEffect(() => {
-    Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
-    Keyboard.addListener("keyboardDidHide", _keyboardDidHide);
-
-    // cleanup function
-    return () => {
-      Keyboard.removeListener("keyboardDidShow", _keyboardDidShow);
-      Keyboard.removeListener("keyboardDidHide", _keyboardDidHide);
-    }
-  }, [])
-
-  function _keyboardDidShow(){
-    setMarginScroll(heightPercentage(20));
-  }
-
-  function _keyboardDidHide(){
-    setMarginScroll(0);
-  }
 
   function gotoLogin(){
     props.navigation.pop();
@@ -63,7 +44,7 @@ export default function LoginScreen(props){
         <View style={styles.maskBottomComponent}/>
       </View>
       <View style={styles.bottomSheet}>
-        <ScrollView style={{ width: widthPercentage(100), marginTop: Platform.OS == 'android' && marginScroll}} contentContainerStyle={{alignItems: 'center'}}>
+        <ScrollView style={{ width: widthPercentage(100)}} contentContainerStyle={{alignItems: 'center'}}>
         <TextInput 
           title={'Username'}
           styleContainer={styles.input}

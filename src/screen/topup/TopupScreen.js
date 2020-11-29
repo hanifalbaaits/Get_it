@@ -93,11 +93,11 @@ export default function TopupScreen(props){
           />
         </View>
         <Text style={styles.textMinimal}>* Minimal Rp. 10.000</Text>
-        <View style={{width: '100%', height: '27%'}}>
+        <View style={{width: '100%', height: undefined, aspectRatio: 375/190}}>
           <FlatList 
             style={{ width: '100%' }}
             scrollEnabled={false}
-            contentContainerStyle={{ alignItems: 'center', height: heightPercentage(10), paddingHorizontal: widthPercentage(7.5), paddingTop: 10 }}
+            contentContainerStyle={{ alignItems: 'center', height: '100%', paddingHorizontal: widthPercentage(7.5), paddingTop: 10 }}
             numColumns={3}
             data={dataTopup}
             keyExtractor={(item)=>item.id.toString()}
