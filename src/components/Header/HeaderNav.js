@@ -5,12 +5,12 @@ import { VIcon } from '../Icon';
 import { Colors, Dimens, Fonts } from '../../base';
 import { widthPercentage, heightPercentage } from '../../helper/dimension';
 
-export default function HeaderNav({title, themes}){
+export default function HeaderNav({title, themes, styleContainer}){
 
   const navigation = useNavigation();
 
   return(
-    <View style={styles.rootContainer}>
+    <View style={[styles.rootContainer, styleContainer]}>
       <TouchableOpacity onPress={()=>navigation.goBack()}>
         <VIcon
           type={'MaterialIcons'}
