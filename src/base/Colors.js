@@ -13,6 +13,7 @@ const Colors = {
   grayOutline: '#00000063',
   grayOutlineCircle: '#707070',
   grayOutlineButtonNext: '#ACACAC',
+  grayNavigationArrow: '#858585',
   grayShadow: '#00000029',
   grayInactiveTab: '#858585',
   bluePrimary: '#089AEB',
