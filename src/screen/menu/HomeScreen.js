@@ -90,11 +90,6 @@ export default function HomeScreen(){
           }}
         />
       </View>
-      {/* <CardHistoryStatus 
-        type={'pending'}
-        alertText={'Saldo tidak cukup'}
-      />
-      */}
     </SafeAreaView>
   )
 }
