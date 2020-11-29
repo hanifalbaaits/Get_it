@@ -14,10 +14,10 @@ import HomeScreen from './screen/menu/HomeScreen';
 import HistoryScreen from './screen/menu/HistoryScreen';
 import PromoScreen from './screen/menu/PromoScreen';
 import ProfileScreen from './screen/menu/ProfileScreen';
-import SelectPackageScreen from './screen/menu/SelectPackageScreen';
-import PaymentMethodScreen from './screen/menu/PaymentMethodScreen';
-import PaymentConfirmScreen from './screen/menu/PaymentConfirmScreen';
-import PaymentProcessScreen from './screen/menu/PaymentProcessScreen';
+import SelectPackageScreen from './screen/payment/SelectPackageScreen';
+import PaymentMethodScreen from './screen/payment/PaymentMethodScreen';
+import PaymentConfirmScreen from './screen/payment/PaymentConfirmScreen';
+import PaymentProcessScreen from './screen/payment/PaymentProcessScreen';
 
 const headerShown = false;
 const gestureEnabled = true;
