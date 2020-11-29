@@ -8,6 +8,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { VIcon } from './components/Icon';
 import { Colors, Dimens, Fonts } from './base';
 
+import SplashScreen from './screen/SplashScreen';
 import LoginScreen from './screen/auth/LoginScreen';
 import SignupScreen from './screen/auth/SignupScreen';
 import HomeScreen from './screen/menu/HomeScreen';
@@ -205,6 +206,7 @@ const RootStackScreen = () => (
     gestureEnabled: gestureEnabled,
     ...TransitionPresets.SlideFromRightIOS,
   }}>
+    <RootStack.Screen name="Splash" component={SplashScreen}/>
     <RootStack.Screen name="Auth" component={AuthStackScreen}/>
     <RootStack.Screen name="MenuTab" component={TabsScreen} /> 
     <RootStack.Screen name="PackageStack" component={PackageStackScreen} />
