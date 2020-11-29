@@ -8,7 +8,7 @@ export default function TextInputDefault(props){
     <View style={[styles.rootContainer, props.styleContainer]}>
       <Text style={[styles.title, props.titleStyle]}>{props.title}</Text>
       <TextInput 
-        style={styles.input}
+        style={[styles.input, props.styleInput]}
         {...props}
       />
     </View>
