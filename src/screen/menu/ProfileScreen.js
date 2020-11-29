@@ -58,6 +58,7 @@ export default function ProfileScreen(props){
         <ListItemIcon 
           iconName={'person'}
           value={'Ubah Profil'}
+          onPress={()=>props.navigation.navigate('ProfileDetailStack', {screen: 'ChangeProfileScreen'})}
         />
         <ListItemIcon 
           iconName={'lock'}

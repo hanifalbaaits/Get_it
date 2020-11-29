@@ -23,6 +23,7 @@ import TopupScreen from './screen/topup/TopupScreen';
 import UploadReceiptScreen from './screen/topup/UploadReceiptScreen';
 import HistoryDetailScreen from './screen/history/HistoryDetailScreen';
 import ChangePasswordScreen from './screen/profile/ChangePasswordScreen';
+import ChangeProfileScreen from './screen/profile/ChangeProfileScreen';
 
 const headerShown = false;
 const gestureEnabled = true;
@@ -76,6 +77,7 @@ const ProfileDetailStackScreen = () => (
     ...TransitionPresets.SlideFromRightIOS,
   }}>
     <ProfileDetailStack.Screen name="ChangePasswordScreen" component={ChangePasswordScreen}/>
+    <ProfileDetailStack.Screen name="ChangeProfileScreen" component={ChangeProfileScreen}/>
   </ProfileDetailStack.Navigator>
 )
 
