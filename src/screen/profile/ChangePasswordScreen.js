@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, Image, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { HeaderImageLogoBG, HeaderNav } from '../../components/Header';
@@ -15,11 +15,8 @@ export default function ChangePasswordScreen(props){
   const [confirmPassword, setConfirmPassword] = useState('');
   const [modalConfirm, setModalConfirm] = useState({
     isVisible: false,
+    subtitle: 'Ganti Kata Sandi'
   })
-
-  useEffect(() => {
-    console.log(modalConfirm.isVisible)
-  }, [modalConfirm])
 
   function onNext(){
     setModalConfirm({...modalConfirm, isVisible: true})
@@ -83,6 +80,7 @@ export default function ChangePasswordScreen(props){
         modalVisible={modalConfirm.isVisible}
         setModalVisible={()=>setModalConfirm({...modalConfirm, isVisible: false})}
         onConfirm={()=>onConfirmChange()}
+        subtitle={modalConfirm.subtitle}
       />
     </SafeAreaView>
   )
