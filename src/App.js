@@ -24,6 +24,7 @@ import UploadReceiptScreen from './screen/topup/UploadReceiptScreen';
 import HistoryDetailScreen from './screen/history/HistoryDetailScreen';
 import ChangePasswordScreen from './screen/profile/ChangePasswordScreen';
 import ChangeProfileScreen from './screen/profile/ChangeProfileScreen';
+import NotificationScreen from './screen/history/NotificationScreen';
 
 const headerShown = false;
 const gestureEnabled = true;
@@ -65,6 +66,7 @@ const HistoryDetailStackScreen = () => (
     ...TransitionPresets.SlideFromRightIOS,
   }}>
     <HistoryDetailStack.Screen name="HistoryDetailScreen" component={HistoryDetailScreen}/>
+    <HistoryDetailStack.Screen name="NotificationScreen" component={NotificationScreen}/>
   </HistoryDetailStack.Navigator>
 )
 

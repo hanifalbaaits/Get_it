@@ -7,7 +7,7 @@ import { VIcon } from '../../components/Icon';
 import { Colors, Dimens, Fonts } from '../../base';
 import { heightPercentage, widthPercentage } from '../../helper/dimension';
 
-export default function HomeScreen(){
+export default function HomeScreen(props){
   
   const [modalAlert, setModalAlert] = useState({
     isVisible: false,
@@ -41,6 +41,10 @@ export default function HomeScreen(){
     }
   ]
 
+  function gotoNotif(){
+    props.navigation.navigate('HistoryDetailStack', {screen: 'NotificationScreen'})
+  }
+
   return(
     <SafeAreaView style={styles.rootContainer}>
       <HeaderImageLogoBG />
@@ -49,7 +53,7 @@ export default function HomeScreen(){
           source={require('../../assets/images/logo-text-white.png')}
           style={styles.logoHeader}
         />
-        <TouchableOpacity style={styles.iconNotifWrapper}>
+        <TouchableOpacity style={styles.iconNotifWrapper} onPress={()=>gotoNotif()}>
           <VIcon
             type={'MaterialIcons'}
             name={'notifications'}
