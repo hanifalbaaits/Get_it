@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, KeyboardAvoidingView, Platform } from 'react-native';
+import XMLParser from 'react-xml-parser';
 import { Button } from '../../components/Button';
 import { HeaderImageLogoBG } from '../../components/Header';
 import { TextInput } from '../../components/TextInput';
 import { ModalAlert } from '../../components/Modal';
 import { widthPercentage, heightPercentage, screenWidth, screenHeight } from '../../helper/dimension';
 import { Colors, Dimens, Fonts } from '../../base';
+import { apiLogin } from '../../datasource/authRepo';
 
 export default function LoginScreen(props){
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const [modalAlert, setModalAlert] = useState({
     isVisible: false,
@@ -27,6 +32,22 @@ export default function LoginScreen(props){
 
   function onError(){
     setModalAlert({...modalAlert, isVisible: true})
+  }
+
+  function onLoginSoap(){
+    let payload = {
+      email,
+      password
+    }
+    apiLogin(payload)
+    .then((res) => {
+      let xml = new XMLParser().parseFromString(res.data);
+      console.log(xml);
+      console.log(xml.getElementsByTagName("User_LoginResponse"));
+    })
+    .catch((err) => {
+      console.log(err);
+    })
   }
 
   return(
@@ -49,19 +70,21 @@ export default function LoginScreen(props){
       </View>
       <View style={styles.bottomSheet}>
         <TextInput 
-          title={'Username'}
+          title={'Email'}
+          onChangeText={(val)=>setEmail(val)}
         />
         <TextInput 
           title={'Password'}
           secureTextEntry={true}
           styleContainer={styles.input}
+          onChangeText={(val)=>setPassword(val)}
         />
         <Button
           type="fill" 
           color={Colors.yellowPrimary}
           styleLabel={styles.labelSignin}
           label="Masuk Sekarang"
-          onPress={()=>onError()}
+          onPress={()=>onLoginSoap()}
         />
         <View style={styles.wrapperOrLine}>
           <View style={styles.horizontalLineGray}/>
