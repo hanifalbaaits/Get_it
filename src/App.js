@@ -1,6 +1,7 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
 import { StatusBar } from 'react-native';
+import { PersistGate } from "redux-persist/integration/react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -25,6 +26,9 @@ import HistoryDetailScreen from './screen/history/HistoryDetailScreen';
 import ChangePasswordScreen from './screen/profile/ChangePasswordScreen';
 import ChangeProfileScreen from './screen/profile/ChangeProfileScreen';
 import NotificationScreen from './screen/history/NotificationScreen';
+
+import Provider from './redux/Provider';
+import store, { persistor } from './redux/configureStore';
 
 const headerShown = false;
 const gestureEnabled = true;
@@ -236,10 +240,14 @@ const RootStackScreen = () => (
 export default function App(){
   return(
     <SafeAreaProvider>
-      <NavigationContainer>
-        <StatusBar translucent backgroundColor="transparent" barStyle={'light-content'}/>
-        <RootStackScreen />
-      </NavigationContainer>
+      <Provider store={store}>
+        <PersistGate persistor={persistor} loading={null}>
+          <NavigationContainer>
+            <StatusBar translucent backgroundColor="transparent" barStyle={'light-content'}/>
+            <RootStackScreen />
+          </NavigationContainer>
+        </PersistGate>
+      </Provider>
     </SafeAreaProvider>
   )
 }

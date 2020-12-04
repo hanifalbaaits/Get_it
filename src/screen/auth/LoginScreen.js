@@ -1,23 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, KeyboardAvoidingView, Platform } from 'react-native';
-import XMLParser from 'react-xml-parser';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '../../components/Button';
 import { HeaderImageLogoBG } from '../../components/Header';
 import { TextInput } from '../../components/TextInput';
 import { ModalAlert } from '../../components/Modal';
 import { widthPercentage, heightPercentage, screenWidth, screenHeight } from '../../helper/dimension';
 import { Colors, Dimens, Fonts } from '../../base';
-import { apiLogin } from '../../datasource/authRepo';
+import * as authAction from '../../redux/action/authAction';
 
 export default function LoginScreen(props){
 
+  const dispatch = useDispatch();
+  const authReducer = useSelector(state => state.auth);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
   const [modalAlert, setModalAlert] = useState({
     isVisible: false,
     type: 'error'
   })
+
+  useEffect(() => {
+    if(authReducer.isLoading === false && authReducer.isError === false && authReducer.isLogin === true){
+      dispatch(authAction.loginReset());
+      onLogin();
+    } else if(authReducer.isLoading === false && authReducer.isError === true && authReducer.isLogin === false){
+      dispatch(authAction.loginReset());
+      onError();
+    }
+  }, [authReducer])
 
   function gotoSignup(){
     props.navigation.navigate('SignupScreen');
@@ -39,15 +50,7 @@ export default function LoginScreen(props){
       email,
       password
     }
-    apiLogin(payload)
-    .then((res) => {
-      let xml = new XMLParser().parseFromString(res.data);
-      console.log(xml);
-      console.log(xml.getElementsByTagName("User_LoginResponse"));
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+    dispatch(authAction.loginRequest(payload));
   }
 
   return(
