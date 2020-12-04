@@ -10,6 +10,7 @@ import { VIcon } from './components/Icon';
 import { Colors, Dimens, Fonts } from './base';
 
 import SplashScreen from './screen/SplashScreen';
+import LoadingView from './screen/LoadingView';
 import LoginScreen from './screen/auth/LoginScreen';
 import SignupScreen from './screen/auth/SignupScreen';
 import HomeScreen from './screen/menu/HomeScreen';
@@ -245,6 +246,7 @@ export default function App(){
           <NavigationContainer>
             <StatusBar translucent backgroundColor="transparent" barStyle={'light-content'}/>
             <RootStackScreen />
+            <LoadingView />
           </NavigationContainer>
         </PersistGate>
       </Provider>
