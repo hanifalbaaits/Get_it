@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import AppReducer from './appReducer';
 import AuthReducer from './authReducer';
+import ProfileReducer from './profileReducer';
 
 const persistConfig = {
   timeout: 0,
@@ -15,6 +16,7 @@ const persistConfig = {
 const combinedReducer = persistCombineReducers(persistConfig, {
   app: AppReducer,
   auth: AuthReducer,
+  profile: ProfileReducer
 })
 
 export default function rootReducer(state, action) {

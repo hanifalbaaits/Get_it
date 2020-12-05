@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch } from 'react-redux';
 import { HeaderImageLogoBG } from '../../components/Header';
 import { CardBalance, CardMenu, CardPromo } from '../../components/Card';
 import { VIcon } from '../../components/Icon';
 import { Colors, Dimens, Fonts } from '../../base';
 import { heightPercentage, widthPercentage } from '../../helper/dimension';
+import * as profileAction from '../../redux/action/profileAction';
 
 export default function HomeScreen(props){
   
+  const dispatch = useDispatch();
   const [modalAlert, setModalAlert] = useState({
     isVisible: false,
     type: 'changePassword'
@@ -40,6 +43,11 @@ export default function HomeScreen(props){
       image: 'https://assets.grab.com/wp-content/uploads/sites/9/2020/07/21151924/Airtime-x-Transport-Collab-July_landingpage.jpg'
     }
   ]
+
+  useEffect(() => {
+    dispatch(profileAction.infoRequest({email: 'tsp15'}));
+    dispatch(profileAction.balanceRequest({email: 'tsp15'}));
+  }, [])
 
   function gotoNotif(){
     props.navigation.navigate('HistoryDetailStack', {screen: 'NotificationScreen'})
