@@ -5,7 +5,8 @@ const initialState = {
   isLoading: false,
   isError: false,
   errorMsg: null,
-  isLogin: false
+  isLogin: false,
+  credential: {}
 }
 
 const loginRequest = state => ({
@@ -17,7 +18,8 @@ const loginSuccess = (state, payload) => ({
   ...state,
   isLoading: false,
   isError: false,
-  isLogin: true
+  isLogin: true,
+  credential: payload
 })
 
 const loginError = (state, payload) => ({

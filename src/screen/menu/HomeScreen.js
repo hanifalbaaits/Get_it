@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { HeaderImageLogoBG } from '../../components/Header';
 import { CardBalance, CardMenu, CardPromo } from '../../components/Card';
 import { VIcon } from '../../components/Icon';
@@ -12,6 +12,8 @@ import * as profileAction from '../../redux/action/profileAction';
 export default function HomeScreen(props){
   
   const dispatch = useDispatch();
+  const authReducer = useSelector(state => state.auth);
+  const profileReducer = useSelector(state => state.profile);
   const [modalAlert, setModalAlert] = useState({
     isVisible: false,
     type: 'changePassword'
@@ -45,8 +47,8 @@ export default function HomeScreen(props){
   ]
 
   useEffect(() => {
-    dispatch(profileAction.infoRequest({email: 'tsp15'}));
-    dispatch(profileAction.balanceRequest({email: 'tsp15'}));
+    dispatch(profileAction.infoRequest({email: authReducer.credential?.email}));
+    dispatch(profileAction.balanceRequest({email: authReducer.credential?.email}));
   }, [])
 
   function gotoNotif(){
@@ -75,7 +77,7 @@ export default function HomeScreen(props){
       </View>
       <CardBalance 
         styleContainer={styles.cardBalance}
-        balance={10000}
+        balance={profileReducer.balance !== null ? profileReducer.balance : 0}
       />
       <Image 
         source={require('../../assets/images/line-wave-white-green.png')}

@@ -1,12 +1,15 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSelector } from 'react-redux';
 import { VIcon } from '../../components/Icon';
 import { HeaderImageLogoBG } from '../../components/Header';
 import { Colors, Fonts, Dimens } from '../../base';
 import { heightPercentage, widthPercentage } from '../../helper/dimension';
 
 export default function ProfileScreen(props){
+
+  const profileReducer = useSelector(state => state.profile);
 
   const ListItemIcon = ({iconName, value, onPress, style, isLogout}) => {
     return(
@@ -35,8 +38,8 @@ export default function ProfileScreen(props){
           />
         </View>
         <View style={styles.nameContainer}>
-          <Text style={styles.textName}>Aldi Abdul Aziz</Text>
-          <Text style={styles.textUsername}>aldiabdul.a</Text>
+          <Text style={styles.textName}>{profileReducer.info.length !== 0 ? profileReducer.info.filter(ar => ar.name == "storename")[0].value : null}</Text>
+          <Text style={styles.textUsername}>{profileReducer.info.length !== 0 ? profileReducer.info.filter(ar => ar.name == "storeid")[0].value : null}</Text>
         </View>
       </View>
       <Image 
@@ -47,11 +50,11 @@ export default function ProfileScreen(props){
         <Text style={styles.subHeader}>Akun Profil</Text>
         <ListItemIcon 
           iconName={'call'}
-          value={'0812 2240 0021'}
+          value={profileReducer.info.length !== 0 ? profileReducer.info.filter(ar => ar.name == "telephone")[0].value : null}
         />
         <ListItemIcon 
           iconName={'email'}
-          value={'aldiabdulaziz204@gmail.com'}
+          value={profileReducer.info.length !== 0 ? profileReducer.info.filter(ar => ar.name == "email")[0].value : null}
         />
         <View style={styles.lineSeparator}/>
         <Text style={styles.subHeader}>Pengaturan</Text>

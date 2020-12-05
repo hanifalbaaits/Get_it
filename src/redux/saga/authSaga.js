@@ -12,7 +12,7 @@ function* login(data) {
     let xml = new XMLParser().parseFromString(res.data);
     let loginResult = xml.getElementsByTagName("User_LoginResult");
     if(loginResult[0].value.includes("0")){
-      yield put(authAction.loginSuccess(res.data));
+      yield put(authAction.loginSuccess(data.payload));
     } else {
       yield put(authAction.loginError(loginResult[0].value));
     }

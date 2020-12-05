@@ -6,7 +6,7 @@ const initialState = {
   isError: false,
   errorMsg: null,
   info: [],
-  balance: {}
+  balance: null
 }
 
 const infoRequest = state => ({
@@ -59,7 +59,7 @@ const balanceReset = () => ({
   isLoading: false,
   isError: false,
   errorMsg: null,
-  balance: {}
+  balance: null
 })
 
 const profileReducer = (state = initialState, action) => {

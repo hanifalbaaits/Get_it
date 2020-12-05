@@ -22,7 +22,6 @@ export default function LoginScreen(props){
 
   useEffect(() => {
     if(authReducer.isLoading === false && authReducer.isError === false && authReducer.isLogin === true){
-      dispatch(authAction.loginReset());
       onLogin();
     } else if(authReducer.isLoading === false && authReducer.isError === true && authReducer.isLogin === false){
       dispatch(authAction.loginReset());
