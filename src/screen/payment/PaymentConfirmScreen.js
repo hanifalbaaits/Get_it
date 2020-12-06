@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSelector } from 'react-redux';
 import { HeaderImageLogoBG, HeaderNav } from '../../components/Header';
 import { Button } from '../../components/Button';
 import {  CardPaymentMethod } from '../../components/Card';
@@ -10,6 +11,7 @@ import { currencyFormat } from '../../helper/format';
 
 export default function PaymentConfirmScreen(props){
 
+  const profileReducer = useSelector(state => state.profile);
   function gotoTransactionProcess(){
     props.navigation.navigate('PaymentProcessScreen');
   }
@@ -30,10 +32,10 @@ export default function PaymentConfirmScreen(props){
         <Text style={styles.textXL}>XL Axiata</Text>
       </View>
       <Text style={styles.textTotalPayment}>Total Pembayaran</Text>
-      <Text style={styles.textPrice}>{`Rp. ${currencyFormat(props.route.params.packageSelect.price)}`}</Text>
+      <Text style={styles.textPrice}>{`Rp. ${currencyFormat(props.route.params.packageSelect.children.filter(ar => ar.name == "price")[0].value)}`}</Text>
       <Text style={styles.textPackageName}>
         {
-          props.route.params.type == 1 ? 'Pulsa '+props.route.params.packageSelect.name : 
+          props.route.params.type == 1 ? 'Pulsa '+currencyFormat(props.route.params.packageSelect.children.filter(ar => ar.name == "amount")[0].value) : 
           props.route.params.type == 2 ? 'Paket Data '+props.route.params.packageSelect.name : 
           null
         }
@@ -42,7 +44,7 @@ export default function PaymentConfirmScreen(props){
       <CardPaymentMethod 
         logoPayment={require('../../assets/images/logo-colorfull.png')}
         title={'Saldo Get.id'}
-        balance={10000}
+        balance={profileReducer.balance}
       />
       <Image 
         source={require('../../assets/images/bottom-wave.png')}

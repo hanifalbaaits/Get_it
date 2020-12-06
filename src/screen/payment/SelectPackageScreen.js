@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSelector } from 'react-redux';
 import { HeaderImageLogoBG, HeaderNav } from '../../components/Header';
 import { CardInputNumber, CardSelectPackage } from '../../components/Card';
 import { Button } from '../../components/Button';
 import { Colors, Dimens, Fonts } from '../../base';
 import { widthPercentage, heightPercentage } from '../../helper/dimension';
+import { currencyFormat } from '../../helper/format';
 
 export default function SelectPackageScreen(props){
 
+  const productReducer = useSelector(state => state.product);
   const [title, setTitle] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [selectedPackage, setSelectedPackage] = useState(null);
@@ -33,7 +36,7 @@ export default function SelectPackageScreen(props){
     if(selectedPackage !== null){
       let packageSelect;
       if(props.route.params.type == 1){
-        packageSelect = dataPulsa.filter(ar => ar.id == selectedPackage)[0];
+        packageSelect = productReducer.product.filter(ar => ar.children.some(ch => ch.value === selectedPackage))[0];
       } else if(props.route.params.type == 2){
         packageSelect = dataInternet.filter(ar => ar.id == selectedPackage)[0];
       }
@@ -159,16 +162,16 @@ export default function SelectPackageScreen(props){
             <FlatList 
               style={{ width: '100%', flex: 1 }}
               contentContainerStyle={{ alignItems: 'center', paddingHorizontal: widthPercentage(7.5), paddingTop: 10, paddingBottom: heightPercentage(15) }}
-              data={props.route.params.type == 1 ? dataPulsa : props.route.params.type == 2 ? dataInternet : []}
-              keyExtractor={(item)=>item.id.toString()}
+              data={props.route.params.type == 1 ? productReducer.product : props.route.params.type == 2 ? dataInternet : []}
+              keyExtractor={(item)=>item.children.filter(ar => ar.name == "barcode")[0].value}
               renderItem={({item, index})=>{
                 return(
                   <CardSelectPackage 
-                    id={item.id}
-                    packageName={item.name}
-                    packageDuration={item.period}
-                    packagePrice={item.price}
-                    onPress={()=>onSelectPackage(item.id)}
+                    id={item.children.filter(ar => ar.name == "barcode")[0].value}
+                    packageName={currencyFormat(item.children.filter(ar => ar.name == "amount")[0].value)}
+                    packageDuration={null}
+                    packagePrice={item.children.filter(ar => ar.name == "price")[0].value}
+                    onPress={()=>onSelectPackage(item.children.filter(ar => ar.name == "barcode")[0].value)}
                     selectedId={selectedPackage}
                   />
                 )
@@ -184,10 +187,10 @@ export default function SelectPackageScreen(props){
       </View>
       <View style={styles.footerMenu}>
         <Button
-          type={selectedPackage == null ? 'outline' : 'fill'} 
-          color={selectedPackage == null ? Colors.grayOutlineButtonNext : Colors.yellowPrimary}
+          type={selectedPackage == null || phoneNumber == '' ? 'outline' : 'fill'} 
+          color={selectedPackage == null || phoneNumber == '' ? Colors.grayOutlineButtonNext : Colors.yellowPrimary}
           styleContainer={styles.containerButtonNext}
-          styleLabel={[styles.labelDefaultNextButton, selectedPackage !== null && { color: Colors.white }]}
+          styleLabel={[styles.labelDefaultNextButton, selectedPackage !== null && phoneNumber !== '' ? { color: Colors.white } : {}]}
           label="Lanjutkan"
           onPress={()=>goNext()}
         />

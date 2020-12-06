@@ -8,6 +8,7 @@ import { VIcon } from '../../components/Icon';
 import { Colors, Dimens, Fonts } from '../../base';
 import { heightPercentage, widthPercentage } from '../../helper/dimension';
 import * as profileAction from '../../redux/action/profileAction';
+import * as productAction from '../../redux/action/productAction';
 
 export default function HomeScreen(props){
   
@@ -49,6 +50,7 @@ export default function HomeScreen(props){
   useEffect(() => {
     dispatch(profileAction.infoRequest({email: authReducer.credential?.email}));
     dispatch(profileAction.balanceRequest({email: authReducer.credential?.email}));
+    dispatch(productAction.productRequest({email: authReducer.credential?.email}));
   }, [])
 
   function gotoNotif(){
