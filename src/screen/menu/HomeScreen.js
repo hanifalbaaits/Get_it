@@ -51,6 +51,7 @@ export default function HomeScreen(props){
     dispatch(profileAction.infoRequest({email: authReducer.credential?.email}));
     dispatch(profileAction.balanceRequest({email: authReducer.credential?.email}));
     dispatch(productAction.productRequest({email: authReducer.credential?.email}));
+    dispatch(productAction.bannerRequest({email: authReducer.credential?.email}));
   }, [])
 
   function gotoNotif(){

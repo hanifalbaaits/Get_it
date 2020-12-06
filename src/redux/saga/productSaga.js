@@ -20,8 +20,23 @@ function* productAll(data) {
   }
 }
 
+function* bannerAll(data){
+  try {
+    yield put(appAction.appStateLoading(true));
+    const res = yield call(productRepo.apiBannerAll, data.payload);
+    let xml = new XMLParser().parseFromString(res.data);
+    console.log(xml);
+    yield put(appAction.appStateLoading(false));
+  } catch (err) {
+    yield put(productAction.bannerError(err));
+    yield put(appAction.appStateLoading(false));
+    yield put(appAction.appStateError(err));
+  }
+}
+
 export default function* watchProduct() {
   yield all([
-    takeLatest(actionType.PRODUCT.ALL_REQUEST, productAll)
+    takeLatest(actionType.PRODUCT.ALL_REQUEST, productAll),
+    takeLatest(actionType.PRODUCT.BANNER_REQUEST, bannerAll)
   ])
 }
