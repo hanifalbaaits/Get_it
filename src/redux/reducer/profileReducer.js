@@ -6,7 +6,9 @@ const initialState = {
   isError: false,
   errorMsg: null,
   info: [],
-  balance: null
+  balance: null,
+  updateProfile: [],
+  changePassword: null
 }
 
 const infoRequest = state => ({
@@ -62,6 +64,62 @@ const balanceReset = () => ({
   balance: null
 })
 
+
+const updateProfileRequest = state => ({
+  ...state,
+  isLoading: true
+})
+
+const updateProfileSuccess = (state, payload) => ({
+  ...state,
+  isLoading: false,
+  isError: false,
+  updateProfile: payload
+})
+
+const updateProfileError = (state, payload) => ({
+  ...state,
+  isLoading: false,
+  isError: true,
+  errorMsg: payload
+})
+
+const updateProfileReset = state => ({
+  ...state,
+  isLoading: false,
+  isError: false,
+  errorMsg: null,
+  updateProfile: []
+})
+
+
+const changePasswordRequest = state => ({
+  ...state,
+  isLoading: true
+})
+
+const changePasswordSuccess = (state, payload) => ({
+  ...state,
+  isLoading: false,
+  isError: false,
+  changePassword: payload
+})
+
+const changePasswordError = (state, payload) => ({
+  ...state,
+  isLoading: false,
+  isError: true,
+  errorMsg: payload
+})
+
+const changePasswordReset = state => ({
+  ...state,
+  isLoading: false,
+  isError: false,
+  errorMsg: null,
+  changePassword: null
+})
+
 const profileReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionType.PROFILE.INFO_REQUEST:
@@ -81,6 +139,24 @@ const profileReducer = (state = initialState, action) => {
       return balanceError(state, action.payload);
     case actionType.PROFILE.BALANCE_RESET:
       return balanceReset(state, action.payload);
+
+    case actionType.PROFILE.UPDATE_REQUEST:
+      return updateProfileRequest(state, action.payload);
+    case actionType.PROFILE.UPDATE_SUCCESS:
+      return updateProfileSuccess(state, action.payload);
+    case actionType.PROFILE.UPDATE_ERROR:
+      return updateProfileError(state, action.payload);
+    case actionType.PROFILE.UPDATE_RESET:
+      return updateProfileReset(state, action.payload);
+
+    case actionType.PROFILE.CHANGE_PASSWORD_REQUEST:
+      return changePasswordRequest(state, action.payload);
+    case actionType.PROFILE.CHANGE_PASSWORD_SUCCESS:
+      return changePasswordSuccess(state, action.payload);
+    case actionType.PROFILE.CHANGE_PASSWORD_ERROR:
+      return changePasswordError(state, action.payload);
+    case actionType.PROFILE.CHANGE_PASSWORD_RESET:
+      return changePasswordReset(state, action.payload);
 
     case PURGE:
       return initialState;

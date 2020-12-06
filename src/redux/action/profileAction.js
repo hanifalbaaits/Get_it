@@ -40,3 +40,45 @@ export const balanceReset = data => ({
   type: actionType.PROFILE.BALANCE_RESET,
   payload: data
 })
+
+
+export const updateRequest = data => ({
+  type: actionType.PROFILE.UPDATE_REQUEST,
+  payload: data
+})
+
+export const updateSuccess = data => ({
+  type: actionType.PROFILE.UPDATE_SUCCESS,
+  payload: data
+})
+
+export const updateError = data => ({
+  type: actionType.PROFILE.UPDATE_ERROR,
+  payload: data
+})
+
+export const updateReset = data => ({
+  type: actionType.PROFILE.UPDATE_RESET,
+  payload: data
+})
+
+
+export const changePasswordRequest = data => ({
+  type: actionType.PROFILE.CHANGE_PASSWORD_REQUEST,
+  payload: data
+})
+
+export const changePasswordSuccess = data => ({
+  type: actionType.PROFILE.CHANGE_PASSWORD_SUCCESS,
+  payload: data
+})
+
+export const changePasswordError = data => ({
+  type: actionType.PROFILE.CHANGE_PASSWORD_ERROR,
+  payload: data
+})
+
+export const changePasswordReset = data => ({
+  type: actionType.PROFILE.CHANGE_PASSWORD_RESET,
+  payload: data
+})

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Image, Platform, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 import { HeaderImageLogoBG, HeaderNav } from '../../components/Header';
 import { Button } from '../../components/Button';
 import { VIcon } from '../../components/Icon';
@@ -8,15 +10,18 @@ import { TextInput } from '../../components/TextInput';
 import { ModalConfirm } from '../../components/Modal';
 import { Colors, Dimens, Fonts } from '../../base';
 import { heightPercentage, widthPercentage } from '../../helper/dimension';
+import * as profileAction from '../../redux/action/profileAction';
 
 export default function ChangeProfileScreen(props){
 
-  const [fullname, setFullname] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [address, setAddress] = useState('');
+  const dispatch = useDispatch();
+  const profileReducer = useSelector(state => state.profile);
+  const [fullname, setFullname] = useState(profileReducer.info.length !== 0 ? profileReducer.info.filter(ar => ar.name == "storename")[0].value : '');
+  const [phoneNumber, setPhoneNumber] = useState(profileReducer.info.length !== 0 ? profileReducer.info.filter(ar => ar.name == "telephone")[0].value : '');
+  const [address, setAddress] = useState(profileReducer.info.length !== 0 ? profileReducer.info.filter(ar => ar.name == "address")[0].value : '');
   const [modalConfirm, setModalConfirm] = useState({
     isVisible: false,
-    subtitle: 'Ganti Kata Sandi'
+    subtitle: 'Mengubah Profil'
   })
 
   function goNext(){
@@ -24,10 +29,20 @@ export default function ChangeProfileScreen(props){
   }
 
   function onConfirmChange(){
-    props.navigation.reset({
-      index: 0,
-      routes: [{ name: 'MenuTab'}]
-    });
+    let payload = {
+      guid: profileReducer.info.filter(ar => ar.name == "guid")[0].value,
+      storename: fullname,
+      address: address,
+      city: profileReducer.info.filter(ar => ar.name == "city")[0].value,
+      province: profileReducer.info.filter(ar => ar.name == "province")[0].value,
+      region: profileReducer.info.filter(ar => ar.name == "region")[0].value,
+      telephone: phoneNumber,
+      fax: profileReducer.info.filter(ar => ar.name == "email")[0].value,
+      pic: fullname,
+      openingdate: profileReducer.info.filter(ar => ar.name == "openingdate")[0].value,
+      closingdate: moment(profileReducer.info.filter(ar => ar.name == "openingdate")[0].value).add(1, 'months').format('YYYYMMDD')
+    }
+    dispatch(profileAction.updateRequest(payload));
   }
 
   return(

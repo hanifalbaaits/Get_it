@@ -5,7 +5,7 @@ import { VIcon } from '../Icon';
 import { Colors, Fonts, Dimens } from '../../base';
 import { widthPercentage } from '../../helper/dimension';
 
-export default function ModalAlert({modalVisible, setModalVisible, onPress, type}){
+export default function ModalAlert({modalVisible, setModalVisible, onPress, type, msg}){
   return(
     <Modal 
       swipeDirection={'down'}
@@ -20,10 +20,12 @@ export default function ModalAlert({modalVisible, setModalVisible, onPress, type
             size={Dimens.FONT_SIZE_30}
             color={type == 'success' || type == 'changePassword' ? Colors.greenAlert : Colors.redAlert}
           />
-          <Text style={styles.textTitle}>{type == 'success' ? 'Berhasil' : 'Gagal'}</Text>
+          <Text style={styles.textTitle}>{type == 'success' || type == 'changePassword' ? 'Berhasil' : 'Gagal'}</Text>
         </View>
         <Text style={styles.textSubtitle}>
           {
+            msg !== undefined ?
+            <Text>{msg}</Text> :
             type == 'success' ?
             <Text>
               <Text>{'Pendaftaran Anda '}</Text>
