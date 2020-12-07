@@ -7,21 +7,21 @@ import { widthPercentage } from '../../helper/dimension';
 export default function CardHistoryStatus({status, date, alertText, styleContainer}){
   return(
     <View style={[styles.rootContainer, 
-      status == 1 || status == 2 ? { aspectRatio: 212/77, width: widthPercentage(56.5) } :
-      status == 0 ? { aspectRatio: 259/77, width: widthPercentage(69) } : { }, styleContainer ]}>
+      status == 'SUCCESS' || status == 'FAILED' ? { aspectRatio: 212/77, width: widthPercentage(56.5) } :
+      status == 'PENDING' ? { aspectRatio: 259/77, width: widthPercentage(69) } : { }, styleContainer ]}>
       <View style={styles.titleWrapper}>
         <VIcon
           type={'MaterialIcons'}
-          name={status == 1 ? 'check-circle' : status == 0 ? 'hourglass-full' : 'report-problem'}
+          name={status == 'SUCCESS' ? 'check-circle' : status == 'PENDING' ? 'hourglass-full' : 'report-problem'}
           size={Dimens.FONT_SIZE_30}
-          color={status == 1 ? Colors.greenAlert : status == 0 ? Colors.yellowPrimary : Colors.redAlert}
+          color={status == 'SUCCESS' ? Colors.greenAlert : status == 'PENDING' ? Colors.yellowPrimary : Colors.redAlert}
         />
         <Text style={[styles.title, 
-        status == 1 ? { color: Colors.greenAlert } :
-        status == 0 ? { color: Colors.yellowPrimary } :
-        { color: Colors.redAlert }]}>{status == 1 ? 'BERHASIL' : status == 0 ? 'SEDANG PROSES' : 'GAGAL'}</Text>
+        status == 'SUCCESS' ? { color: Colors.greenAlert } :
+        status == 'PENDING' ? { color: Colors.yellowPrimary } :
+        { color: Colors.redAlert }]}>{status == 'SUCCESS' ? 'BERHASIL' : status == 'PENDING' ? 'SEDANG PROSES' : 'GAGAL'}</Text>
       </View>
-      <Text style={styles.subtitle}>{status == 0 ? 'Mohon Tunggu' : status == 2 ? alertText : date}</Text>
+      <Text style={styles.subtitle}>{status == 'PENDING' ? 'Mohon Tunggu' : status == "FAILED" ? alertText : date}</Text>
     </View>
   )
 }

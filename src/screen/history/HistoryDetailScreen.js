@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, StatusBar, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import moment from 'moment-with-locales-es6';
 import { HeaderImageLogoBG } from '../../components/Header';
 import { VIcon } from '../../components/Icon';
 import { CardHistoryStatus } from '../../components/Card';
@@ -9,6 +10,10 @@ import { widthPercentage, heightPercentage } from '../../helper/dimension';
 import { currencyFormat } from '../../helper/format';
 
 export default function HistoryDetailScreen(props){
+  useEffect(() => {
+    console.log(props);
+  }, [])
+
   return(
     <SafeAreaView style={styles.rootContainer}>
       <StatusBar translucent backgroundColor="transparent" barStyle={'dark-content'}/>
@@ -38,9 +43,9 @@ export default function HistoryDetailScreen(props){
       <ScrollView 
         contentContainerStyle={{width: '100%', alignItems: 'center'}}>
         <CardHistoryStatus 
-          status={props.route.params.status}
-          date={'19 Nov 2020, 19.34'}
-          alertText={'Saldo Tidak Cukup'}
+          status={props.route.params.children.filter(ar => ar.name == "Status")[0].value}
+          date={moment(props.route.params.children.filter(ar => ar.name == "Date")[0].value).locale('id').format('DD MMM YYYY, HH:mm')}
+          alertText={''}
         />
         <Text style={styles.textNotice}>{'Jika dalam 1x24 jam pembelian Anda belum diterima,\n silahkan klik Butuh Bantuan'}</Text>
         <Text style={styles.textHeader}>Nomer Ponsel</Text>
@@ -51,13 +56,13 @@ export default function HistoryDetailScreen(props){
           />
           <View style={styles.wrapperRightPhone}>
             <Text style={styles.textXL}>XL Axiata</Text>
-            <Text style={styles.textPhoneNumber}>0812 2240 0021</Text>
+            <Text style={styles.textPhoneNumber}>{props.route.params.children.filter(ar => ar.name == "Phone")[0].value}</Text>
           </View>
         </View>
         <Text style={styles.textHeader}>No. Referensi</Text>
-        <Text style={styles.textReference}>GIP19202011001</Text>
+        <Text style={styles.textReference}>{props.route.params.children.filter(ar => ar.name == "OriginalTransID")[0].value}</Text>
         <Text style={[styles.textHeader, {marginTop: heightPercentage(1)}]}>No. Referensi Biller/Nomer Serial</Text>
-        <Text style={styles.textReference}>{props.route.params.status == 0 ? '10119202011003' : props.route.params.status == 1 ? '10119202011001' : '10119202011002'}</Text>
+        <Text style={styles.textReference}>{props.route.params.children.filter(ar => ar.name == "SerialNumber")[0].value}</Text>
         <View style={styles.lineSeparator}/>
         <View style={styles.paymentMethodWrapper}>
           <View>
@@ -69,8 +74,8 @@ export default function HistoryDetailScreen(props){
         <View style={styles.lineSeparator}/>
         <Text style={styles.textDetail}>Detail Pembelian</Text>
         <View style={styles.detailLineWrapper}>
-          <Text style={[styles.textHeader, {width: undefined}]}>Pulsa 5.000</Text>
-          <Text style={[styles.textHeader, {width: undefined}]}>{`Rp.${currencyFormat(5650)}`}</Text>
+          <Text style={[styles.textHeader, {width: undefined}]}>{props.route.params.children.filter(ar => ar.name == "Product_x0020_Name")[0].value + ' '+props.route.params.children.filter(ar => ar.name == "Amount")[0].value}</Text>
+          <Text style={[styles.textHeader, {width: undefined}]}>{`Rp.${currencyFormat(props.route.params.children.filter(ar => ar.name == "Price")[0].value)}`}</Text>
         </View>
         <View style={styles.detailLineWrapper}>
           <Text style={[styles.textHeader, {width: undefined}]}>Biaya Transaksi</Text>
@@ -78,7 +83,7 @@ export default function HistoryDetailScreen(props){
         </View>
         <View style={[styles.detailLineWrapper, {marginTop: heightPercentage(1)}]}>
           <Text style={[styles.textHeader, {width: undefined, fontFamily: Fonts.poppinsSemiBold}]}>Total</Text>
-          <Text style={[styles.textHeader, {width: undefined, fontFamily: Fonts.poppinsSemiBold}]}>{`Rp.${currencyFormat(5650)}`}</Text>
+          <Text style={[styles.textHeader, {width: undefined, fontFamily: Fonts.poppinsSemiBold}]}>{`Rp.${currencyFormat(props.route.params.children.filter(ar => ar.name == "Price")[0].value)}`}</Text>
         </View>
         <View style={styles.lineSeparator}/>
         <TouchableOpacity style={styles.buttonHelp}>

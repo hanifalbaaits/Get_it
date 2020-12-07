@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, Image, FlatList, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSelector } from 'react-redux';
+import moment from 'moment-with-locales-es6';
 import { HeaderImageLogoBG } from '../../components/Header';
 import { CardHistory } from '../../components/Card';
 import { Colors, Fonts, Dimens } from '../../base';
@@ -9,30 +11,7 @@ import { currencyFormat } from '../../helper/format';
 
 export default function HistoryScreen(props){
 
-  // status 0 pending - 1 success - 2 failed
-  const dataHistory = [
-    {
-      id: 1,
-      date: '19 November 2020',
-      name: 'XL (Paket Data)',
-      status: 2,
-      price: 7250,
-    },
-    {
-      id: 2,
-      date: '19 November 2020',
-      name: 'XL (Pulsa)',
-      status: 1,
-      price: 5850,
-    },
-    {
-      id: 3,
-      date: '18 November 2020',
-      name: 'Isi Saldo',
-      status: 0,
-      price: 10000,
-    }
-  ]
+  const historyReducer = useSelector(state => state.history);
 
   return(
     <SafeAreaView style={styles.rootContainer}>
@@ -44,15 +23,15 @@ export default function HistoryScreen(props){
       />
       <View style={styles.bottomSheet}>
         <FlatList 
-          data={dataHistory}
-          keyExtractor={(item) => item.id.toString()}
+          data={historyReducer.period}
+          keyExtractor={(item)=>item.children.filter(ar => ar.name == "No")[0].value}
           renderItem={({item, index}) => {
             return(
               <CardHistory 
-                date={item.date}
-                status={item.status}
-                price={currencyFormat(item.price)}
-                packageName={item.name}
+                date={moment(item.children.filter(ar => ar.name == "Date")[0].value).locale('id').format('DD MMMM YYYY')}
+                status={item.children.filter(ar => ar.name == "Status")[0].value}
+                price={currencyFormat(item.children.filter(ar => ar.name == "Price")[0].value)}
+                packageName={item.children.filter(ar => ar.name == "Product_x0020_Name")[0].value + ' '+item.children.filter(ar => ar.name == "Amount")[0].value}
                 onPress={()=>props.navigation.navigate('HistoryDetailStack', {screen: 'HistoryDetailScreen', params: item})}
               />
             )

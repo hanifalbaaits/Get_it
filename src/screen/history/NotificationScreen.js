@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, FlatList, StatusBar, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSelector } from 'react-redux';
+import moment from 'moment-with-locales-es6';
 import { HeaderImageLogoBG, HeaderNav } from '../../components/Header';
 import { CardHistory } from '../../components/Card';
 import { Colors, Fonts, Dimens } from '../../base';
@@ -9,6 +11,7 @@ import { currencyFormat } from '../../helper/format';
 
 export default function NotificationScreen(props){
 
+  const historyReducer = useSelector(state => state.history);
   // status 0 pending - 1 success - 2 failed
   const dataNotif = [
     {
@@ -43,16 +46,16 @@ export default function NotificationScreen(props){
         themes={'dark'}
       />
       <FlatList 
-        data={dataNotif}
+        data={historyReducer.period}
         style={styles.flatlist}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item)=>item.children.filter(ar => ar.name == "No")[0].value}
         renderItem={({item, index}) => {
           return(
             <CardHistory 
-              date={item.date}
-              status={item.status}
-              price={currencyFormat(item.price)}
-              packageName={item.name}
+              date={moment(item.children.filter(ar => ar.name == "Date")[0].value).locale('id').format('DD MMMM YYYY')}
+              status={item.children.filter(ar => ar.name == "Status")[0].value}
+              price={currencyFormat(item.children.filter(ar => ar.name == "Price")[0].value)}
+              packageName={item.children.filter(ar => ar.name == "Product_x0020_Name")[0].value + ' '+item.children.filter(ar => ar.name == "Amount")[0].value}
               onPress={()=>props.navigation.navigate('HistoryDetailStack', {screen: 'HistoryDetailScreen', params: item})}
               isNotif={true}
             />

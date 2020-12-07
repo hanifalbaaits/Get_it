@@ -9,6 +9,7 @@ import { Colors, Dimens, Fonts } from '../../base';
 import { heightPercentage, widthPercentage } from '../../helper/dimension';
 import * as profileAction from '../../redux/action/profileAction';
 import * as productAction from '../../redux/action/productAction';
+import * as historyAction from '../../redux/action/historyAction';
 
 export default function HomeScreen(props){
   
@@ -52,6 +53,12 @@ export default function HomeScreen(props){
     dispatch(profileAction.balanceRequest({email: authReducer.credential?.email}));
     dispatch(productAction.productRequest({email: authReducer.credential?.email}));
     dispatch(productAction.bannerRequest({email: authReducer.credential?.email}));
+    let payload = {
+      email: authReducer.credential.email,
+      startDate: '20201201',
+      endDate: '20201205',
+    }
+    dispatch(historyAction.periodRequest(payload));
   }, [])
 
   function gotoNotif(){

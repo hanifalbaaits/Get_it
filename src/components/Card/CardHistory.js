@@ -14,11 +14,11 @@ export default function CardHistory({date, status, price, packageName, onPress, 
       </View>
       <View style={styles.rightContainer}>
         {
-          status == 0 ?
+          status == 'PENDING' ?
           <Text style={styles.textStatusPending}>Sedang Proses</Text> :
-          status == 1 ?
+          status == 'SUCCESS' ?
           <Text style={styles.textStatusSuccess}>Transaksi Berhasil</Text> :
-          status == 2 ? 
+          status == 'FAILED' ? 
           <Text style={styles.textStatusFailed}>Transaksi Gagal</Text> :
           null
         }

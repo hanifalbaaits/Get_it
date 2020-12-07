@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import AppReducer from './appReducer';
 import AuthReducer from './authReducer';
+import HistoryReducer from './historyReducer';
 import ProductReducer from './productReducer';
 import ProfileReducer from './profileReducer';
 
@@ -17,6 +18,7 @@ const persistConfig = {
 const combinedReducer = persistCombineReducers(persistConfig, {
   app: AppReducer,
   auth: AuthReducer,
+  history: HistoryReducer,
   product: ProductReducer,
   profile: ProfileReducer
 })
