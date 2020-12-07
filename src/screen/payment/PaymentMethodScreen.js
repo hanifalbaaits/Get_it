@@ -28,7 +28,7 @@ export default function PaymentMethodScreen(props){
       <View style={styles.bottomSheet}>
         <CardReviewSelectedPackage 
           styleContainer={styles.cardReview}
-          price={props.route.params.packageSelect.price}
+          price={props.route.params.packageSelect.children.filter(ar => ar.name == "price")[0].value}
           notes={
             props.route.params.type == 1 ? 'Pulsa '+currencyFormat(props.route.params.packageSelect.children.filter(ar => ar.name == "amount")[0].value) : 
             props.route.params.type == 2 ? 'Paket Data '+props.route.params.packageSelect.name : 
