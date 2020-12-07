@@ -1,14 +1,19 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { VIcon } from '../../components/Icon';
 import { HeaderImageLogoBG } from '../../components/Header';
 import { Colors, Fonts, Dimens } from '../../base';
 import { heightPercentage, widthPercentage } from '../../helper/dimension';
+import * as authAction from '../../redux/action/authAction';
+import * as profileAction from '../../redux/action/profileAction';
+import * as productAction from '../../redux/action/productAction';
+import * as historyAction from '../../redux/action/historyAction';
 
 export default function ProfileScreen(props){
 
+  const dispatch = useDispatch();
   const profileReducer = useSelector(state => state.profile);
 
   const ListItemIcon = ({iconName, value, onPress, style, isLogout}) => {
@@ -73,10 +78,17 @@ export default function ProfileScreen(props){
           iconName={'power-settings-new'}
           value={'Keluar'}
           isLogout={true}
-          onPress={()=>props.navigation.reset({
-            index: 0,
-            routes: [{ name: 'Auth'}]
-          })}
+          onPress={()=>{
+            dispatch(authAction.loginReset());
+            dispatch(profileAction.infoReset());
+            dispatch(productAction.productReset());
+            dispatch(productAction.bannerReset());
+            dispatch(historyAction.periodReset());
+            props.navigation.reset({
+              index: 0,
+              routes: [{ name: 'Auth'}]
+            });
+          }}
         />
       </View>
     </SafeAreaView>

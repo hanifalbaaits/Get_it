@@ -1,17 +1,26 @@
 import React, { useEffect } from 'react';
 import { Image, StatusBar, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSelector } from 'react-redux';
 import { Colors } from '../base';
 import { widthPercentage } from '../helper/dimension';
 
 export default function SplashScreen(props){
+  const authReducer = useSelector(state => state.auth);
   useEffect(() => {
-    setTimeout(() => {
+    if(authReducer.isLogin === true){
       props.navigation.reset({
         index: 0,
-        routes: [{ name: 'Auth'}]
+        routes: [{ name: 'MenuTab'}]
       });
-    }, 2000);
+    } else {
+      setTimeout(() => {
+        props.navigation.reset({
+          index: 0,
+          routes: [{ name: 'Auth'}]
+        });
+      }, 2000);
+    }
   }, [])
   return(
     <SafeAreaView style={styles.rootContainer}>
