@@ -10,6 +10,7 @@ import { heightPercentage, widthPercentage } from '../../helper/dimension';
 import * as profileAction from '../../redux/action/profileAction';
 import * as productAction from '../../redux/action/productAction';
 import * as historyAction from '../../redux/action/historyAction';
+import * as transactionAction from '../../redux/action/transactionAction';
 
 export default function HomeScreen(props){
   
@@ -59,6 +60,8 @@ export default function HomeScreen(props){
       endDate: '20201205',
     }
     dispatch(historyAction.periodRequest(payload));
+    dispatch(transactionAction.topupTypeRequest());
+    dispatch(transactionAction.topupAccountRequest());
   }, [])
 
   function gotoNotif(){

@@ -6,6 +6,7 @@ import AuthReducer from './authReducer';
 import HistoryReducer from './historyReducer';
 import ProductReducer from './productReducer';
 import ProfileReducer from './profileReducer';
+import TransactionReducer from './transactionReducer';
 
 const persistConfig = {
   timeout: 0,
@@ -20,7 +21,8 @@ const combinedReducer = persistCombineReducers(persistConfig, {
   auth: AuthReducer,
   history: HistoryReducer,
   product: ProductReducer,
-  profile: ProfileReducer
+  profile: ProfileReducer,
+  transaction: TransactionReducer
 })
 
 export default function rootReducer(state, action) {

@@ -2,15 +2,20 @@ import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList, ScrollView } from 'react-native';
 import { TextInputMask, MaskService } from 'react-native-masked-text'
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSelector, useDispatch } from 'react-redux';
 import { HeaderImageLogoBG, HeaderNav } from '../../components/Header';
 import { CardTopup } from '../../components/Card';
 import { Button } from '../../components/Button';
 import { Colors, Dimens, Fonts } from '../../base';
 import { widthPercentage, heightPercentage } from '../../helper/dimension';
+import * as transactionAction from '../../redux/action/transactionAction';
 
 export default function TopupScreen(props){
 
+  const dispatch = useDispatch();
   const inputNominal = useRef();
+  const authReducer = useSelector(state => state.auth);
+  const transactionReducer = useSelector(state => state.transaction);
   const [nominal, setNominal] = useState(0);
   const [isReady, setIsReady] = useState(false);
   const [selectedBank, setSelectedBank] = useState(null);
@@ -25,9 +30,23 @@ export default function TopupScreen(props){
     }
   }, [nominal, selectedBank])
 
+  useEffect(() => {
+    if(transactionReducer.isLoading === false && transactionReducer.isError === false && transactionReducer.topup !== null){
+      props.navigation.navigate('TopupMethodScreen');
+    }
+  }, [transactionReducer])
+
   function goNext(){
     if(isReady){
-      props.navigation.navigate('UploadReceiptScreen');
+      let trxTopupType = transactionReducer.topupType?.filter(ar => ar.children.some(ch => ch.value === "BANK TRANSFER"))[0].children.filter(item => item.name == "guid")[0].value;
+      let trxTopupAccount = transactionReducer.topupAccount?.filter(ar => ar.children.some(ch => ch.value === "BANK TRANSFER"))[0];
+      let payload = {
+        email: authReducer.credential.email,
+        id_transfer: trxTopupAccount?.children?.filter(item => item.name === "ID_Transfer")[0].value,
+        nominal: inputNominal.current.getRawValue(),
+        type: trxTopupType
+      }
+      dispatch(transactionAction.topupRequest(payload));
     }
   }
 
@@ -131,13 +150,23 @@ export default function TopupScreen(props){
         </View>
         <Text style={styles.textPaymentMethod}>Metode Pembayaran</Text>
         <View style={styles.bankWrapper}>
-          <TouchableOpacity onPress={()=>bankSelect('BCA')} style={styles.buttonBank}>
+          <TouchableOpacity onPress={()=>bankSelect('BCA')} style={[styles.buttonBank, selectedBank == 'BCA' && {
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+            elevation: 5,
+          }]}>
             <Image 
               source={require('../../assets/images/logo-bca.png')}
               style={styles.logoBCA}
+              resizeMode="contain"
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={()=>bankSelect('MANDIRI')} style={styles.buttonBank}>
+          {/* <TouchableOpacity onPress={()=>bankSelect('MANDIRI')} style={styles.buttonBank}>
             <Image 
               source={require('../../assets/images/logo-mandiri.png')}
               style={styles.logoMandiri}
@@ -148,9 +177,9 @@ export default function TopupScreen(props){
               source={require('../../assets/images/logo-bni.png')}
               style={styles.logoBNI}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
-        {
+        {/* {
           selectedBank !== null &&
           <View style={styles.bankDetail}>
             <ScrollView>
@@ -158,7 +187,7 @@ export default function TopupScreen(props){
               <Text style={styles.contentBankDetail}>{'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'}</Text>
             </ScrollView>
           </View>
-        }
+        } */}
       </View>
       <View style={styles.footerMenu}>
         <Button
@@ -217,13 +246,17 @@ const styles = StyleSheet.create({
   buttonBank: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: widthPercentage(5)
+    marginRight: widthPercentage(5),
+    backgroundColor: Colors.white,
+    width: widthPercentage(28.5),
+    height: undefined,
+    aspectRatio: 93/44,
+    borderRadius: 9
   },
   logoBCA: {
     width: widthPercentage(28.5),
     height: undefined,
-    aspectRatio: 1/1,
-    marginTop: '-20%'
+    aspectRatio: 1/1
   },
   logoMandiri: {
     width: widthPercentage(20),

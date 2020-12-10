@@ -23,6 +23,7 @@ import PaymentConfirmScreen from './screen/payment/PaymentConfirmScreen';
 import PaymentProcessScreen from './screen/payment/PaymentProcessScreen';
 import TopupScreen from './screen/topup/TopupScreen';
 import UploadReceiptScreen from './screen/topup/UploadReceiptScreen';
+import TopupMethodScreen from './screen/topup/TopupMethodScreen';
 import HistoryDetailScreen from './screen/history/HistoryDetailScreen';
 import ChangePasswordScreen from './screen/profile/ChangePasswordScreen';
 import ChangeProfileScreen from './screen/profile/ChangeProfileScreen';
@@ -59,6 +60,7 @@ const TopupStackScreen = () => (
   }}>
     <TopupStack.Screen name="TopupScreen" component={TopupScreen}/>
     <TopupStack.Screen name="UploadReceiptScreen" component={UploadReceiptScreen}/>
+    <TopupStack.Screen name="TopupMethodScreen" component={TopupMethodScreen}/>
   </TopupStack.Navigator>
 )
 
