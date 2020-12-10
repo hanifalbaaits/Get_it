@@ -1,12 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSelector } from 'react-redux';
 import { HeaderImageLogoBG } from '../../components/Header';
 import { CardPromo } from '../../components/Card';
 import { Colors, Fonts, Dimens } from '../../base';
 import { heightPercentage, widthPercentage } from '../../helper/dimension';
 
 export default function PromoScreen(){
+
+  const productReducer = useSelector(state => state.product);
 
   const dataPromo = [
     {
@@ -48,14 +51,14 @@ export default function PromoScreen(){
         <FlatList 
           style={{ width: widthPercentage(100) }}
           contentContainerStyle={{alignItems: 'center', paddingTop: 10 }}
-          data={dataPromo}
-          keyExtractor={(item) => item.id.toString()}
+          data={productReducer.banner}
+          keyExtractor={item => item.children.filter(ar => ar.name == "guid")[0].value}
           showsVerticalScrollIndicator={false}
           renderItem={({item, index}) => {
             return(
               <CardPromo 
-                title={item.title}
-                image={item.image}
+                title={'Promo '+(index+1)}
+                image={item.children.filter(ar => ar.name == "pathfile")[0].value}
               />
             )
           }}

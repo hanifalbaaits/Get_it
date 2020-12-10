@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,37 +17,7 @@ export default function HomeScreen(props){
   const dispatch = useDispatch();
   const authReducer = useSelector(state => state.auth);
   const profileReducer = useSelector(state => state.profile);
-  const [modalAlert, setModalAlert] = useState({
-    isVisible: false,
-    type: 'changePassword'
-  })
-  const [modalConfirm, setModalConfirm] = useState({
-    isVisible: false,
-    onConfirm: ()=>null
-  })
-
-  const dataPromo = [
-    {
-      id: 1,
-      image: 'https://tri.co.id/image/files/20201012WebsiteMochanOffline3GBdesktop.jpg'
-    },
-    {
-      id: 2,
-      image: 'https://assets.indosatooredoo.com/Assets/Upload/01%20Personal/Promo/Bank/BCA/210420/07_BCA%20BAHASA.jpg'
-    },
-    {
-      id: 3,
-      image: 'https://assets.grab.com/wp-content/uploads/sites/9/2020/02/11101745/selasa-diskon-pulsa-landing-page.jpg'
-    },
-    {
-      id: 4,
-      image: 'https://lelogama.go-jek.com/post_thumbnail/GOPAY-PROMO.jpg'
-    },
-    {
-      id: 5,
-      image: 'https://assets.grab.com/wp-content/uploads/sites/9/2020/07/21151924/Airtime-x-Transport-Collab-July_landingpage.jpg'
-    }
-  ]
+  const productReducer = useSelector(state => state.product);
 
   useEffect(() => {
     dispatch(profileAction.infoRequest({email: authReducer.credential?.email}));
@@ -99,8 +69,8 @@ export default function HomeScreen(props){
       <View style={styles.bottomSheet}>
         <CardMenu />
         <FlatList 
-          data={dataPromo}
-          keyExtractor={item => item.id.toString()}
+          data={productReducer.banner}
+          keyExtractor={item => item.children.filter(ar => ar.name == "guid")[0].value}
           style={styles.flatlist}
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={()=>{
@@ -111,7 +81,7 @@ export default function HomeScreen(props){
           renderItem={({item})=>{
             return(
               <CardPromo 
-                image={item.image}
+                image={item.children.filter(ar => ar.name == "pathfile")[0].value}
               />
             )
           }}

@@ -25,7 +25,8 @@ function* bannerAll(data){
     yield put(appAction.appStateLoading(true));
     const res = yield call(productRepo.apiBannerAll, data.payload);
     let xml = new XMLParser().parseFromString(res.data);
-    console.log(xml);
+    let ds = xml.getElementsByTagName("Table");
+    yield put(productAction.bannerSuccess(ds));
     yield put(appAction.appStateLoading(false));
   } catch (err) {
     yield put(productAction.bannerError(err));
