@@ -38,6 +38,11 @@ const loginReset = state => ({
   isLogin: false
 })
 
+const updateCredential = (state, payload) => ({
+  ...state,
+  credential: payload
+})
+
 const authReduceer = (state = initialState, action) => {
   switch (action.type) {
     case actionType.AUTH.LOGIN_REQUEST:
@@ -48,6 +53,9 @@ const authReduceer = (state = initialState, action) => {
       return loginError(state, action.payload);
     case actionType.AUTH.LOGIN_RESET:
       return loginReset(state, action.payload);
+
+    case actionType.AUTH.UPDATE_CREDENTIAL:
+      return updateCredential(state, action.payload);
 
     case PURGE:
       return initialState;

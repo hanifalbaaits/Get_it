@@ -9,6 +9,7 @@ import { ModalAlert, ModalConfirm } from '../../components/Modal';
 import { Colors, Dimens, Fonts } from '../../base';
 import { widthPercentage, heightPercentage } from '../../helper/dimension';
 import * as profileAction from '../../redux/action/profileAction';
+import * as authAction from '../../redux/action/authAction';
 
 export default function ChangePasswordScreen(props){
 
@@ -42,6 +43,11 @@ export default function ChangePasswordScreen(props){
           props.navigation.pop();
         }});
       }, 1000);
+      let payload = {
+        email: authReducer.credential?.email,
+        password: newPassword
+      }
+      dispatch(authAction.updateCredential(payload));
       dispatch(profileAction.changePasswordReset());
     } else if(profileReducer.isLoading === false && profileReducer.isError === true){
       setModalAlert({...modalAlert, isVisible: true, msg: profileReducer.errorMsg});
