@@ -1,4 +1,4 @@
-package com.getid;
+package id.getiton.apps;
 
 import com.facebook.react.ReactActivity;
 
