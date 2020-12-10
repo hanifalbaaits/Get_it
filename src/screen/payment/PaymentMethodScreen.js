@@ -31,7 +31,7 @@ export default function PaymentMethodScreen(props){
           price={props.route.params.packageSelect.children.filter(ar => ar.name == "price")[0].value}
           notes={
             props.route.params.type == 1 ? 'Pulsa '+currencyFormat(props.route.params.packageSelect.children.filter(ar => ar.name == "amount")[0].value) : 
-            props.route.params.type == 2 ? 'Paket Data '+props.route.params.packageSelect.name : 
+            props.route.params.type == 2 ? 'Paket Data '+props.route.params.packageSelect.children.filter(ar => ar.name == "productname")[0].value : 
             null
           }
           phoneNumber={props.route.params.phoneNumber}

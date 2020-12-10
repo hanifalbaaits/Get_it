@@ -61,3 +61,24 @@ export const topupReset = data => ({
   type: actionType.TRANSACTION.TOPUP_RESET,
   payload: data
 })
+
+
+export const paymentRequest = data => ({
+  type: actionType.TRANSACTION.PAYMENT_REQUEST,
+  payload: data
+})
+
+export const paymentSuccess = data => ({
+  type: actionType.TRANSACTION.PAYMENT_SUCCESS,
+  payload: data
+})
+
+export const paymentError = data => ({
+  type: actionType.TRANSACTION.PAYMENT_ERROR,
+  payload: data
+})
+
+export const paymentReset = data => ({
+  type: actionType.TRANSACTION.PAYMENT_RESET,
+  payload: data
+})

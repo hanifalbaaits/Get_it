@@ -27,7 +27,8 @@ const periodError = (state, payload) => ({
   errorMsg: payload
 })
 
-const periodReset = () => ({
+const periodReset = state => ({
+  ...state,
   isLoading: false,
   isError: false,
   errorMsg: null,

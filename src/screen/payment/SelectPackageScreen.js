@@ -35,106 +35,11 @@ export default function SelectPackageScreen(props){
   function goNext(){
     if(selectedPackage !== null){
       let packageSelect;
-      if(props.route.params.type == 1){
-        packageSelect = productReducer.product.filter(ar => ar.children.some(ch => ch.value === selectedPackage))[0];
-      } else if(props.route.params.type == 2){
-        packageSelect = dataInternet.filter(ar => ar.id == selectedPackage)[0];
-      }
+      packageSelect = productReducer.product.filter(ar => ar.children.some(ch => ch.value === selectedPackage))[0];
       props.navigation.navigate('PaymentMethodScreen', 
         {packageSelect, phoneNumber, type: props.route.params.type});
     }
   }
-
-  const dataPulsa = [
-    {
-      id: 1,
-      name: '5.000',
-      price: 5650,
-      period: 'Menambahkan Masa Aktif 7 Hari'
-    },
-    {
-      id: 2,
-      name: '10.000',
-      price: 10850,
-      period: 'Menambahkan Masa Aktif 15 Hari'
-    },
-    {
-      id: 3,
-      name: '20.000',
-      price: 20450,
-      period: 'Menambahkan Masa Aktif 30 Hari'
-    },
-    {
-      id: 4,
-      name: '50.000',
-      price: 49450,
-      period: 'Menambahkan Masa Aktif 45 Hari'
-    },
-    {
-      id: 5,
-      name: '100.000',
-      price: 97450,
-      period: 'Menambahkan Masa Aktif 60 Hari'
-    },
-    {
-      id: 6,
-      name: '150.000',
-      price: 146700,
-      period: 'Menambahkan Masa Aktif 75 Hari'
-    },
-    {
-      id: 7,
-      name: '200.000',
-      price: 194650,
-      period: 'Menambahkan Masa Aktif 80 Hari'
-    }
-  ]
-
-  const dataInternet = [
-    {
-      id: 1,
-      name: '500 MB',
-      price: 7250,
-      period: 'Menambahkan Masa Aktif 7 Hari'
-    },
-    {
-      id: 2,
-      name: '1 GB',
-      price: 10850,
-      period: 'Menambahkan Masa Aktif 15 Hari'
-    },
-    {
-      id: 3,
-      name: '3 GB',
-      price: 30450,
-      period: 'Menambahkan Masa Aktif 30 Hari'
-    },
-    {
-      id: 4,
-      name: '5 GB',
-      price: 50850,
-      period: 'Menambahkan Masa Aktif 45 Hari'
-    },
-    {
-      id: 5,
-      name: '10 GB',
-      price: 98450,
-      period: 'Menambahkan Masa Aktif 60 Hari'
-    },
-    {
-      id: 6,
-      name: '13 GB',
-      price: 128700,
-      period: 'Menambahkan Masa Aktif 75 Hari'
-    },
-    {
-      id: 7,
-      name: '25 GB',
-      price: 194650,
-      period: 'Menambahkan Masa Aktif 80 Hari'
-    }
-  ]
-
 
   return(
     <SafeAreaView style={styles.rootContainer}>
@@ -162,13 +67,13 @@ export default function SelectPackageScreen(props){
             <FlatList 
               style={{ width: '100%', flex: 1 }}
               contentContainerStyle={{ alignItems: 'center', paddingHorizontal: widthPercentage(7.5), paddingTop: 10, paddingBottom: heightPercentage(15) }}
-              data={props.route.params.type == 1 ? productReducer.product : props.route.params.type == 2 ? dataInternet : []}
+              data={props.route.params.type == 1 ? productReducer.product.filter(ar => ar.children.some(ch => ch.name == "telco" && ch.value == "XL")) : props.route.params.type == 2 ? productReducer.product.filter(ar => ar.children.some(ch => ch.name == "telco" && ch.value == "XL DATA")) : []}
               keyExtractor={(item)=>item.children.filter(ar => ar.name == "barcode")[0].value}
               renderItem={({item, index})=>{
                 return(
                   <CardSelectPackage 
                     id={item.children.filter(ar => ar.name == "barcode")[0].value}
-                    packageName={currencyFormat(item.children.filter(ar => ar.name == "amount")[0].value)}
+                    packageName={props.route.params.type == 1 ? currencyFormat(item.children.filter(ar => ar.name == "amount")[0].value) : item.children.filter(ar => ar.name == "productname")[0].value}
                     packageDuration={null}
                     packagePrice={item.children.filter(ar => ar.name == "price")[0].value}
                     onPress={()=>onSelectPackage(item.children.filter(ar => ar.name == "barcode")[0].value)}

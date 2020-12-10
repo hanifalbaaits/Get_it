@@ -28,7 +28,8 @@ const productError = (state, payload) => ({
   errorMsg: payload
 })
 
-const productReset = () => ({
+const productReset = state => ({
+  ...state,
   isLoading: false,
   isError: false,
   errorMsg: null,
@@ -55,7 +56,8 @@ const bannerError = (state, payload) => ({
   errorMsg: payload
 })
 
-const bannerReset = () => ({
+const bannerReset = state => ({
+  ...state,
   isLoading: false,
   isError: false,
   errorMsg: null,

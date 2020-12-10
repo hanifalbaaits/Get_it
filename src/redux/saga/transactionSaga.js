@@ -50,10 +50,26 @@ function* topup(data){
   }
 }
 
+function* payment(data){
+  try {
+    yield put(appAction.appStateLoading(true));
+    const res = yield call(transactionRepo.apiPayment, data.payload);
+    let xml = new XMLParser().parseFromString(res.data);
+    let table = xml.getElementsByTagName("Table");
+    yield put(transactionAction.paymentSuccess(table));
+    yield put(appAction.appStateLoading(false));
+  } catch (err) {
+    yield put(transactionAction.paymentError(err));
+    yield put(appAction.appStateLoading(false));
+    yield put(appAction.appStateError(err));
+  }
+}
+
 export default function* watchTransaction() {
   yield all([
     takeLatest(actionType.TRANSACTION.TOPUP_TYPE_REQUEST, topupType),
     takeLatest(actionType.TRANSACTION.TOPUP_ACCOUNT_REQUEST, topupAccount),
-    takeLatest(actionType.TRANSACTION.TOPUP_REQUEST, topup)
+    takeLatest(actionType.TRANSACTION.TOPUP_REQUEST, topup),
+    takeLatest(actionType.TRANSACTION.PAYMENT_REQUEST, payment)
   ])
 }

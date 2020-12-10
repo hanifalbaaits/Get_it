@@ -1,19 +1,47 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { HeaderImageLogoBG, HeaderNav } from '../../components/Header';
 import { Button } from '../../components/Button';
-import {  CardPaymentMethod } from '../../components/Card';
+import { CardPaymentMethod } from '../../components/Card';
+import { ModalConfirm } from '../../components/Modal';
 import { Colors, Dimens, Fonts } from '../../base';
 import { widthPercentage, heightPercentage } from '../../helper/dimension';
 import { currencyFormat } from '../../helper/format';
+import * as transactionAction from '../../redux/action/transactionAction';
 
 export default function PaymentConfirmScreen(props){
 
+  const dispatch = useDispatch();
+  const authReducer = useSelector(state => state.auth);
   const profileReducer = useSelector(state => state.profile);
+  const transactionReducer = useSelector(state => state.transaction);
+  const [modalConfirm, setModalConfirm] = useState({
+    isVisible: false,
+    subtitle: 'Melanjutkan ?'
+  })
+
+  useEffect(() => {
+    if(transactionReducer.isLoading === false && transactionReducer.isError === false && transactionReducer.payment !== null){
+      props.navigation.navigate('PaymentProcessScreen');
+    }
+  }, [transactionReducer])
+
+  function onConfirm(){
+    setModalConfirm({...modalConfirm, isVisible: false});
+    let payload = {
+      email: authReducer.credential?.email,
+      requestid: new Date().getTime(),
+      password: authReducer.credential?.password,
+      phone: props.route.params.phoneNumber,
+      nom: props.route.params.packageSelect.children.filter(ar => ar.name == "barcode")[0].value
+    }
+    dispatch(transactionAction.paymentRequest(payload));
+  }
+
   function gotoTransactionProcess(){
-    props.navigation.navigate('PaymentProcessScreen');
+    setModalConfirm({...modalConfirm, isVisible: true});
   }
 
   return(
@@ -36,7 +64,7 @@ export default function PaymentConfirmScreen(props){
       <Text style={styles.textPackageName}>
         {
           props.route.params.type == 1 ? 'Pulsa '+currencyFormat(props.route.params.packageSelect.children.filter(ar => ar.name == "amount")[0].value) : 
-          props.route.params.type == 2 ? 'Paket Data '+props.route.params.packageSelect.name : 
+          props.route.params.type == 2 ? 'Paket Data '+props.route.params.packageSelect.children.filter(ar => ar.name == "productname")[0].value : 
           null
         }
       </Text>
@@ -57,6 +85,12 @@ export default function PaymentConfirmScreen(props){
         styleLabel={{color: Colors.white}}
         label="Lanjutkan"
         onPress={()=>gotoTransactionProcess()}
+      />
+      <ModalConfirm 
+        modalVisible={modalConfirm.isVisible}
+        setModalVisible={()=>setModalConfirm({...modalConfirm, isVisible: false})}
+        onConfirm={()=>onConfirm()}
+        subtitle={modalConfirm.subtitle}
       />
     </SafeAreaView>
   )

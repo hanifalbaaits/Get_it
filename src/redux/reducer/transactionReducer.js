@@ -7,7 +7,8 @@ const initialState = {
   errorMsg: null,
   topupType: [],
   topupAccount: [],
-  topup: null
+  topup: null,
+  payment: null
 }
 
 const topupTypeRequest = state => ({
@@ -29,7 +30,8 @@ const topupTypeError = (state, payload) => ({
   errorMsg: payload
 })
 
-const topupTypeReset = () => ({
+const topupTypeReset = state => ({
+  ...state,
   isLoading: false,
   isError: false,
   errorMsg: null,
@@ -56,7 +58,8 @@ const topupAccountError = (state, payload) => ({
   errorMsg: payload
 })
 
-const topupAccountReset = () => ({
+const topupAccountReset = state => ({
+  ...state,
   isLoading: false,
   isError: false,
   errorMsg: null,
@@ -83,11 +86,40 @@ const topupError = (state, payload) => ({
   errorMsg: payload
 })
 
-const topupReset = () => ({
+const topupReset = state => ({
+  ...state,
   isLoading: false,
   isError: false,
   errorMsg: null,
   topup: null
+})
+
+
+const paymentRequest = state => ({
+  ...state,
+  isLoading: true
+})
+
+const paymentSuccess = (state, payload) => ({
+  ...state,
+  isLoading: false,
+  isError: false,
+  payment: payload,
+})
+
+const paymentError = (state, payload) => ({
+  ...state,
+  isLoading: false,
+  isError: true,
+  errorMsg: payload
+})
+
+const paymentReset = state => ({
+  ...state,
+  isLoading: false,
+  isError: false,
+  errorMsg: null,
+  payment: null
 })
 
 const transactionReducer = (state = initialState, action) => {
@@ -118,6 +150,15 @@ const transactionReducer = (state = initialState, action) => {
       return topupError(state, action.payload);
     case actionType.TRANSACTION.TOPUP_RESET:
       return topupReset(state, action.payload);
+
+    case actionType.TRANSACTION.PAYMENT_REQUEST:
+      return paymentRequest(state, action.payload);
+    case actionType.TRANSACTION.PAYMENT_SUCCESS:
+      return paymentSuccess(state, action.payload);
+    case actionType.TRANSACTION.PAYMENT_ERROR:
+      return paymentError(state, action.payload);
+    case actionType.TRANSACTION.PAYMENT_RESET:
+      return paymentReset(state, action.payload);
 
     case PURGE:
       return initialState;

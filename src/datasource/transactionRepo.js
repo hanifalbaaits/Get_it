@@ -4,6 +4,7 @@ const URL = {
   TRANSACTION_TOPUP_TYPE: '/appreq/service.asmx',
   TRANSACTION_TOPUP_ACCOUNT: '/appreq/service.asmx',
   TRANSACTION_TOPUP: '/appreq/service.asmx',
+  TRANSACTION_PAYMENT: '/tspreq/rpc.aspx',
 }
 
 export function apiTopupType(){
@@ -50,6 +51,57 @@ export function apiTopup(data){
   </soap:Envelope>`;
   return apiService(
     URL.TRANSACTION_TOPUP,
+    methodService.POST,
+    xml,
+    null
+  );
+}
+
+export function apiPayment(data){
+  let xml = `<?xml version="1.0" encoding="iso-8859-1"?>
+  <methodCall>
+      <methodName>topUpRequest</methodName>
+      <params>
+          <param>
+              <value>
+                  <struct>
+                      <member>
+                          <name>MSISDN</name>
+                          <value>
+                              <string>${data.email}</string>
+                          </value>
+                      </member>
+                      <member>
+                          <name>REQUESTID</name>
+                          <value>
+                              <string>${data.requestid}</string>
+                          </value>
+                      </member>
+                      <member>
+                          <name>PIN</name>
+                          <value>
+                              <string>${data.password}</string>
+                          </value>
+                      </member>
+                      <member>
+                          <name>NOHP</name>
+                          <value>
+                              <string>${data.phone}</string>
+                          </value>
+                      </member>
+                      <member>
+                          <name>NOM</name>
+                          <value>
+                              <string>${data.nom}</string>
+                          </value>
+                      </member>
+                  </struct>
+              </value>
+          </param>
+      </params>
+  </methodCall>`;
+  return apiService(
+    URL.TRANSACTION_PAYMENT,
     methodService.POST,
     xml,
     null

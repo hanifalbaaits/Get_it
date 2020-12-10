@@ -30,7 +30,8 @@ const infoError = (state, payload) => ({
   errorMsg: payload
 })
 
-const infoReset = () => ({
+const infoReset = state => ({
+  ...state,
   isLoading: false,
   isError: false,
   errorMsg: null,
@@ -57,7 +58,8 @@ const balanceError = (state, payload) => ({
   errorMsg: payload
 })
 
-const balanceReset = () => ({
+const balanceReset = state => ({
+  ...state,
   isLoading: false,
   isError: false,
   errorMsg: null,

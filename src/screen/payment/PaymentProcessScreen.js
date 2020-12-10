@@ -1,15 +1,20 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch } from 'react-redux';
 import { HeaderImageLogoBG } from '../../components/Header';
 import { Button } from '../../components/Button';
 import { VIcon } from '../../components/Icon';
 import { Colors, Dimens, Fonts } from '../../base';
 import { widthPercentage, heightPercentage } from '../../helper/dimension';
+import * as transactionAction from '../../redux/action/transactionAction';
 
 export default function PaymentProcessScreen(props){
 
+  const dispatch = useDispatch();
+
   function onDone(){
+    dispatch(transactionAction.paymentReset());
     props.navigation.reset({
       index: 0,
       routes: [{ name: 'MenuTab'}]

@@ -30,7 +30,8 @@ const loginError = (state, payload) => ({
   errorMsg: payload
 })
 
-const loginReset = () => ({
+const loginReset = state => ({
+  ...state,
   isLoading: false,
   isError: false,
   errorMsg: null,
