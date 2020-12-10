@@ -20,8 +20,40 @@ function* period(data) {
   }
 }
 
+function* lastTransaction(data) {
+  try {
+    yield put(appAction.appStateLoading(true));
+    const res = yield call(historyRepo.apiHistoryLastTransaction, data.payload);
+    let xml = new XMLParser().parseFromString(res.data);
+    let ds = xml.getElementsByTagName("Table");
+    yield put(historyAction.lastTransactionSuccess(ds));
+    yield put(appAction.appStateLoading(false));
+  } catch (err) {
+    yield put(historyAction.lastTransactionError(err));
+    yield put(appAction.appStateLoading(false));
+    yield put(appAction.appStateError(err));
+  }
+}
+
+function* lastTopup(data) {
+  try {
+    yield put(appAction.appStateLoading(true));
+    const res = yield call(historyRepo.apiHistoryLastTopup, data.payload);
+    let xml = new XMLParser().parseFromString(res.data);
+    let ds = xml.getElementsByTagName("Table");
+    yield put(historyAction.lastTopupSuccess(ds));
+    yield put(appAction.appStateLoading(false));
+  } catch (err) {
+    yield put(historyAction.lastTopupError(err));
+    yield put(appAction.appStateLoading(false));
+    yield put(appAction.appStateError(err));
+  }
+}
+
 export default function* watchHistory() {
   yield all([
-    takeLatest(actionType.HISTORY.PERIOD_REQUEST, period)
+    takeLatest(actionType.HISTORY.PERIOD_REQUEST, period),
+    takeLatest(actionType.HISTORY.LAST_TRANSACTION_REQUEST, lastTransaction),
+    takeLatest(actionType.HISTORY.LAST_TOPUP_REQUEST, lastTopup)
   ])
 }

@@ -25,11 +25,10 @@ export default function HomeScreen(props){
     dispatch(productAction.productRequest({email: authReducer.credential?.email}));
     dispatch(productAction.bannerRequest({email: authReducer.credential?.email}));
     let payload = {
-      email: authReducer.credential.email,
-      startDate: '20201201',
-      endDate: '20201205',
+      email: authReducer.credential.email
     }
-    dispatch(historyAction.periodRequest(payload));
+    dispatch(historyAction.lastTransactionRequest(payload));
+    dispatch(historyAction.lastTopupRequest(payload));
     dispatch(transactionAction.topupTypeRequest());
     dispatch(transactionAction.topupAccountRequest());
   }, [])

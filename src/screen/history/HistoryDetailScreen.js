@@ -63,14 +63,14 @@ export default function HistoryDetailScreen(props){
         <Text style={styles.textReference}>{props.route.params.children.filter(ar => ar.name == "OriginalTransID")[0].value}</Text>
         <Text style={[styles.textHeader, {marginTop: heightPercentage(1)}]}>No. Referensi Biller/Nomer Serial</Text>
         <Text style={styles.textReference}>{props.route.params.children.filter(ar => ar.name == "SerialNumber")[0].value}</Text>
-        <View style={styles.lineSeparator}/>
+        {/* <View style={styles.lineSeparator}/>
         <View style={styles.paymentMethodWrapper}>
           <View>
             <Text style={[styles.textHeader, {width: undefined}]}>Metode Pembayaran</Text>
             <Text style={[styles.textReference, {width: undefined}]}>Saldo Get.id</Text>
           </View>
           <Text style={[styles.textHeader, {width: undefined}]}>{`Rp.${currencyFormat(10000)}`}</Text>
-        </View>
+        </View> */}
         <View style={styles.lineSeparator}/>
         <Text style={styles.textDetail}>Detail Pembelian</Text>
         <View style={styles.detailLineWrapper}>

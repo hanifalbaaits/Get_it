@@ -21,6 +21,7 @@ const Colors = {
   blueTextBadge: '#067DBE',
   blueTextDetail: '#2E7FC5',
   blueHeaderCardPackageContent: '#0532b2',
+  blueBlurInactiveTab: '#9EDDFF',
   greenPrimary: '#109DA2',
   greenAlert: '#00C99F',
   greenStatusHistory: '#01C99F',

@@ -5,37 +5,13 @@ import { useSelector } from 'react-redux';
 import moment from 'moment-with-locales-es6';
 import { HeaderImageLogoBG, HeaderNav } from '../../components/Header';
 import { CardHistory } from '../../components/Card';
-import { Colors, Fonts, Dimens } from '../../base';
+import { Colors } from '../../base';
 import { heightPercentage, widthPercentage } from '../../helper/dimension';
 import { currencyFormat } from '../../helper/format';
 
 export default function NotificationScreen(props){
 
   const historyReducer = useSelector(state => state.history);
-  // status 0 pending - 1 success - 2 failed
-  const dataNotif = [
-    {
-      id: 1,
-      date: '19 November 2020',
-      name: 'XL (Paket Data)',
-      status: 2,
-      price: 7250,
-    },
-    {
-      id: 2,
-      date: '19 November 2020',
-      name: 'XL (Pulsa)',
-      status: 1,
-      price: 5850,
-    },
-    {
-      id: 3,
-      date: '18 November 2020',
-      name: 'Isi Saldo',
-      status: 0,
-      price: 10000,
-    }
-  ]
 
   return(
     <SafeAreaView style={styles.rootContainer}>
@@ -46,7 +22,7 @@ export default function NotificationScreen(props){
         themes={'dark'}
       />
       <FlatList 
-        data={historyReducer.period}
+        data={historyReducer.lastTransaction}
         style={styles.flatlist}
         keyExtractor={(item)=>item.children.filter(ar => ar.name == "No")[0].value}
         renderItem={({item, index}) => {
