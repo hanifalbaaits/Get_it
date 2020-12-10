@@ -16,11 +16,11 @@ export default function ModalAlert({modalVisible, setModalVisible, onPress, type
         <View style={styles.titleWrapper}>
           <VIcon
             type={'MaterialIcons'}
-            name={type == 'success' || type == 'changePassword' ? 'check-circle' : 'report-problem'}
+            name={type == 'success' || type == 'changePassword' || type == 'updateProfile' ? 'check-circle' : 'report-problem'}
             size={Dimens.FONT_SIZE_30}
-            color={type == 'success' || type == 'changePassword' ? Colors.greenAlert : Colors.redAlert}
+            color={type == 'success' || type == 'changePassword' || type == 'updateProfile' ? Colors.greenAlert : Colors.redAlert}
           />
-          <Text style={styles.textTitle}>{type == 'success' || type == 'changePassword' ? 'Berhasil' : 'Gagal'}</Text>
+          <Text style={styles.textTitle}>{type == 'success' || type == 'changePassword' || type == 'updateProfile' ? 'Berhasil' : 'Gagal'}</Text>
         </View>
         <Text style={styles.textSubtitle}>
           {
@@ -42,6 +42,13 @@ export default function ModalAlert({modalVisible, setModalVisible, onPress, type
               <Text>{'diubah'}</Text>
             </Text>
             :
+            type == 'updateProfile' ?
+            <Text>
+              <Text>{'Profil Anda '}</Text>
+              <Text style={{ color: Colors.greenAlert }}>{'Berhasil '}</Text>
+              <Text>{'diubah'}</Text>
+            </Text>
+            :
             <Text>
               <Text>{'Maaf, Nama Pengguna/Kata Sandi Anda \n'}</Text>
               <Text style={{ color: Colors.redAlert }}>{'Salah'}</Text>
@@ -49,7 +56,7 @@ export default function ModalAlert({modalVisible, setModalVisible, onPress, type
             </Text>
           }
         </Text>
-        <TouchableOpacity onPress={onPress} style={[styles.buttonWrapper, type == 'success' || type == 'changePassword' ? { backgroundColor: Colors.greenAlert } : { backgroundColor: Colors.redAlert }]}>
+        <TouchableOpacity onPress={onPress} style={[styles.buttonWrapper, type == 'success' || type == 'changePassword' || type == 'updateProfile' ? { backgroundColor: Colors.greenAlert } : { backgroundColor: Colors.redAlert }]}>
           <Text style={styles.textDone}>Selesai</Text>
         </TouchableOpacity>
       </View>

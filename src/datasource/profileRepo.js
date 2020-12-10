@@ -52,12 +52,12 @@ export function apiProfileUpdate(data){
         <city>${data.city}</city>
         <province>${data.province}</province>
         <region>${data.region}</region>
-        <postcode>mobile apps</postcode>
+        <type>mobile apps</type>
         <telephone>${data.telephone}</telephone>
-        <fax>${data.fax}</fax>
-        <pic>${data.pic}</pic>
+        <email>${data.email}</email>
+        <deviceid>${data.deviceid}</deviceid>
         <openingdate>${data.openingdate}</openingdate>
-        <closingdate>${data.closingdate}</closingdate>
+        <closingdate></closingdate>
       </Store_UpdateInfo>
     </soap:Body>
   </soap:Envelope>`;

@@ -40,7 +40,12 @@ function* profileUpdate(data){
     yield put(appAction.appStateLoading(true));
     const res = yield call(profileRepo.apiProfileUpdate, data.payload);
     let xml = new XMLParser().parseFromString(res.data);
-    console.log(xml);
+    let updateRes = xml.getElementsByTagName("Response")[0].value;
+    if(updateRes.includes("00")){
+      yield put(profileAction.updateSuccess(updateRes));
+    } else {
+      yield put(profileAction.updateError(updateRes));
+    }
     yield put(appAction.appStateLoading(false));
   } catch (err) {
     yield put(profileAction.updateError(err));
