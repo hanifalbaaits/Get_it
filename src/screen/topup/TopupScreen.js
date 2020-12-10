@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { HeaderImageLogoBG, HeaderNav } from '../../components/Header';
 import { CardTopup } from '../../components/Card';
 import { Button } from '../../components/Button';
+import { ModalConfirm } from '../../components/Modal';
 import { Colors, Dimens, Fonts } from '../../base';
 import { widthPercentage, heightPercentage } from '../../helper/dimension';
 import * as transactionAction from '../../redux/action/transactionAction';
@@ -19,6 +20,10 @@ export default function TopupScreen(props){
   const [nominal, setNominal] = useState(0);
   const [isReady, setIsReady] = useState(false);
   const [selectedBank, setSelectedBank] = useState(null);
+  const [modalConfirm, setModalConfirm] = useState({
+    isVisible: false,
+    subtitle: 'Melanjutkan ?'
+  })
 
   useEffect(() => {
     if(nominal !== 0){
@@ -38,16 +43,21 @@ export default function TopupScreen(props){
 
   function goNext(){
     if(isReady){
-      let trxTopupType = transactionReducer.topupType?.filter(ar => ar.children.some(ch => ch.value === "BANK TRANSFER"))[0].children.filter(item => item.name == "guid")[0].value;
-      let trxTopupAccount = transactionReducer.topupAccount?.filter(ar => ar.children.some(ch => ch.value === "BANK TRANSFER"))[0];
-      let payload = {
-        email: authReducer.credential.email,
-        id_transfer: trxTopupAccount?.children?.filter(item => item.name === "ID_Transfer")[0].value,
-        nominal: inputNominal.current.getRawValue(),
-        type: trxTopupType
-      }
-      dispatch(transactionAction.topupRequest(payload));
+      setModalConfirm({...modalConfirm, isVisible: true});
     }
+  }
+
+  function onConfirm(){
+    setModalConfirm({...modalConfirm, isVisible: false});
+    let trxTopupType = transactionReducer.topupType?.filter(ar => ar.children.some(ch => ch.value === "BANK TRANSFER"))[0].children.filter(item => item.name == "guid")[0].value;
+    let trxTopupAccount = transactionReducer.topupAccount?.filter(ar => ar.children.some(ch => ch.value === "BANK TRANSFER"))[0];
+    let payload = {
+      email: authReducer.credential.email,
+      id_transfer: trxTopupAccount?.children?.filter(item => item.name === "ID_Transfer")[0].value,
+      nominal: inputNominal.current.getRawValue(),
+      type: trxTopupType
+    }
+    dispatch(transactionAction.topupRequest(payload));
   }
 
   function bankSelect(bank){
@@ -199,6 +209,12 @@ export default function TopupScreen(props){
           onPress={()=>goNext()}
         />
       </View>
+      <ModalConfirm 
+        modalVisible={modalConfirm.isVisible}
+        setModalVisible={()=>setModalConfirm({...modalConfirm, isVisible: false})}
+        onConfirm={()=>onConfirm()}
+        subtitle={modalConfirm.subtitle}
+      />
     </SafeAreaView>
   )
 }
