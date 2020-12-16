@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, StatusBar, Linking } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderImageLogoBG, HeaderNav } from '../../components/Header';
@@ -20,6 +20,13 @@ export default function TopupMethodScreen(props){
       index: 0,
       routes: [{ name: 'MenuTab'}]
     });
+  }
+
+  async function openHelp(){
+    const canOpenHelp = await Linking.canOpenURL('https://wa.me/6287814001118');
+    if(canOpenHelp){
+      Linking.openURL('https://wa.me/6287814001118');
+    }
   }
 
   return(
@@ -62,7 +69,7 @@ export default function TopupMethodScreen(props){
           <Text>terakhir benar</Text>
         </Text>
         <Text style={[styles.textDetail, {marginTop: heightPercentage(2)}]}>Setelah melakukan pembayaran harap konfirmasi ke :</Text>
-        <TouchableOpacity style={styles.buttonHelp}>
+        <TouchableOpacity style={styles.buttonHelp} onPress={()=>openHelp()}>
           <View style={styles.leftContentButtonHelp}>
             <VIcon
               type={'MaterialIcons'}

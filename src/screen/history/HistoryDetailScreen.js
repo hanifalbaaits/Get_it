@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, StatusBar, ScrollView } from 'react-native';
+import React from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Image, StatusBar, ScrollView, Linking } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import moment from 'moment-with-locales-es6';
 import { HeaderImageLogoBG } from '../../components/Header';
@@ -10,9 +10,13 @@ import { widthPercentage, heightPercentage } from '../../helper/dimension';
 import { currencyFormat } from '../../helper/format';
 
 export default function HistoryDetailScreen(props){
-  useEffect(() => {
-    console.log(props);
-  }, [])
+  
+  async function openHelp(){
+    const canOpenHelp = await Linking.canOpenURL('https://wa.me/6287814001118');
+    if(canOpenHelp){
+      Linking.openURL('https://wa.me/6287814001118');
+    }
+  }
 
   return(
     <SafeAreaView style={styles.rootContainer}>
@@ -86,7 +90,7 @@ export default function HistoryDetailScreen(props){
           <Text style={[styles.textHeader, {width: undefined, fontFamily: Fonts.poppinsSemiBold}]}>{`Rp.${currencyFormat(props.route.params.children.filter(ar => ar.name == "Price")[0].value)}`}</Text>
         </View>
         <View style={styles.lineSeparator}/>
-        <TouchableOpacity style={styles.buttonHelp}>
+        <TouchableOpacity style={styles.buttonHelp} onPress={()=>openHelp()}>
           <View style={styles.leftContentButtonHelp}>
             <VIcon
               type={'MaterialIcons'}
