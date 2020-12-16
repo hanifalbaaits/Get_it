@@ -1,19 +1,115 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, KeyboardAvoidingView, TouchableOpacity, ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSelector, useDispatch } from 'react-redux';
+import moment from 'moment';
 import { Button } from '../../components/Button';
 import { TextInput } from '../../components/TextInput';
-import { ModalTnc } from '../../components/Modal';
+import { ModalTnc, ModalAlert } from '../../components/Modal';
 import { VIcon } from '../../components/Icon';
 import { widthPercentage, heightPercentage, screenWidth, screenHeight } from '../../helper/dimension';
 import { Colors, Dimens, Fonts } from '../../base';
+import * as authAction from '../../redux/action/authAction';
+import * as profileAction from '../../redux/action/profileAction';
 
 export default function LoginScreen(props){
+
+  const dispatch = useDispatch();
+  const authReducer = useSelector(state => state.auth);
+  const profileReducer = useSelector(state => state.profile);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
 
   const [modalTnc, setModalTnc] = useState({
     isVisible: false,
     isAccept: false
   })
+  const [modalAlert, setModalAlert] = useState({
+    isVisible: false,
+    type: 'error',
+    msg: undefined
+  })
+
+  useEffect(() => {
+    if(authReducer.isLoading === false && authReducer.isError === false && authReducer.register !== null){
+      dispatch(authAction.registerReset())
+      let payload = {
+        guid: authReducer.register.result[0].value.split("|")[1],
+        storename: authReducer.register.email,
+        address: null,
+        city: null,
+        province: null,
+        region: null,
+        telephone: null,
+        email: authReducer.register.email,
+        deviceid: null,
+        openingdate: moment().format('YYYYMMDD')
+      }
+      dispatch(profileAction.updateRequest(payload));
+    } else if(authReducer.isLoading === false && authReducer.isError === true){
+      dispatch(authAction.registerReset())
+      setModalAlert({
+        ...modalAlert,
+        isVisible: true,
+        type: 'error',
+        msg: authReducer.errorMsg
+      })
+    }
+
+    if(profileReducer.isLoading === false && profileReducer.isError === false && profileReducer.updateProfile.length !== 0){
+      dispatch(profileAction.updateReset());
+      dispatch(authAction.activationRequest({email: email}));
+    } else if(profileReducer.isLoading === false && profileReducer.isError === true){
+      dispatch(profileAction.updateReset());
+      setModalAlert({
+        ...modalAlert,
+        isVisible: true,
+        type: 'error',
+        msg: profileReducer.errorMsg
+      })
+    }
+
+    if(authReducer.isLoading === false && authReducer.isError === false && authReducer.activation !== null){
+      dispatch(authAction.activationReset());
+      let payload = {
+        email,
+        password
+      }
+      dispatch(authAction.loginRequest(payload));
+    } else if(authReducer.isLoading === false && authReducer.isError === true){
+      dispatch(authAction.activationReset());
+      setModalAlert({
+        ...modalAlert,
+        isVisible: true,
+        type: 'error',
+        msg: authReducer.errorMsg
+      })
+    }
+  }, [authReducer, profileReducer])
+
+  function onSignup(){
+    if(modalTnc.isAccept === false){
+      setModalAlert({
+        ...modalAlert,
+        isVisible: true,
+        type: 'error',
+        msg: 'Harap setuju dengan Syarat & Ketentuan \nuntuk melanjutkan'
+      })
+    } else if(password !== passwordConfirm){
+      setModalAlert({
+        ...modalAlert,
+        isVisible: true,
+        type: 'error',
+        msg: 'Konfirmasi password tidak sesuai'
+      })
+    } else {
+      let payload = {
+        email: email,
+        password: password
+      }
+      dispatch(authAction.registerRequest(payload))
+    }
+  }
 
   function gotoLogin(){
     props.navigation.pop();
@@ -46,17 +142,24 @@ export default function LoginScreen(props){
       <View style={styles.bottomSheet}>
         <ScrollView style={{ width: widthPercentage(100)}} contentContainerStyle={{alignItems: 'center'}}>
         <TextInput 
-          title={'Username'}
-          styleContainer={styles.input}
-        />
-        <TextInput 
           title={'Email'}
           styleContainer={styles.input}
+          onChangeText={(val)=>setEmail(val)}
+          value={email}
         />
         <TextInput 
           title={'Password'}
+          styleContainer={styles.input}
+          secureTextEntry={true}
+          onChangeText={(val)=>setPassword(val)}
+          value={password}
+        />
+        <TextInput 
+          title={'Ulangi Password'}
           secureTextEntry={true}
           styleContainer={styles.input}
+          onChangeText={(val)=>setPasswordConfirm(val)}
+          value={passwordConfirm}
         />
         <TouchableOpacity style={styles.wrapperTnc} onPress={()=>setModalTnc({...modalTnc, isVisible: true})}>
           <View style={styles.circleCheck} />
@@ -82,6 +185,7 @@ export default function LoginScreen(props){
           color={Colors.yellowPrimary}
           styleLabel={styles.labelSignin}
           label="Daftar Sekarang"
+          onPress={()=>onSignup()}
         />
         <View style={styles.wrapperOrLine}>
           <View style={styles.horizontalLine}/>
@@ -105,6 +209,13 @@ export default function LoginScreen(props){
         modalVisible={modalTnc.isVisible} 
         setModalVisible={(val)=>{setModalTnc({...modalTnc, isVisible: val})}}
         setAccept={(val)=>{setModalTnc({...modalTnc, isVisible: false, isAccept: val})}}
+      />
+      <ModalAlert 
+        modalVisible={modalAlert.isVisible}
+        setModalVisible={()=>setModalAlert({...modalAlert, isVisible: false})}
+        onPress={()=>setModalAlert({...modalAlert, isVisible: false})}
+        type={modalAlert.type}
+        msg={modalAlert.msg}
       />
     </KeyboardAvoidingView>
   )

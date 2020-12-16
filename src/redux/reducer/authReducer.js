@@ -6,7 +6,9 @@ const initialState = {
   isError: false,
   errorMsg: null,
   isLogin: false,
-  credential: {}
+  credential: {},
+  register: null,
+  activation: null
 }
 
 const loginRequest = state => ({
@@ -43,6 +45,62 @@ const updateCredential = (state, payload) => ({
   credential: payload
 })
 
+
+const registerRequest = state => ({
+  ...state,
+  isLoading: true
+})
+
+const registerSuccess = (state, payload) => ({
+  ...state,
+  isLoading: false,
+  isError: false,
+  register: payload
+})
+
+const registerError = (state, payload) => ({
+  ...state,
+  isLoading: false,
+  isError: true,
+  errorMsg: payload
+})
+
+const registerReset = state => ({
+  ...state,
+  isLoading: false,
+  isError: false,
+  errorMsg: null,
+  register: null
+})
+
+
+const activationRequest = state => ({
+  ...state,
+  isLoading: true
+})
+
+const activationSuccess = (state, payload) => ({
+  ...state,
+  isLoading: false,
+  isError: false,
+  activation: payload
+})
+
+const activationError = (state, payload) => ({
+  ...state,
+  isLoading: false,
+  isError: true,
+  errorMsg: payload
+})
+
+const activationReset = state => ({
+  ...state,
+  isLoading: false,
+  isError: false,
+  errorMsg: null,
+  activation: null
+})
+
 const authReduceer = (state = initialState, action) => {
   switch (action.type) {
     case actionType.AUTH.LOGIN_REQUEST:
@@ -56,6 +114,24 @@ const authReduceer = (state = initialState, action) => {
 
     case actionType.AUTH.UPDATE_CREDENTIAL:
       return updateCredential(state, action.payload);
+    
+    case actionType.AUTH.REGISTER_REQUEST:
+      return registerRequest(state, action.payload);
+    case actionType.AUTH.REGISTER_SUCCESS:
+      return registerSuccess(state, action.payload);
+    case actionType.AUTH.REGISTER_ERROR:
+      return registerError(state, action.payload);
+    case actionType.AUTH.REGISTER_RESET:
+      return registerReset(state, action.payload);
+
+    case actionType.AUTH.ACTIVATION_REQUEST:
+      return activationRequest(state, action.payload);
+    case actionType.AUTH.ACTIVATION_SUCCESS:
+      return activationSuccess(state, action.payload);
+    case actionType.AUTH.ACTIVATION_ERROR:
+      return activationError(state, action.payload);
+    case actionType.AUTH.ACTIVATION_RESET:
+      return activationReset(state, action.payload);
 
     case PURGE:
       return initialState;
