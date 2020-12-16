@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, KeyboardAvoidingView, TouchableOpacity, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-community/google-signin';
 import { Button } from '../../components/Button';
 import { TextInput } from '../../components/TextInput';
 import { ModalTnc, ModalAlert } from '../../components/Modal';
@@ -32,7 +36,7 @@ export default function LoginScreen(props){
 
   useEffect(() => {
     if(authReducer.isLoading === false && authReducer.isError === false && authReducer.register !== null){
-      dispatch(authAction.registerReset())
+      dispatch(authAction.registerReset());
       let payload = {
         guid: authReducer.register.result[0].value.split("|")[1],
         storename: authReducer.register.email,
@@ -47,7 +51,7 @@ export default function LoginScreen(props){
       }
       dispatch(profileAction.updateRequest(payload));
     } else if(authReducer.isLoading === false && authReducer.isError === true){
-      dispatch(authAction.registerReset())
+      dispatch(authAction.registerReset());
       setModalAlert({
         ...modalAlert,
         isVisible: true,
@@ -108,6 +112,32 @@ export default function LoginScreen(props){
         password: password
       }
       dispatch(authAction.registerRequest(payload))
+    }
+  }
+
+  async function onSignupGoogle(){
+    GoogleSignin.configure();
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      setEmail(userInfo.user.email);
+      setPassword('12345');
+      let payload = {
+        email: userInfo.user.email,
+        password: '12345'
+      }
+      dispatch(authAction.registerRequest(payload))
+    } catch (error) {
+      console.log(error);
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // user cancelled the login flow
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation (e.g. sign in) is in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+      } else {
+        // some other error happened
+      }
     }
   }
 
@@ -198,6 +228,7 @@ export default function LoginScreen(props){
           styleLabel={styles.labelSigninGoogle}
           label="Daftar Dengan Akun Google"
           image={require('../../assets/images/logo-google.png')}
+          onPress={()=>onSignupGoogle()}
         />
         <Text style={styles.textSignupWrapper}>
           <Text>Sudah punya Akun?</Text>

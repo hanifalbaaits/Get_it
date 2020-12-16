@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, KeyboardAvoidingView, Platform } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-community/google-signin';
+import moment from 'moment';
 import { Button } from '../../components/Button';
 import { HeaderImageLogoBG } from '../../components/Header';
 import { TextInput } from '../../components/TextInput';
@@ -8,11 +13,13 @@ import { ModalAlert } from '../../components/Modal';
 import { widthPercentage, heightPercentage, screenWidth, screenHeight } from '../../helper/dimension';
 import { Colors, Dimens, Fonts } from '../../base';
 import * as authAction from '../../redux/action/authAction';
+import * as profileAction from '../../redux/action/profileAction';
 
 export default function LoginScreen(props){
 
   const dispatch = useDispatch();
   const authReducer = useSelector(state => state.auth);
+  const profileReducer = useSelector(state => state.profile);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [modalAlert, setModalAlert] = useState({
@@ -27,7 +34,60 @@ export default function LoginScreen(props){
       dispatch(authAction.loginReset());
       onError();
     }
-  }, [authReducer])
+
+    if(authReducer.isLoading === false && authReducer.isError === false && authReducer.register !== null){
+      dispatch(authAction.registerReset());
+      let payload = {
+        guid: authReducer.register.result[0].value.split("|")[1],
+        storename: authReducer.register.email,
+        address: null,
+        city: null,
+        province: null,
+        region: null,
+        telephone: null,
+        email: authReducer.register.email,
+        deviceid: null,
+        openingdate: moment().format('YYYYMMDD')
+      }
+      dispatch(profileAction.updateRequest(payload));
+    } else if(authReducer.isLoading === false && authReducer.isError === true){
+      dispatch(authAction.registerReset());
+      if(authReducer.errorMsg.split("|")[0] === '04'){
+        onLoginSoap();
+      }
+    }
+
+    if(profileReducer.isLoading === false && profileReducer.isError === false && profileReducer.updateProfile.length !== 0){
+      dispatch(profileAction.updateReset());
+      dispatch(authAction.activationRequest({email: email}));
+    } else if(profileReducer.isLoading === false && profileReducer.isError === true){
+      dispatch(profileAction.updateReset());
+      setModalAlert({
+        ...modalAlert,
+        isVisible: true,
+        type: 'error',
+        msg: profileReducer.errorMsg
+      })
+    }
+
+    if(authReducer.isLoading === false && authReducer.isError === false && authReducer.activation !== null){
+      dispatch(authAction.activationReset());
+      let payload = {
+        email,
+        password
+      }
+      dispatch(authAction.loginRequest(payload));
+    } else if(authReducer.isLoading === false && authReducer.isError === true){
+      dispatch(authAction.activationReset());
+      setModalAlert({
+        ...modalAlert,
+        isVisible: true,
+        type: 'error',
+        msg: authReducer.errorMsg
+      })
+    }
+
+  }, [authReducer, profileReducer])
 
   function gotoSignup(){
     props.navigation.navigate('SignupScreen');
@@ -50,6 +110,32 @@ export default function LoginScreen(props){
       password
     }
     dispatch(authAction.loginRequest(payload));
+  }
+
+  async function onLoginGoogle(){
+    GoogleSignin.configure();
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      setEmail(userInfo.user.email);
+      setPassword('12345');
+      let payload = {
+        email: userInfo.user.email,
+        password: '12345'
+      }
+      dispatch(authAction.registerRequest(payload))
+    } catch (error) {
+      console.log(error);
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // user cancelled the login flow
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation (e.g. sign in) is in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+      } else {
+        // some other error happened
+      }
+    }
   }
 
   return(
@@ -99,7 +185,7 @@ export default function LoginScreen(props){
           styleLabel={styles.labelSigninGoogle}
           label="Masuk Dengan Akun Google"
           image={require('../../assets/images/logo-google.png')}
-          onPress={()=>onLogin()}
+          onPress={()=>onLoginGoogle()}
         />
         <Text style={styles.textSignupWrapper}>
           <Text>Belum punya Akun?</Text>

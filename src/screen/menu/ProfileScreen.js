@@ -43,7 +43,7 @@ export default function ProfileScreen(props){
           />
         </View>
         <View style={styles.nameContainer}>
-          <Text style={styles.textName}>{profileReducer.info.length !== 0 ? profileReducer.info.filter(ar => ar.name == "storename")[0].value : null}</Text>
+          <Text style={styles.textName} numberOfLines={1}>{profileReducer.info.length !== 0 ? profileReducer.info.filter(ar => ar.name == "storename")[0].value : null}</Text>
           <Text style={styles.textUsername}>{profileReducer.info.length !== 0 ? profileReducer.info.filter(ar => ar.name == "storeid")[0].value : null}</Text>
         </View>
       </View>
