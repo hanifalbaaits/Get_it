@@ -45,7 +45,7 @@ export default function HomeScreen(props){
           source={require('../../assets/images/logo-text-white.png')}
           style={styles.logoHeader}
         />
-        <TouchableOpacity style={styles.iconNotifWrapper} onPress={()=>gotoNotif()}>
+        {/* <TouchableOpacity style={styles.iconNotifWrapper} onPress={()=>gotoNotif()}>
           <VIcon
             type={'MaterialIcons'}
             name={'notifications'}
@@ -55,7 +55,7 @@ export default function HomeScreen(props){
           {
             <View style={styles.iconBadges}/>
           }
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <CardBalance 
         styleContainer={styles.cardBalance}
