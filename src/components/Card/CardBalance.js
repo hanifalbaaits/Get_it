@@ -1,20 +1,32 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import moment from 'moment'
 import { widthPercentage } from '../../helper/dimension';
 import { currencyFormat } from '../../helper/format';
 import { Colors, Dimens, Fonts } from '../../base';
 
 export default function CardBalance({styleContainer, balance}){
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const transactionReducer = useSelector(state => state.transaction);
 
   function gotoTopup(){
+
     if(transactionReducer.topupTime === null){
       navigation.navigate('TopupStack', {screen: 'TopupScreen'});
     } else {
-      navigation.navigate('TopupStack', {screen: 'TopupMethodScreen'});
+      let startTime = transactionReducer.topupTime;
+      let endTime = moment().valueOf();
+      let diffSecond = (endTime - startTime)/1000;
+      if(diffSecond <= 3600){
+        navigation.navigate('TopupStack', {screen: 'TopupMethodScreen'});
+      } else {
+        dispatch(transactionAction.topupReset());
+        dispatch(transactionAction.topupTimeReset());
+        navigation.navigate('TopupStack', {screen: 'TopupScreen'});
+      }
     }
   }
   return(

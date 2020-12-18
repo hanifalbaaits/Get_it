@@ -69,7 +69,7 @@ export const topupTimeSet = data => ({
 })
 
 export const topupTimeReset = data => ({
-  type: actionType.TRANSACTION.TOPUP_TYPE_RESET,
+  type: actionType.TRANSACTION.TOPUP_TIME_RESET,
   payload: data
 })
 

@@ -21,6 +21,7 @@ export default function TopupMethodScreen(props){
     let diffSecond = (endTime - startTime)/1000;
     if(diffSecond > 3600){
       dispatch(transactionAction.topupReset());
+      dispatch(transactionAction.topupTimeReset());
     }
     props.navigation.reset({
       index: 0,
