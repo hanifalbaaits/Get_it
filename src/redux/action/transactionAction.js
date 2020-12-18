@@ -63,6 +63,17 @@ export const topupReset = data => ({
 })
 
 
+export const topupTimeSet = data => ({
+  type: actionType.TRANSACTION.TOPUP_TIME_SET,
+  payload: data
+})
+
+export const topupTimeReset = data => ({
+  type: actionType.TRANSACTION.TOPUP_TYPE_RESET,
+  payload: data
+})
+
+
 export const paymentRequest = data => ({
   type: actionType.TRANSACTION.PAYMENT_REQUEST,
   payload: data

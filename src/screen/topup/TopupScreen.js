@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList, ScrollView }
 import { TextInputMask, MaskService } from 'react-native-masked-text'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector, useDispatch } from 'react-redux';
+import moment from 'moment';
 import { HeaderImageLogoBG, HeaderNav } from '../../components/Header';
 import { CardTopup } from '../../components/Card';
 import { Button } from '../../components/Button';
@@ -38,6 +39,9 @@ export default function TopupScreen(props){
   useEffect(() => {
     if(transactionReducer.isLoading === false && transactionReducer.isError === false && transactionReducer.topup !== null){
       props.navigation.navigate('TopupMethodScreen');
+      if(transactionReducer.topupTime === null){
+        dispatch(transactionAction.topupTimeSet(moment().valueOf()));
+      }
     }
   }, [transactionReducer])
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, StatusBar, Linking } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector, useDispatch } from 'react-redux';
+import moment from 'moment';
 import { HeaderImageLogoBG, HeaderNav } from '../../components/Header';
 import { VIcon } from '../../components/Icon';
 import { Button } from '../../components/Button';
@@ -15,7 +16,12 @@ export default function TopupMethodScreen(props){
   const transactionReducer = useSelector(state => state.transaction);
 
   function onDone(){
-    dispatch(transactionAction.topupReset());
+    let startTime = transactionReducer.topupTime;
+    let endTime = moment().valueOf();
+    let diffSecond = (endTime - startTime)/1000;
+    if(diffSecond > 3600){
+      dispatch(transactionAction.topupReset());
+    }
     props.navigation.reset({
       index: 0,
       routes: [{ name: 'MenuTab'}]

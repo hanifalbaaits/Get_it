@@ -8,7 +8,8 @@ const initialState = {
   topupType: [],
   topupAccount: [],
   topup: null,
-  payment: null
+  payment: null,
+  topupTime: null
 }
 
 const topupTypeRequest = state => ({
@@ -95,6 +96,17 @@ const topupReset = state => ({
 })
 
 
+const topupTimeSet = (state, payload) => ({
+  ...state,
+  topupTime: payload
+})
+
+const topupTimeReset = state => ({
+  ...state,
+  topupTime: null
+})
+
+
 const paymentRequest = state => ({
   ...state,
   isLoading: true
@@ -150,6 +162,11 @@ const transactionReducer = (state = initialState, action) => {
       return topupError(state, action.payload);
     case actionType.TRANSACTION.TOPUP_RESET:
       return topupReset(state, action.payload);
+
+    case actionType.TRANSACTION.TOPUP_TIME_SET:
+      return topupTimeSet(state, action.payload);
+    case actionType.TRANSACTION.TOPUP_TIME_RESET:
+      return topupTimeReset(state, action.payload);
 
     case actionType.TRANSACTION.PAYMENT_REQUEST:
       return paymentRequest(state, action.payload);
