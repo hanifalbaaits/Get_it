@@ -27,7 +27,7 @@ export default function ChangePasswordScreen(props){
     isVisible: false,
     type: 'error',
     msg: 'Maaf, konfirmasi password baru tidak cocok, Silahkan coba lagi',
-    onPress: ()=>setModalAlert({...modalAlert, isVisible: false})
+    onPress: ()=>setModalAlert({...modalAlert, type: 'error', isVisible: false})
   })
 
   useEffect(() => {
@@ -39,7 +39,7 @@ export default function ChangePasswordScreen(props){
         type: 'changePassword', 
         msg: undefined,
         onPress: ()=>{
-          setModalAlert({...modalAlert, isVisible: false});
+          setModalAlert({...modalAlert, type: 'changePassword', isVisible: false});
           props.navigation.pop();
         }});
       }, 1000);
@@ -50,14 +50,14 @@ export default function ChangePasswordScreen(props){
       dispatch(authAction.updateCredential(payload));
       dispatch(profileAction.changePasswordReset());
     } else if(profileReducer.isLoading === false && profileReducer.isError === true){
-      setModalAlert({...modalAlert, isVisible: true, msg: profileReducer.errorMsg});
+      setModalAlert({...modalAlert, type: 'error', isVisible: true, msg: profileReducer.errorMsg});
       dispatch(profileAction.changePasswordReset());
     }
   }, [profileReducer])
 
   function onNext(){
     if(newPassword !== confirmPassword){
-      setModalAlert({...modalAlert, isVisible: true})
+      setModalAlert({...modalAlert, type: 'error', isVisible: true})
     } else {
       setModalConfirm({...modalConfirm, isVisible: true})
     }

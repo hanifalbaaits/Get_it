@@ -28,7 +28,7 @@ export default function ChangeProfileScreen(props){
     isVisible: false,
     type: 'error',
     msg: 'Maaf, terjadi kesalahan request \n silahkan coba lagi',
-    onPress: ()=>setModalAlert({...modalAlert, isVisible: false})
+    onPress: ()=>setModalAlert({...modalAlert, type: 'error', isVisible: false})
   })
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export default function ChangeProfileScreen(props){
           type: 'updateProfile',
           msg: undefined,
           onPress: ()=>{
-            setModalAlert({...modalAlert, isVisible: false});
+            setModalAlert({...modalAlert, type: 'updateProfile', isVisible: false});
             dispatch(profileAction.updateReset());
             dispatch(profileAction.infoRequest({email: authReducer.credential?.email}));
             props.navigation.pop();
@@ -55,7 +55,7 @@ export default function ChangeProfileScreen(props){
           type: 'error',
           msg: 'Maaf, terjadi kesalahan request \n silahkan coba lagi',
           onPress: ()=>{
-            setModalAlert({...modalAlert, isVisible: false});
+            setModalAlert({...modalAlert, type: 'error', isVisible: false});
             dispatch(profileAction.updateReset());
           }
         })
