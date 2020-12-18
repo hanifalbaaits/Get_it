@@ -21,7 +21,7 @@ export default function CardHistoryStatus({status, date, alertText, styleContain
         status == 'PENDING' ? { color: Colors.yellowPrimary } :
         { color: Colors.redAlert }]}>{status == 'SUCCESS' ? 'BERHASIL' : status == 'PENDING' ? 'SEDANG PROSES' : 'GAGAL'}</Text>
       </View>
-      <Text style={styles.subtitle}>{status == 'PENDING' ? 'Mohon Tunggu' : status == "FAILED" ? alertText : date}</Text>
+      <Text style={styles.subtitle}>{status == 'PENDING' ? 'Mohon Tunggu' : status == "FAILED" ? date : date}</Text>
     </View>
   )
 }
