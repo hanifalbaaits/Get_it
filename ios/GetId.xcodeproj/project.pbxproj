@@ -33,6 +33,7 @@
 		46BADF77256876AE00313201 /* Poppins-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 46BADF65256876AE00313201 /* Poppins-ThinItalic.ttf */; };
 		46BADF78256876AE00313201 /* Poppins-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 46BADF66256876AE00313201 /* Poppins-Thin.ttf */; };
 		46BADF79256876AE00313201 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 46BADF67256876AE00313201 /* Poppins-Medium.ttf */; };
+		46EE017B258CF7C3004A7937 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 46EE017A258CF7C3004A7937 /* GoogleService-Info.plist */; };
 		60ED3A8B83EBFAC22F986B25 /* libPods-GetId-GetIdTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 320FA5FDB8867082F0ED19DB /* libPods-GetId-GetIdTests.a */; };
 		6538FD60FAD7737905F9E159 /* libPods-GetId.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D8870E59AE548565F8A8C6C /* libPods-GetId.a */; };
 		7A7320BEAF58D4BA9CDE5746 /* libPods-GetId-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E307B83042594C799E4C6A53 /* libPods-GetId-tvOS.a */; };
@@ -91,6 +92,7 @@
 		46BADF65256876AE00313201 /* Poppins-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-ThinItalic.ttf"; sourceTree = "<group>"; };
 		46BADF66256876AE00313201 /* Poppins-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Thin.ttf"; sourceTree = "<group>"; };
 		46BADF67256876AE00313201 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
+		46EE017A258CF7C3004A7937 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4879F969F88203BE3761065C /* Pods-GetId-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GetId-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-GetId-tvOS/Pods-GetId-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		7A8E21878BDC68EFC3E1F5B0 /* Pods-GetId.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GetId.debug.xcconfig"; path = "Target Support Files/Pods-GetId/Pods-GetId.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = GetId/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 		13B07FAE1A68108700A75B9A /* GetId */ = {
 			isa = PBXGroup;
 			children = (
+				46EE017A258CF7C3004A7937 /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -421,6 +424,7 @@
 				46BADF77256876AE00313201 /* Poppins-ThinItalic.ttf in Resources */,
 				46BADF6A256876AE00313201 /* Poppins-Regular.ttf in Resources */,
 				46BADF72256876AE00313201 /* Poppins-ExtraLight.ttf in Resources */,
+				46EE017B258CF7C3004A7937 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -463,6 +467,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-GetId-GetIdTests/Pods-GetId-GetIdTests-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
@@ -483,6 +488,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
@@ -615,6 +621,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-GetId/Pods-GetId-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
@@ -635,6 +642,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
@@ -807,7 +815,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = id.getiton.apps;
 				PRODUCT_NAME = GetId;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -829,7 +837,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = id.getiton.apps;
 				PRODUCT_NAME = GetId;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
