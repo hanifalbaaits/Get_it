@@ -47,47 +47,54 @@ export default function HistoryDetailScreen(props){
       <ScrollView 
         contentContainerStyle={{width: '100%', alignItems: 'center'}}>
         <CardHistoryStatus 
-          status={props.route.params.children.filter(ar => ar.name == "Status")[0].value}
-          date={moment(props.route.params.children.filter(ar => ar.name == "Date")[0].value).locale('id').format('DD MMM YYYY, HH:mm')}
+          status={props.route.params.type === 'deposit' ? 'SUCCESS' : props.route.params.item.children.filter(ar => ar.name == "Status")[0].value}
+          date={props.route.params.type === 'deposit' ? 
+          moment(props.route.params.item.children.filter(ar => ar.name == "DateTime")[0].value).locale('id').format('DD MMM YYYY, HH:mm') : 
+          moment(props.route.params.item.children.filter(ar => ar.name == "Date")[0].value).locale('id').format('DD MMM YYYY, HH:mm')}
           alertText={''}
         />
         <Text style={styles.textNotice}>{'Jika dalam 1x24 jam pembelian Anda belum diterima,\n silahkan klik Butuh Bantuan'}</Text>
-        <Text style={styles.textHeader}>Nomer Ponsel</Text>
-        <View style={styles.wrapperPhoneNumber}>
-          <Image 
-            source={require('../../assets/images/logo-xl.png')}
-            style={styles.logoXL}
-          />
-          <View style={styles.wrapperRightPhone}>
-            <Text style={styles.textXL}>XL Axiata</Text>
-            <Text style={styles.textPhoneNumber}>{props.route.params.children.filter(ar => ar.name == "Phone")[0].value}</Text>
+        <Text style={styles.textHeader}>{props.route.params.type === 'deposit' ? 'Username' : 'Nomor Ponsel'}</Text>
+        {
+          props.route.params.type === 'deposit' ?
+          <View style={styles.wrapperUsername}>  
+            <Text style={[styles.textPhoneNumber, { fontFamily: Fonts.poppinsSemiBold }]}>{'get.id'}</Text>
+            <Text style={styles.textPhoneNumber}>{props.route.params.item.children.filter(ar => ar.name == "storeid")[0].value}</Text>
           </View>
-        </View>
-        <Text style={styles.textHeader}>No. Referensi</Text>
-        <Text style={styles.textReference}>{props.route.params.children.filter(ar => ar.name == "OriginalTransID")[0].value}</Text>
-        <Text style={[styles.textHeader, {marginTop: heightPercentage(1)}]}>No. Referensi Biller/Nomer Serial</Text>
-        <Text style={styles.textReference}>{props.route.params.children.filter(ar => ar.name == "SerialNumber")[0].value}</Text>
-        {/* <View style={styles.lineSeparator}/>
-        <View style={styles.paymentMethodWrapper}>
+          :
+          <View style={styles.wrapperPhoneNumber}>  
+            <Image 
+              source={require('../../assets/images/logo-xl.png')}
+              style={styles.logoXL}
+            />
+            <View style={styles.wrapperRightPhone}>
+              <Text style={styles.textXL}>XL Axiata</Text>
+              <Text style={styles.textPhoneNumber}>{props.route.params.item.children.filter(ar => ar.name == "Phone")[0].value}</Text>
+            </View>
+          </View>
+        }
+        {
+          props.route.params.type === 'transaction' &&
           <View>
-            <Text style={[styles.textHeader, {width: undefined}]}>Metode Pembayaran</Text>
-            <Text style={[styles.textReference, {width: undefined}]}>Saldo Get.id</Text>
+            <Text style={styles.textHeader}>No. Referensi</Text>
+            <Text style={styles.textReference}>{props.route.params.item.children.filter(ar => ar.name == "OriginalTransID")[0].value}</Text>
+            <Text style={[styles.textHeader, {marginTop: heightPercentage(1)}]}>No. Referensi Biller/Nomer Serial</Text>
+            <Text style={styles.textReference}>{props.route.params.item.children.filter(ar => ar.name == "SerialNumber")[0].value}</Text>
           </View>
-          <Text style={[styles.textHeader, {width: undefined}]}>{`Rp.${currencyFormat(10000)}`}</Text>
-        </View> */}
+        }
         <View style={styles.lineSeparator}/>
         <Text style={styles.textDetail}>Detail Pembelian</Text>
-        <View style={styles.detailLineWrapper}>
-          <Text style={[styles.textHeader, {width: undefined}]}>{props.route.params.children.filter(ar => ar.name == "Product_x0020_Name")[0].value + ' '+props.route.params.children.filter(ar => ar.name == "Amount")[0].value}</Text>
-          <Text style={[styles.textHeader, {width: undefined}]}>{`Rp.${currencyFormat(props.route.params.children.filter(ar => ar.name == "Price")[0].value)}`}</Text>
+        <View style={styles.paymentMethodWrapper}>
+          <Text style={[styles.textHeader, {width: undefined}]}>{props.route.params.type === 'deposit' ? 'Isi Saldo' : 'Metode Pembayaran'}</Text>
+          <Text style={[styles.textHeader, {width: undefined}]}>{props.route.params.type === 'deposit' ? `Rp.${currencyFormat(props.route.params.item.children.filter(ar => ar.name == "Value")[0].value)}` : `Rp.${currencyFormat(props.route.params.item.children.filter(ar => ar.name == "Price")[0].value)}`}</Text>
         </View>
-        <View style={styles.detailLineWrapper}>
-          <Text style={[styles.textHeader, {width: undefined}]}>Biaya Transaksi</Text>
+        <View style={styles.paymentMethodWrapper}>
+          <Text style={[styles.textHeader, {width: undefined}]}>{'Biaya Transaksi'}</Text>
           <Text style={[styles.textHeader, {width: undefined}]}>{`Rp.${currencyFormat(0)}`}</Text>
         </View>
         <View style={[styles.detailLineWrapper, {marginTop: heightPercentage(1)}]}>
           <Text style={[styles.textHeader, {width: undefined, fontFamily: Fonts.poppinsSemiBold}]}>Total</Text>
-          <Text style={[styles.textHeader, {width: undefined, fontFamily: Fonts.poppinsSemiBold}]}>{`Rp.${currencyFormat(props.route.params.children.filter(ar => ar.name == "Price")[0].value)}`}</Text>
+          <Text style={[styles.textHeader, {width: undefined, fontFamily: Fonts.poppinsSemiBold}]}>{props.route.params.type === 'deposit' ? `Rp.${currencyFormat(props.route.params.item.children.filter(ar => ar.name == "Value")[0].value)}` : `Rp.${currencyFormat(props.route.params.item.children.filter(ar => ar.name == "Price")[0].value)}`}</Text>
         </View>
         <View style={styles.lineSeparator}/>
         <TouchableOpacity style={styles.buttonHelp} onPress={()=>openHelp()}>
@@ -152,6 +159,10 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'flex-start',
     marginBottom: heightPercentage(1)
+  },
+  wrapperUsername: {
+    width: widthPercentage(85),
+    alignItems: 'flex-start'
   },
   logoXL: {
     width: widthPercentage(6.4),

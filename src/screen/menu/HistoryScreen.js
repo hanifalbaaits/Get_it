@@ -22,34 +22,33 @@ export default function HistoryScreen(props){
         source={require('../../assets/images/line-wave-white-green.png')}
         style={styles.imageWave}
       />
+      <View style={{ flexDirection: 'row', alignItems: 'center', position: 'absolute', bottom: heightPercentage(80), left: 0 }}>
+        <TouchableOpacity style={{
+          width: widthPercentage(30),
+          height: heightPercentage(5),
+          backgroundColor: selectedHistory == 'transaction' ? Colors.white : Colors.blueBlurInactiveTab,
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderTopLeftRadius: 17,
+          borderTopRightRadius: 17
+        }}
+        onPress={()=>setSelectedHistory('transaction')}>
+          <Text style={{ fontFamily: Fonts.poppinsRegular, fontSize: Dimens.FONT_SIZE_17, color: Colors.blackTextPackage, opacity: selectedHistory == 'transaction' ? 1 : 0.4}}>Transaksi</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{
+          width: widthPercentage(30),
+          height: heightPercentage(5),
+          backgroundColor: selectedHistory == 'deposit' ? Colors.white : Colors.blueBlurInactiveTab,
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderTopLeftRadius: 17,
+          borderTopRightRadius: 17
+        }}
+        onPress={()=>setSelectedHistory('deposit')}>
+          <Text style={{ fontFamily: Fonts.poppinsRegular, fontSize: Dimens.FONT_SIZE_17, color: Colors.blackTextPackage, opacity: selectedHistory == 'deposit' ? 1 : 0.4}}>Deposit</Text>
+        </TouchableOpacity>
+      </View>
       <View style={[styles.bottomSheet, selectedHistory == 'transaction' ? {borderTopLeftRadius: 0} : {borderTopLeftRadius: 0}]}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', position: 'absolute', top: -heightPercentage(5), left: 0}}>
-          <TouchableOpacity style={{
-            width: widthPercentage(30),
-            height: heightPercentage(5),
-            backgroundColor: selectedHistory == 'transaction' ? Colors.white : Colors.blueBlurInactiveTab,
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderTopLeftRadius: 17,
-            borderTopRightRadius: 17
-          }}
-          onPress={()=>setSelectedHistory('transaction')}>
-            <Text style={{ fontFamily: Fonts.poppinsRegular, fontSize: Dimens.FONT_SIZE_17, color: Colors.blackTextPackage, opacity: selectedHistory == 'transaction' ? 1 : 0.4}}>Transaksi</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={{
-            width: widthPercentage(30),
-            height: heightPercentage(5),
-            backgroundColor: selectedHistory == 'deposit' ? Colors.white : Colors.blueBlurInactiveTab,
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderTopLeftRadius: 17,
-            borderTopRightRadius: 17
-          }}
-          onPress={()=>setSelectedHistory('deposit')}>
-            <Text style={{ fontFamily: Fonts.poppinsRegular, fontSize: Dimens.FONT_SIZE_17, color: Colors.blackTextPackage, opacity: selectedHistory == 'deposit' ? 1 : 0.4}}>Deposit</Text>
-          </TouchableOpacity>
-        </View>
-
         {
           selectedHistory == 'transaction' ?
           <FlatList 
@@ -62,7 +61,7 @@ export default function HistoryScreen(props){
                   status={item.children.filter(ar => ar.name == "Status")[0].value}
                   price={currencyFormat(item.children.filter(ar => ar.name == "Price")[0].value)}
                   packageName={item.children.filter(ar => ar.name == "Product_x0020_Name")[0].value + ' '+item.children.filter(ar => ar.name == "Amount")[0].value}
-                  onPress={()=>props.navigation.navigate('HistoryDetailStack', {screen: 'HistoryDetailScreen', params: item})}
+                  onPress={()=>props.navigation.navigate('HistoryDetailStack', {screen: 'HistoryDetailScreen', params: {item, type: 'transaction'}})}
                 />
               )
             }}
@@ -83,7 +82,7 @@ export default function HistoryScreen(props){
                   status={'SUCCESS'}
                   price={currencyFormat(item.children.filter(ar => ar.name == "Value")[0].value)}
                   packageName={'ISI SALDO'}
-                  onPress={()=>props.navigation.navigate('HistoryDetailStack', {screen: 'HistoryDetailScreen', params: item})}
+                  onPress={()=>props.navigation.navigate('HistoryDetailStack', {screen: 'HistoryDetailScreen', params: {item, type: 'deposit'}})}
                 />
               )
             }}
@@ -117,7 +116,8 @@ const styles = StyleSheet.create({
     height: undefined,
     aspectRatio: 375/55,
     position: 'absolute',
-    bottom: heightPercentage(76)
+    bottom: heightPercentage(76),
+    zIndex: -1
   },
   bottomSheet: {
     width: widthPercentage(100),
