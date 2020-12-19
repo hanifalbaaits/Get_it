@@ -25,6 +25,11 @@ export const updateCredential = data => ({
   payload: data
 })
 
+export const resetCredential = data => ({
+  type: actionType.AUTH.RESET_CREDENTIAL,
+  payload: data
+})
+
 
 export const registerRequest = data => ({
   type: actionType.AUTH.REGISTER_REQUEST,

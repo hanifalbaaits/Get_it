@@ -45,6 +45,11 @@ const updateCredential = (state, payload) => ({
   credential: payload
 })
 
+const resetCredential = state => ({
+  ...state,
+  credential: {}
+})
+
 
 const registerRequest = state => ({
   ...state,
@@ -114,6 +119,8 @@ const authReduceer = (state = initialState, action) => {
 
     case actionType.AUTH.UPDATE_CREDENTIAL:
       return updateCredential(state, action.payload);
+    case actionType.AUTH.RESET_CREDENTIAL:
+      return resetCredential(state, action.payload);
     
     case actionType.AUTH.REGISTER_REQUEST:
       return registerRequest(state, action.payload);
