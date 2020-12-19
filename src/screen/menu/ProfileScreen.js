@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
+import { GoogleSignin } from '@react-native-community/google-signin';
 import { VIcon } from '../../components/Icon';
 import { HeaderImageLogoBG } from '../../components/Header';
 import { Colors, Fonts, Dimens } from '../../base';
@@ -28,6 +29,15 @@ export default function ProfileScreen(props){
         <Text style={[styles.listTextValue, isLogout && { color: Colors.redAlert }]}>{value}</Text>
       </TouchableOpacity>
     )
+  }
+
+  async function revokeGoogle(){
+    try {
+      await GoogleSignin.revokeAccess();
+      await GoogleSignin.signOut();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return(
@@ -84,6 +94,8 @@ export default function ProfileScreen(props){
             dispatch(productAction.productReset());
             dispatch(productAction.bannerReset());
             dispatch(historyAction.periodReset());
+            dispatch(authAction.resetCredential());
+            revokeGoogle();
             props.navigation.reset({
               index: 0,
               routes: [{ name: 'Auth'}]
