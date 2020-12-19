@@ -13,14 +13,11 @@ export default function PaymentProcessScreen(props){
   const [imageReceipt, setImageReceipt] = useState(null);
 
   function onSelectImage(){
-    console.log('test');
     let options = {
       mediaType: 'photo'
     };
     ImagePicker.launchImageLibrary(options, (response) => {
-      console.log(response);
       if(response.uri !== undefined){
-        console.log('Response = ', response.uri);
         setImageReceipt(response.uri);
       }
     });

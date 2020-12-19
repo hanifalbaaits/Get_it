@@ -145,7 +145,7 @@ export default function TopupScreen(props){
                     index == 4 ? {marginHorizontal: widthPercentage(10.4)} : 
                     {}
                   }
-                  onPress={()=>{console.log(item.nominal); setNominal(MaskService.toMask('money', item.nominal, {
+                  onPress={()=>{setNominal(MaskService.toMask('money', item.nominal, {
                     precision: 0,
                     separator: ',',
                     delimiter: '.',

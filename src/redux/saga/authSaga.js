@@ -54,7 +54,6 @@ function* activation(data) {
     const res = yield call(authRepo.apiActivation, data.payload);
     let xml = new XMLParser().parseFromString(res.data);
     let activationResult = xml.getElementsByTagName("User_ActivationResult");
-    console.log(activationResult);
     if(activationResult[0].value.split("|")[0] == "0"){
       yield put(authAction.activationSuccess(activationResult));
     } else {
