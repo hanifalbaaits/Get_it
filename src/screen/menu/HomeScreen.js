@@ -42,7 +42,7 @@ export default function HomeScreen(props){
       <HeaderImageLogoBG />
       <View style={styles.headerWrapper}>
         <Image 
-          source={require('../../assets/images/logo-text-white.png')}
+          source={require('../../assets/images/logo-text-white2.png')}
           style={styles.logoHeader}
         />
         {/* <TouchableOpacity style={styles.iconNotifWrapper} onPress={()=>gotoNotif()}>

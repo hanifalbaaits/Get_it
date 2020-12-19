@@ -32,7 +32,7 @@ export default function HistoryDetailScreen(props){
           />
         </TouchableOpacity>
         <Image 
-          source={require('../../assets/images/logo-text-colorfull.png')}
+          source={require('../../assets/images/logo-text-colorfull2.png')}
           style={styles.imageHeaderLogo}
         />
         <TouchableOpacity onPress={()=>props.navigation.goBack()}>

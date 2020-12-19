@@ -26,7 +26,7 @@ export default function SplashScreen(props){
     <SafeAreaView style={styles.rootContainer}>
       <StatusBar translucent backgroundColor="transparent" barStyle={'dark-content'}/>
       <Image 
-        source={require('../assets/images/logo-text-colorfull.png')}
+        source={require('../assets/images/logo-text-colorfull2.png')}
         style={styles.logoCenter}
       />
       <Image 
