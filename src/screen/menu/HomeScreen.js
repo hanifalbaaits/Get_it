@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   logoHeader: {
     width: widthPercentage(20),
     height: undefined,
-    aspectRatio: 73/23
+    aspectRatio: 300/100
   },
   iconNotifWrapper: {
     justifyContent: 'center',

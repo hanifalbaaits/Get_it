@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   imageHeaderLogo: {
     width: widthPercentage(22),
     height: undefined,
-    aspectRatio: 82/26
+    aspectRatio: 300/100
   },
   textNotice: {
     marginTop: heightPercentage(2),
