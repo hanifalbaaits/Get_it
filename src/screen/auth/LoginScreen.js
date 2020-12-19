@@ -6,6 +6,7 @@ import {
   statusCodes,
 } from '@react-native-community/google-signin';
 import moment from 'moment';
+import { useIsFocused } from '@react-navigation/native';
 import { Button } from '../../components/Button';
 import { HeaderImageLogoBG } from '../../components/Header';
 import { TextInput } from '../../components/TextInput';
@@ -18,6 +19,7 @@ import * as profileAction from '../../redux/action/profileAction';
 export default function LoginScreen(props){
 
   const dispatch = useDispatch();
+  const isFocused = useIsFocused();
   const authReducer = useSelector(state => state.auth);
   const profileReducer = useSelector(state => state.profile);
   const [email, setEmail] = useState('');
@@ -28,65 +30,66 @@ export default function LoginScreen(props){
   })
 
   useEffect(() => {
-    if(authReducer.isLoading === false && authReducer.isError === false && authReducer.isLogin === true){
-      onLogin();
-    } else if(authReducer.isLoading === false && authReducer.isError === true && authReducer.isLogin === false){
-      dispatch(authAction.loginReset());
-      onError();
-    }
-
-    if(authReducer.isLoading === false && authReducer.isError === false && authReducer.register !== null){
-      dispatch(authAction.registerReset());
-      let payload = {
-        guid: authReducer.register.result[0].value.split("|")[1],
-        storename: authReducer.register.email,
-        address: null,
-        city: null,
-        province: null,
-        region: null,
-        telephone: null,
-        email: authReducer.register.email,
-        deviceid: null,
-        openingdate: moment().format('YYYYMMDD')
+    if(isFocused){
+      if(authReducer.isLoading === false && authReducer.isError === false && authReducer.isLogin === true){
+        onLogin();
+      } else if(authReducer.isLoading === false && authReducer.isError === true && authReducer.isLogin === false){
+        dispatch(authAction.loginReset());
+        if(authReducer.errorMsg.split("|")[0] !== '04'){
+          onError();
+        }
       }
-      dispatch(profileAction.updateRequest(payload));
-    } else if(authReducer.isLoading === false && authReducer.isError === true){
-      dispatch(authAction.registerReset());
-      if(authReducer.errorMsg.split("|")[0] === '04'){
+
+      if(authReducer.isLoading === false && authReducer.isError === false && authReducer.register !== null){
+        dispatch(authAction.registerReset());
+        let payload = {
+          guid: authReducer.register.result[0].value.split("|")[1],
+          storename: authReducer.register.email,
+          address: null,
+          city: null,
+          province: null,
+          region: null,
+          telephone: null,
+          email: authReducer.register.email,
+          deviceid: null,
+          openingdate: moment().format('YYYYMMDD')
+        }
+        dispatch(profileAction.updateRequest(payload));
+      } else if(authReducer.isLoading === false && authReducer.isError === true && isFocused){
+        dispatch(authAction.registerReset());
+        if(authReducer.errorMsg.split("|")[0] === '04'){
+          onLoginSoap();
+        }
+      }
+
+      if(profileReducer.isLoading === false && profileReducer.isError === false && profileReducer.updateProfile.length !== 0){
+        dispatch(profileAction.updateReset());
+        dispatch(authAction.activationRequest({email: email}));
+      } else if(profileReducer.isLoading === false && profileReducer.isError === true){
+        dispatch(profileAction.updateReset());
+        setModalAlert({
+          ...modalAlert,
+          isVisible: true,
+          type: 'error',
+          msg: profileReducer.errorMsg
+        })
+      }
+
+      if(authReducer.isLoading === false && authReducer.isError === false && authReducer.activation !== null){
+        dispatch(authAction.activationReset());
         onLoginSoap();
+      } else if(authReducer.isLoading === false && authReducer.isError === true){
+        dispatch(authAction.activationReset());
+        if(authReducer.errorMsg.split("|")[0] !== '04'){
+          setModalAlert({
+            ...modalAlert,
+            isVisible: true,
+            type: 'error',
+            msg: authReducer.errorMsg
+          })
+        }
       }
     }
-
-    if(profileReducer.isLoading === false && profileReducer.isError === false && profileReducer.updateProfile.length !== 0){
-      dispatch(profileAction.updateReset());
-      dispatch(authAction.activationRequest({email: email}));
-    } else if(profileReducer.isLoading === false && profileReducer.isError === true){
-      dispatch(profileAction.updateReset());
-      setModalAlert({
-        ...modalAlert,
-        isVisible: true,
-        type: 'error',
-        msg: profileReducer.errorMsg
-      })
-    }
-
-    if(authReducer.isLoading === false && authReducer.isError === false && authReducer.activation !== null){
-      dispatch(authAction.activationReset());
-      let payload = {
-        email,
-        password
-      }
-      dispatch(authAction.loginRequest(payload));
-    } else if(authReducer.isLoading === false && authReducer.isError === true){
-      dispatch(authAction.activationReset());
-      setModalAlert({
-        ...modalAlert,
-        isVisible: true,
-        type: 'error',
-        msg: authReducer.errorMsg
-      })
-    }
-
   }, [authReducer, profileReducer])
 
   function gotoSignup(){

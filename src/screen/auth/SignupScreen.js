@@ -23,6 +23,7 @@ export default function LoginScreen(props){
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [isNavigate, setIsNavigate] = useState(false);
 
   const [modalTnc, setModalTnc] = useState({
     isVisible: false,
@@ -89,7 +90,17 @@ export default function LoginScreen(props){
         msg: authReducer.errorMsg
       })
     }
-  }, [authReducer, profileReducer])
+
+    if(authReducer.isLoading === false && authReducer.isError === false && authReducer.isLogin === true){
+      if(isNavigate === false){
+        setIsNavigate(true);
+        props.navigation.reset({
+          index: 0,
+          routes: [{ name: 'MenuTab'}]
+        });
+      }
+    }
+  }, [authReducer, profileReducer, isNavigate])
 
   function onSignup(){
     if(modalTnc.isAccept === false){
@@ -98,6 +109,13 @@ export default function LoginScreen(props){
         isVisible: true,
         type: 'error',
         msg: 'Harap setuju dengan Syarat & Ketentuan \nuntuk melanjutkan'
+      })
+    } else if(!validateEmail(email)){
+      setModalAlert({
+        ...modalAlert,
+        isVisible: true,
+        type: 'error',
+        msg: 'Harap masukkan email dengan benar'
       })
     } else if(password !== passwordConfirm){
       setModalAlert({
@@ -129,6 +147,12 @@ export default function LoginScreen(props){
       dispatch(authAction.registerRequest(payload))
     } catch (error) {
       console.log(error);
+      setModalAlert({
+        ...modalAlert,
+        isVisible: true,
+        type: 'error',
+        msg: error
+      })
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
       } else if (error.code === statusCodes.IN_PROGRESS) {
@@ -143,6 +167,11 @@ export default function LoginScreen(props){
 
   function gotoLogin(){
     props.navigation.pop();
+  }
+
+  function validateEmail(email) {
+    var re = /\S+@\S+\.\S+/;
+    return re.test(email);
   }
 
   return(
