@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   logoCenter: {
     width: widthPercentage(53.6),
     height: undefined,
-    aspectRatio: 201/64
+    aspectRatio: 300/100
   },
   bottomWave: {
     width: widthPercentage(100),
