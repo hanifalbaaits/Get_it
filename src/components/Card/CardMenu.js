@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Colors, Dimens, Fonts } from '../../base';
 import { VIcon } from '../Icon';
@@ -24,7 +24,7 @@ export default function CardMenu(){
         <Text style={styles.menuName}>{'Pulsa'}</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={()=>navigation.navigate('PackageStack', {screen: 'SelectPackageScreen', params: {type: 2}})} style={styles.menuContainer}>
-        <VIcon
+        {/* <VIcon
           type={'MaterialIcons'}
           name={'signal-wifi-4-bar'}
           size={Dimens.FONT_SIZE_30}
@@ -32,7 +32,12 @@ export default function CardMenu(){
         />
         <View style={styles.badgeGB}>
           <Text style={styles.textBadge}>{'GB'}</Text>
-        </View>
+        </View> */}
+        <Image 
+          source={require('../../assets/images/icon-data.png')}
+          style={styles.iconData}
+          resizeMode='contain'
+        />
         <Text style={styles.menuName}>{'Paket Data'}</Text>
       </TouchableOpacity>
     </View>
@@ -108,5 +113,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  iconData: {
+    width: widthPercentage(8.5),
+    height: undefined,
+    aspectRatio: 1/1
   }
 })
