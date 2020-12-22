@@ -11,34 +11,6 @@ export default function PromoScreen(){
 
   const productReducer = useSelector(state => state.product);
 
-  const dataPromo = [
-    {
-      id: 1,
-      title: 'Promo 1',
-      image: 'https://tri.co.id/image/files/20201012WebsiteMochanOffline3GBdesktop.jpg'
-    },
-    {
-      id: 2,
-      title: 'Promo 1',
-      image: 'https://assets.indosatooredoo.com/Assets/Upload/01%20Personal/Promo/Bank/BCA/210420/07_BCA%20BAHASA.jpg'
-    },
-    {
-      id: 3,
-      title: 'Promo 1',
-      image: 'https://assets.grab.com/wp-content/uploads/sites/9/2020/02/11101745/selasa-diskon-pulsa-landing-page.jpg'
-    },
-    {
-      id: 4,
-      title: 'Promo 1',
-      image: 'https://lelogama.go-jek.com/post_thumbnail/GOPAY-PROMO.jpg'
-    },
-    {
-      id: 5,
-      title: 'Promo 1',
-      image: 'https://assets.grab.com/wp-content/uploads/sites/9/2020/07/21151924/Airtime-x-Transport-Collab-July_landingpage.jpg'
-    }
-  ]
-
   return(
     <SafeAreaView style={styles.rootContainer}>
       <HeaderImageLogoBG />
