@@ -50,9 +50,9 @@ export default function CardPromo({title, image, onPress}){
         <View style={[styles.rootContainer, { aspectRatio: 329/130, marginTop: 0, marginBottom: 0}]}>
           <View style={styles.headerWrapper}>
             <Text style={styles.textTitle}>{title}</Text>
-            <TouchableOpacity onPress={()=>setShowDetail(!showDetail)}>
+            {/* <TouchableOpacity onPress={()=>setShowDetail(!showDetail)}>
               <Text style={styles.textDetail}>Lihat Selengkapnya</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           <View style={{ width: '100%', height: '90%'}}>
             <ImagePromo />
