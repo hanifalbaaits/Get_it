@@ -121,6 +121,12 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  */
 def enableHermes = project.ext.react.get("enableHermes", false);
 
+ext.versionMajor = 1
+ext.versionMinor = 0
+ext.versionPatch = 0
+ext.versionClassifier = null
+ext.isSnapshot = false
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
@@ -133,8 +139,8 @@ android {
         applicationId "id.getiton.apps"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode generateVersionCode()
+        versionName generateVersionName()
     }
     splits {
         abi {
@@ -187,6 +193,22 @@ android {
 
         }
     }
+}
+
+private Integer generateVersionCode() {
+    return rootProject.ext.minSdkVersion * 10000000 + ext.versionMajor * 10000 + ext.versionMinor * 100 + ext.versionPatch
+}
+
+private String generateVersionName() {
+	String versionName = "${ext.versionMajor}.${ext.versionMinor}.${ext.versionPatch}"
+	if (ext.versionClassifier == null && ext.isSnapshot) {
+		ext.versionClassifier = "SNAPSHOT"
+	}
+
+	if (ext.versionClassifier != null) {
+		versionName += "-" + ext.versionClassifier
+	}
+	return versionName;
 }
 
 dependencies {
