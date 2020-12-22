@@ -55,7 +55,7 @@ export default function LoginScreen(props){
           openingdate: moment().format('YYYYMMDD')
         }
         dispatch(profileAction.updateRequest(payload));
-      } else if(authReducer.isLoading === false && authReducer.isError === true && isFocused){
+      } else if(authReducer.isLoading === false && authReducer.isError === true){
         dispatch(authAction.registerReset());
         if(authReducer.errorMsg.split("|")[0] === '04'){
           onLoginSoap();
@@ -104,7 +104,8 @@ export default function LoginScreen(props){
   }
 
   function onError(){
-    setModalAlert({...modalAlert, isVisible: true})
+    setModalAlert({...modalAlert, isVisible: true});
+    revokeGoogle();
   }
 
   function onLoginSoap(){
@@ -138,6 +139,15 @@ export default function LoginScreen(props){
       } else {
         // some other error happened
       }
+    }
+  }
+
+  async function revokeGoogle(){
+    try {
+      await GoogleSignin.revokeAccess();
+      await GoogleSignin.signOut();
+    } catch (error) {
+      console.error(error);
     }
   }
 
