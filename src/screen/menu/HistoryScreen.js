@@ -70,6 +70,13 @@ export default function HistoryScreen(props){
                 <View style={styles.lineSeparator}/>
               )
             }}
+            ListEmptyComponent={()=>{
+              return(
+                <View style={styles.wrapperEmpty}>
+                  <Text style={styles.textNoHistory}>Tidak ada riwayat</Text>
+                </View>
+              )
+            }}
           />
           :
           <FlatList 
@@ -89,6 +96,13 @@ export default function HistoryScreen(props){
             ItemSeparatorComponent={()=>{
               return(
                 <View style={styles.lineSeparator}/>
+              )
+            }}
+            ListEmptyComponent={()=>{
+              return(
+                <View style={styles.wrapperEmpty}>
+                  <Text style={styles.textNoHistory}>Tidak ada riwayat</Text>
+                </View>
               )
             }}
           />
@@ -137,5 +151,16 @@ const styles = StyleSheet.create({
     borderBottomColor: Colors.grayText3,
     borderBottomWidth: 1,
     marginBottom: heightPercentage(2)
+  },
+  wrapperEmpty: {
+    width: widthPercentage(100),
+    height: heightPercentage(80),
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  textNoHistory: {
+    fontFamily: Fonts.poppinsBold,
+    fontSize: Dimens.FONT_SIZE_17,
+    color: Colors.blackTextPackage
   }
 })
