@@ -6,6 +6,7 @@ import moment from 'moment'
 import { widthPercentage } from '../../helper/dimension';
 import { currencyFormat } from '../../helper/format';
 import { Colors, Dimens, Fonts } from '../../base';
+import * as transactionAction from '../../redux/action/transactionAction';
 
 export default function CardBalance({styleContainer, balance}){
   const dispatch = useDispatch();
