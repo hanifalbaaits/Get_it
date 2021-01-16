@@ -2,7 +2,7 @@ import { methodService, apiService } from './apiService';
 
 const URL = {
   HISTORY_PERIOD: '/appreq/service.asmx',
-  HISTORY_LAST_TRANSACTION: '/appreq/service.asmx',
+  HISTORY_LAST_TRANSACTION: '/appreqsession/service.asmx',
   HISTORY_LAST_TOPUP: '/appreq/service.asmx',
 }
 
@@ -26,12 +26,13 @@ export function apiHistoryPeriod(data){
   );
 }
 
-export function apiHistoryLastTransaction(data){
+export function apiHistoryLastTransaction(data, token){
   let xml = `<?xml version="1.0" encoding="utf-8"?>
   <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
     <soap:Body>
       <ReportLast_DailyTopup xmlns="http://tempuri.org/">
         <storeid>${data.email}</storeid>
+        <sessionid>${token}</sessionid>
       </ReportLast_DailyTopup>
     </soap:Body>
   </soap:Envelope>`;
@@ -43,12 +44,13 @@ export function apiHistoryLastTransaction(data){
   );
 }
 
-export function apiHistoryLastTopup(data){
+export function apiHistoryLastTopup(data, token){
   let xml = `<?xml version="1.0" encoding="utf-8"?>
   <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
     <soap:Body>
       <ReportLast_StockDepositHistory_byStoreDate xmlns="http://tempuri.org/">
         <storeid>${data.email}</storeid>
+        <sessionid>${token}</sessionid>
       </ReportLast_StockDepositHistory_byStoreDate>
     </soap:Body>
   </soap:Envelope>`;

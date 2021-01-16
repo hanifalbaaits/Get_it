@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { put, takeLatest, call, all } from 'redux-saga/effects';
 import XMLParser from 'react-xml-parser';
 import * as actionType from '../action/actionType';
@@ -38,7 +39,8 @@ function* topupAccount() {
 function* topup(data){
   try {
     yield put(appAction.appStateLoading(true));
-    const res = yield call(transactionRepo.apiTopup, data.payload);
+    const sessionToken = yield AsyncStorage.getItem("@SessionToken");
+    const res = yield call(transactionRepo.apiTopup, data.payload, sessionToken);
     let xml = new XMLParser().parseFromString(res.data);
     let table = xml.getElementsByTagName("Table");
     yield put(transactionAction.topupSuccess(table));

@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react';
 import { Image, StatusBar, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Colors } from '../base';
 import { widthPercentage } from '../helper/dimension';
+import * as profileAction from '../redux/action/profileAction';
 
 export default function SplashScreen(props){
+  const dispatch = useDispatch();
   const authReducer = useSelector(state => state.auth);
+  const profileReducer = useSelector(state => state.profile);
   useEffect(() => {
     if(authReducer.isLogin === true){
-      props.navigation.reset({
-        index: 0,
-        routes: [{ name: 'MenuTab'}]
-      });
+      dispatch(profileAction.balanceRequest({email: authReducer.credential?.email}));
     } else {
       setTimeout(() => {
         props.navigation.reset({
@@ -22,6 +22,28 @@ export default function SplashScreen(props){
       }, 2000);
     }
   }, [])
+
+  useEffect(() => {
+    if(profileReducer.isLoading === false && profileReducer.isError === false & profileReducer.balance !== null){
+      props.navigation.reset({
+        index: 0,
+        routes: [{ name: 'MenuTab'}]
+      });
+    } else if(profileReducer.isLoading === false && profileReducer.isError === true){
+      dispatch(authAction.loginReset());
+      dispatch(profileAction.infoReset());
+      dispatch(productAction.productReset());
+      dispatch(productAction.bannerReset());
+      dispatch(historyAction.periodReset());
+      dispatch(authAction.resetCredential());
+      dispatch(authAction.logoutRequest());
+      revokeGoogle();
+      props.navigation.reset({
+        index: 0,
+        routes: [{ name: 'Auth'}]
+      });
+    }
+  }, [authReducer])
   return(
     <SafeAreaView style={styles.rootContainer}>
       <StatusBar translucent backgroundColor="transparent" barStyle={'dark-content'}/>

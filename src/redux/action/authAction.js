@@ -1,5 +1,25 @@
 import * as actionType from './actionType';
 
+export const sessionRequest = data => ({
+  type: actionType.AUTH.SESSION_REQUEST,
+  payload: data
+})
+
+export const sessionSuccess = data => ({
+  type: actionType.AUTH.SESSION_SUCCESS,
+  payload: data
+})
+
+export const sessionError = data => ({
+  type: actionType.AUTH.SESSION_ERROR,
+  payload: data
+})
+
+export const sessionReset = data => ({
+  type: actionType.AUTH.SESSION_RESET,
+  payload: data
+})
+
 export const loginRequest = data => ({
   type: actionType.AUTH.LOGIN_REQUEST,
   payload: data
@@ -17,6 +37,26 @@ export const loginError = data => ({
 
 export const loginReset = data => ({
   type: actionType.AUTH.LOGIN_RESET,
+  payload: data
+})
+
+export const logoutRequest = data => ({
+  type: actionType.AUTH.LOGOUT_REQUEST,
+  payload: data
+})
+
+export const logoutSuccess = data => ({
+  type: actionType.AUTH.LOGOUT_SUCCESS,
+  payload: data
+})
+
+export const logoutError = data => ({
+  type: actionType.AUTH.LOGOUT_ERROR,
+  payload: data
+})
+
+export const logoutReset = data => ({
+  type: actionType.AUTH.LOGOUT_RESET,
   payload: data
 })
 

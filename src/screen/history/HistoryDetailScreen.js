@@ -47,9 +47,9 @@ export default function HistoryDetailScreen(props){
       <ScrollView 
         contentContainerStyle={{width: '100%', alignItems: 'center'}}>
         <CardHistoryStatus 
-          status={props.route.params.type === 'deposit' ? 'SUCCESS' : props.route.params.item.children.filter(ar => ar.name == "Status")[0].value}
+          status={props.route.params.type === 'deposit' ? 'PENDING' : props.route.params.item.children.filter(ar => ar.name == "Status")[0].value}
           date={props.route.params.type === 'deposit' ? 
-          moment(props.route.params.item.children.filter(ar => ar.name == "DateTime")[0].value).locale('id').format('DD MMM YYYY, HH:mm') : 
+          '' : 
           moment(props.route.params.item.children.filter(ar => ar.name == "Date")[0].value).locale('id').format('DD MMM YYYY, HH:mm')}
           alertText={''}
         />
@@ -63,10 +63,10 @@ export default function HistoryDetailScreen(props){
           </View>
           :
           <View style={styles.wrapperPhoneNumber}>  
-            <Image 
+            {/* <Image 
               source={require('../../assets/images/logo-xl.png')}
               style={styles.logoXL}
-            />
+            /> */}
             <View style={styles.wrapperRightPhone}>
               <Text style={styles.textXL}>XL Axiata</Text>
               <Text style={styles.textPhoneNumber}>{props.route.params.item.children.filter(ar => ar.name == "Phone")[0].value}</Text>
@@ -74,27 +74,60 @@ export default function HistoryDetailScreen(props){
           </View>
         }
         {
-          props.route.params.type === 'transaction' &&
+          props.route.params.type === 'transaction' ?
           <View>
             <Text style={styles.textHeader}>No. Referensi</Text>
             <Text style={styles.textReference}>{props.route.params.item.children.filter(ar => ar.name == "OriginalTransID")[0].value}</Text>
             <Text style={[styles.textHeader, {marginTop: heightPercentage(1)}]}>No. Referensi Biller/Nomer Serial</Text>
             <Text style={styles.textReference}>{props.route.params.item.children.filter(ar => ar.name == "SerialNumber")[0].value}</Text>
           </View>
+          :
+          <View>
+            <Text style={[styles.textHeader, {marginTop: heightPercentage(1)}]}>Metode</Text>
+            <Text style={styles.textReference}>Bank Transfer</Text>
+            <Text style={[styles.textHeader, {marginTop: heightPercentage(1)}]}>Alamat</Text>
+            <Text style={styles.textReference}>
+              {
+                props.route.params.item.children.filter(ar => ar.name == "institutionname")[0].value+ ' - ' +
+                props.route.params.item.children.filter(ar => ar.name == "accountnumber")[0].value+ ' - ' +
+                props.route.params.item.children.filter(ar => ar.name == "accountname")[0].value
+              }
+            </Text>
+          </View>
         }
         <View style={styles.lineSeparator}/>
         <Text style={styles.textDetail}>Detail Pembelian</Text>
         <View style={styles.paymentMethodWrapper}>
-          <Text style={[styles.textHeader, {width: undefined}]}>{props.route.params.type === 'deposit' ? 'Isi Saldo' : 'Metode Pembayaran'}</Text>
-          <Text style={[styles.textHeader, {width: undefined}]}>{props.route.params.type === 'deposit' ? `Rp.${currencyFormat(props.route.params.item.children.filter(ar => ar.name == "Value")[0].value)}` : `Rp.${currencyFormat(props.route.params.item.children.filter(ar => ar.name == "Price")[0].value)}`}</Text>
+          <Text style={[styles.textHeader, {width: undefined}]}>{'Metode Pembayaran'}</Text>
+          <Text style={[styles.textHeader, {width: undefined}]}>
+            {props.route.params.type === 'deposit' ? 
+            `Bank Transfer ${currencyFormat(props.route.params.item.children.filter(ar => ar.name == "institutionname")[0].value)}` : 
+            `Saldo Get.id`}
+          </Text>
         </View>
         <View style={styles.paymentMethodWrapper}>
-          <Text style={[styles.textHeader, {width: undefined}]}>{'Biaya Transaksi'}</Text>
-          <Text style={[styles.textHeader, {width: undefined}]}>{`Rp.${currencyFormat(0)}`}</Text>
+          {
+            props.route.params.type !== 'deposit' ?
+            <Text style={[styles.textHeader, {width: undefined}]}>
+              {props.route.params.item.children.filter(ar => ar.name === "Product_x0020_Name")[0].value?.includes("DATA") ? 
+              'Paket Data'+ props.route.params.item.children.filter(ar => ar.name === "Product_x0020_Name")[0].value :  
+              `Pulsa ${currencyFormat(props.route.params.item.children.filter(ar => ar.name == "Amount")[0].value)}`}
+            </Text> :
+            <Text style={[styles.textHeader, {width: undefined}]}>{`Deposit ${currencyFormat(props.route.params.item.children.filter(ar => ar.name === "nominal_transfer")[0].value.slice(0,-3)+"000")}`}</Text>
+          }
+          <Text style={[styles.textHeader, {width: undefined}]}>
+            {props.route.params.type === 'deposit' ? 
+            `Rp.${currencyFormat(0)}` : 
+            `Rp.${currencyFormat(props.route.params.item.children.filter(ar => ar.name == "Price")[0].value)}`}
+          </Text>
         </View>
         <View style={[styles.detailLineWrapper, {marginTop: heightPercentage(1)}]}>
           <Text style={[styles.textHeader, {width: undefined, fontFamily: Fonts.poppinsSemiBold}]}>Total</Text>
-          <Text style={[styles.textHeader, {width: undefined, fontFamily: Fonts.poppinsSemiBold}]}>{props.route.params.type === 'deposit' ? `Rp.${currencyFormat(props.route.params.item.children.filter(ar => ar.name == "Value")[0].value)}` : `Rp.${currencyFormat(props.route.params.item.children.filter(ar => ar.name == "Price")[0].value)}`}</Text>
+          <Text style={[styles.textHeader, {width: undefined, fontFamily: Fonts.poppinsSemiBold}]}>
+            {props.route.params.type === 'deposit' ? 
+            `Rp.${currencyFormat(props.route.params.item.children.filter(ar => ar.name == "nominal_transfer")[0].value)}` : 
+            `Rp.${currencyFormat(props.route.params.item.children.filter(ar => ar.name == "Price")[0].value)}`}
+          </Text>
         </View>
         <View style={styles.lineSeparator}/>
         <TouchableOpacity style={styles.buttonHelp} onPress={()=>openHelp()}>
@@ -171,7 +204,7 @@ const styles = StyleSheet.create({
     marginBottom: heightPercentage(0.5)
   },
   wrapperRightPhone: {
-    marginLeft: widthPercentage(3),
+    marginLeft: widthPercentage(0),
     height: '100%'
   },
   textXL: {

@@ -7,6 +7,7 @@ import {
 } from '@react-native-community/google-signin';
 import moment from 'moment';
 import { useIsFocused } from '@react-navigation/native';
+import { sha256 } from 'react-native-sha256';
 import { Button } from '../../components/Button';
 import { HeaderImageLogoBG } from '../../components/Header';
 import { TextInput } from '../../components/TextInput';
@@ -35,7 +36,7 @@ export default function LoginScreen(props){
         onLogin();
       } else if(authReducer.isLoading === false && authReducer.isError === true && authReducer.isLogin === false){
         dispatch(authAction.loginReset());
-        if(authReducer.errorMsg.split("|")[0] !== '04'){
+        if(authReducer.errorMsg?.split("|")[0] !== '04'){
           onError();
         }
       }
@@ -58,7 +59,7 @@ export default function LoginScreen(props){
       } else if(authReducer.isLoading === false && authReducer.isError === true){
         dispatch(authAction.registerReset());
         if(authReducer.errorMsg.split("|")[0] === '04'){
-          onLoginSoap();
+          createSession();
         }
       }
 
@@ -77,7 +78,7 @@ export default function LoginScreen(props){
 
       if(authReducer.isLoading === false && authReducer.isError === false && authReducer.activation !== null){
         dispatch(authAction.activationReset());
-        onLoginSoap();
+        createSession();
       } else if(authReducer.isLoading === false && authReducer.isError === true){
         dispatch(authAction.activationReset());
         if(authReducer.errorMsg.split("|")[0] !== '04'){
@@ -88,6 +89,11 @@ export default function LoginScreen(props){
             msg: authReducer.errorMsg
           })
         }
+      }
+
+      if(authReducer.isLoading === false && authReducer.isError === false && authReducer.session !== null){
+        dispatch(authAction.sessionReset());
+        onLoginSoap();
       }
     }
   }, [authReducer, profileReducer])
@@ -114,6 +120,17 @@ export default function LoginScreen(props){
       password
     }
     dispatch(authAction.loginRequest(payload));
+  }
+
+  function createSession(){
+    let plainText = email+password;
+    sha256(plainText).then(hash => {
+      let payload = {
+        email: email,
+        signature: hash
+      }
+      dispatch(authAction.sessionRequest(payload));
+    })
   }
 
   async function onLoginGoogle(){
@@ -185,7 +202,7 @@ export default function LoginScreen(props){
           color={Colors.yellowPrimary}
           styleLabel={styles.labelSignin}
           label="Masuk Sekarang"
-          onPress={()=>onLoginSoap()}
+          onPress={()=>createSession()}
         />
         <View style={styles.wrapperOrLine}>
           <View style={styles.horizontalLineGray}/>

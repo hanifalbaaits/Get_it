@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { put, takeLatest, call, all } from 'redux-saga/effects';
 import XMLParser from 'react-xml-parser';
 import * as actionType from '../action/actionType';
@@ -23,7 +24,8 @@ function* period(data) {
 function* lastTransaction(data) {
   try {
     yield put(appAction.appStateLoading(true));
-    const res = yield call(historyRepo.apiHistoryLastTransaction, data.payload);
+    const sessionToken = yield AsyncStorage.getItem("@SessionToken");
+    const res = yield call(historyRepo.apiHistoryLastTransaction, data.payload, sessionToken);
     let xml = new XMLParser().parseFromString(res.data);
     let ds = xml.getElementsByTagName("Table");
     yield put(historyAction.lastTransactionSuccess(ds));
@@ -38,7 +40,8 @@ function* lastTransaction(data) {
 function* lastTopup(data) {
   try {
     yield put(appAction.appStateLoading(true));
-    const res = yield call(historyRepo.apiHistoryLastTopup, data.payload);
+    const sessionToken = yield AsyncStorage.getItem("@SessionToken");
+    const res = yield call(historyRepo.apiHistoryLastTopup, data.payload, sessionToken);
     let xml = new XMLParser().parseFromString(res.data);
     let ds = xml.getElementsByTagName("Table");
     yield put(historyAction.lastTopupSuccess(ds));

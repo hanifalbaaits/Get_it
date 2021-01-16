@@ -95,6 +95,7 @@ export default function ProfileScreen(props){
             dispatch(productAction.bannerReset());
             dispatch(historyAction.periodReset());
             dispatch(authAction.resetCredential());
+            dispatch(authAction.logoutRequest());
             revokeGoogle();
             props.navigation.reset({
               index: 0,

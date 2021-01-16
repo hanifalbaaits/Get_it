@@ -6,6 +6,7 @@ import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-community/google-signin';
+import { sha256 } from 'react-native-sha256';
 import { Button } from '../../components/Button';
 import { TextInput } from '../../components/TextInput';
 import { ModalTnc, ModalAlert } from '../../components/Modal';
@@ -53,12 +54,17 @@ export default function LoginScreen(props){
       dispatch(profileAction.updateRequest(payload));
     } else if(authReducer.isLoading === false && authReducer.isError === true){
       dispatch(authAction.registerReset());
-      setModalAlert({
-        ...modalAlert,
-        isVisible: true,
-        type: 'error',
-        msg: authReducer.errorMsg
-      })
+      if(authReducer.errorMsg === '04|0'){
+        console.log('call create session after register error');
+        createSession();
+      } else {
+        setModalAlert({
+          ...modalAlert,
+          isVisible: true,
+          type: 'error',
+          msg: authReducer.errorMsg
+        })
+      }
     }
 
     if(profileReducer.isLoading === false && profileReducer.isError === false && profileReducer.updateProfile.length !== 0){
@@ -66,29 +72,30 @@ export default function LoginScreen(props){
       dispatch(authAction.activationRequest({email: email}));
     } else if(profileReducer.isLoading === false && profileReducer.isError === true){
       dispatch(profileAction.updateReset());
-      setModalAlert({
-        ...modalAlert,
-        isVisible: true,
-        type: 'error',
-        msg: profileReducer.errorMsg
-      })
+      // setModalAlert({
+      //   ...modalAlert,
+      //   isVisible: true,
+      //   type: 'error',
+      //   msg: profileReducer.errorMsg
+      // })
     }
 
     if(authReducer.isLoading === false && authReducer.isError === false && authReducer.activation !== null){
       dispatch(authAction.activationReset());
-      let payload = {
-        email,
-        password
-      }
-      dispatch(authAction.loginRequest(payload));
+      createSession();
     } else if(authReducer.isLoading === false && authReducer.isError === true){
       dispatch(authAction.activationReset());
-      setModalAlert({
-        ...modalAlert,
-        isVisible: true,
-        type: 'error',
-        msg: authReducer.errorMsg
-      })
+      // setModalAlert({
+      //   ...modalAlert,
+      //   isVisible: true,
+      //   type: 'error',
+      //   msg: authReducer.errorMsg
+      // })
+    }
+
+    if(authReducer.isLoading === false && authReducer.isError === false && authReducer.session !== null){
+      dispatch(authAction.sessionReset());
+      onLoginSoap();
     }
 
     if(authReducer.isLoading === false && authReducer.isError === false && authReducer.isLogin === true){
@@ -133,7 +140,35 @@ export default function LoginScreen(props){
     }
   }
 
+  function onLoginSoap(){
+    let payload = {
+      email,
+      password
+    }
+    dispatch(authAction.loginRequest(payload));
+  }
+
+  function createSession(){
+    let plainText = email+password;
+    sha256(plainText).then(hash => {
+      let payload = {
+        email: email,
+        signature: hash
+      }
+      dispatch(authAction.sessionRequest(payload));
+    })
+  }
+
   async function onSignupGoogle(){
+    if(modalTnc.isAccept === false){
+      setModalAlert({
+        ...modalAlert,
+        isVisible: true,
+        type: 'error',
+        msg: 'Harap setuju dengan Syarat & Ketentuan \nuntuk melanjutkan'
+      })
+      return false;
+    }
     GoogleSignin.configure();
     try {
       await GoogleSignin.hasPlayServices();
@@ -147,12 +182,6 @@ export default function LoginScreen(props){
       dispatch(authAction.registerRequest(payload))
     } catch (error) {
       console.log(error);
-      setModalAlert({
-        ...modalAlert,
-        isVisible: true,
-        type: 'error',
-        msg: error
-      })
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
       } else if (error.code === statusCodes.IN_PROGRESS) {
@@ -160,7 +189,12 @@ export default function LoginScreen(props){
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
         // play services not available or outdated
       } else {
-        // some other error happened
+        setModalAlert({
+          ...modalAlert,
+          isVisible: true,
+          type: 'error',
+          msg: error
+        })
       }
     }
   }
@@ -220,7 +254,9 @@ export default function LoginScreen(props){
           onChangeText={(val)=>setPasswordConfirm(val)}
           value={passwordConfirm}
         />
-        <TouchableOpacity style={styles.wrapperTnc} onPress={()=>setModalTnc({...modalTnc, isVisible: true})}>
+        <TouchableOpacity style={styles.wrapperTnc} onPress={()=>{
+          setModalTnc({...modalTnc, isAccept: true});
+        }}>
           <View style={styles.circleCheck} />
           {
             modalTnc.isAccept &&
@@ -235,7 +271,7 @@ export default function LoginScreen(props){
           <View style={{ justifyContent: 'center', alignItems: 'center', height: 20 }}>
             <Text style={styles.textTncWrapper}>
               <Text>Saya setuju dengan </Text>
-              <Text style={{color: Colors.greenPrimary}}>Syarat & Ketentuan</Text>
+              <Text style={{color: Colors.greenPrimary}} onPress={()=>props.navigation.navigate('Webview', {uri: 'http://getiton.id/index.php/Help/terms_policy', title: 'Syarat & Ketentuan'})}>Syarat & Ketentuan</Text>
             </Text>
           </View>
         </TouchableOpacity>

@@ -53,6 +53,7 @@ export default function HistoryScreen(props){
           selectedHistory == 'transaction' ?
           <FlatList 
             data={historyReducer.lastTransaction}
+            showsVerticalScrollIndicator={false}
             keyExtractor={(item)=>item.children.filter(ar => ar.name == "No")[0].value}
             renderItem={({item, index}) => {
               return(
@@ -81,13 +82,14 @@ export default function HistoryScreen(props){
           :
           <FlatList 
             data={historyReducer.lastTopup}
-            keyExtractor={(item)=>item.children.filter(ar => ar.name == "DateTime")[0].value}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={(item)=>item.children.filter(ar => ar.name == "daterequest")[0].value}
             renderItem={({item, index}) => {
               return(
                 <CardHistory 
-                  date={moment(item.children.filter(ar => ar.name == "DateTime")[0].value).locale('id').format('DD MMMM YYYY')}
-                  status={'SUCCESS'}
-                  price={currencyFormat(item.children.filter(ar => ar.name == "Value")[0].value)}
+                  date={moment(item.children.filter(ar => ar.name == "daterequest")[0].value).locale('id').format('DD MMMM YYYY')}
+                  status={'PENDING'}
+                  price={currencyFormat(item.children.filter(ar => ar.name == "nominal_transfer")[0].value.slice(0,-3)+"000")}
                   packageName={'ISI SALDO'}
                   onPress={()=>props.navigation.navigate('HistoryDetailStack', {screen: 'HistoryDetailScreen', params: {item, type: 'deposit'}})}
                 />

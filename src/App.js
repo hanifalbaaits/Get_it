@@ -10,6 +10,7 @@ import { VIcon } from './components/Icon';
 import { Colors, Dimens, Fonts } from './base';
 
 import SplashScreen from './screen/SplashScreen';
+import WebviewScreen from './screen/WebviewScreen';
 import LoadingView from './screen/LoadingView';
 import LoginScreen from './screen/auth/LoginScreen';
 import SignupScreen from './screen/auth/SignupScreen';
@@ -233,6 +234,7 @@ const RootStackScreen = () => (
     <RootStack.Screen name="Splash" component={SplashScreen}/>
     <RootStack.Screen name="Auth" component={AuthStackScreen}/>
     <RootStack.Screen name="MenuTab" component={TabsScreen} /> 
+    <RootStack.Screen name="Webview" component={WebviewScreen} /> 
     <RootStack.Screen name="PackageStack" component={PackageStackScreen} />
     <RootStack.Screen name="TopupStack" component={TopupStackScreen} />
     <RootStack.Screen name="HistoryDetailStack" component={HistoryDetailStackScreen} />

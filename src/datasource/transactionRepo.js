@@ -3,7 +3,7 @@ import { methodService, apiService } from './apiService';
 const URL = {
   TRANSACTION_TOPUP_TYPE: '/appreq/service.asmx',
   TRANSACTION_TOPUP_ACCOUNT: '/appreq/service.asmx',
-  TRANSACTION_TOPUP: '/appreq/service.asmx',
+  TRANSACTION_TOPUP: '/appreqsession/service.asmx',
   TRANSACTION_PAYMENT: '/tspreq/rpc.aspx',
 }
 
@@ -37,7 +37,7 @@ export function apiTopupAccount(){
   );
 }
 
-export function apiTopup(data){
+export function apiTopup(data, token){
   let xml = `<?xml version="1.0" encoding="utf-8"?>
   <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
     <soap:Body>
@@ -46,6 +46,7 @@ export function apiTopup(data){
         <idtransfer>${data.id_transfer}</idtransfer>
         <nominaltransfer>${data.nominal}</nominaltransfer>
         <type>${data.type}</type>
+        <sessionid>${token}</sessionid>
       </Topup_Balance_Request>
     </soap:Body>
   </soap:Envelope>`;

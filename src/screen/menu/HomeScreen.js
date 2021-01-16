@@ -59,7 +59,7 @@ export default function HomeScreen(props){
       </View>
       <CardBalance 
         styleContainer={styles.cardBalance}
-        balance={profileReducer.balance !== null ? profileReducer.balance : 0}
+        balance={profileReducer.balance !== null ? profileReducer.balance.split('|')[0] !== 99 : 0}
       />
       <Image 
         source={require('../../assets/images/line-wave-white-green.png')}

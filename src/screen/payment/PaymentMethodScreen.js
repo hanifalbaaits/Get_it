@@ -41,7 +41,7 @@ export default function PaymentMethodScreen(props){
         <CardPaymentMethod 
           logoPayment={require('../../assets/images/logo-colorfull.png')}
           title={'Saldo Get.id'}
-          balance={profileReducer.balance}
+          balance={profileReducer.balance !== null ? profileReducer.balance.split('|')[0] !== 99 : 0}
           onPress={()=>gotoPaymentConfirm()}
         />
         <Image 
