@@ -3,5 +3,6 @@
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="false">localhost</domain>
         <domain includeSubdomains="false">13.229.215.2</domain>
+        <domain includeSubdomains="false">getiton.id</domain>
     </domain-config>
 </network-security-config>
