@@ -70,16 +70,18 @@ export default function SelectPackageScreen(props){
               data={props.route.params.type == 1 ? productReducer.product.filter(ar => ar.children.some(ch => ch.name == "telco" && ch.value == "XL")) : props.route.params.type == 2 ? productReducer.product.filter(ar => ar.children.some(ch => ch.name == "telco" && ch.value == "XL DATA")) : []}
               keyExtractor={(item)=>item.children.filter(ar => ar.name == "barcode")[0].value}
               renderItem={({item, index})=>{
-                return(
-                  <CardSelectPackage 
-                    id={item.children.filter(ar => ar.name == "barcode")[0].value}
-                    packageName={props.route.params.type == 1 ? currencyFormat(item.children.filter(ar => ar.name == "amount")[0].value) : item.children.filter(ar => ar.name == "productname")[0].value}
-                    packageDuration={null}
-                    packagePrice={item.children.filter(ar => ar.name == "price")[0].value}
-                    onPress={()=>onSelectPackage(item.children.filter(ar => ar.name == "barcode")[0].value)}
-                    selectedId={selectedPackage}
-                  />
-                )
+                if(item.children.filter(ar => ar.name == "status")[0].value !== "INACTIVE"){
+                  return(
+                    <CardSelectPackage 
+                      id={item.children.filter(ar => ar.name == "barcode")[0].value}
+                      packageName={props.route.params.type == 1 ? currencyFormat(item.children.filter(ar => ar.name == "amount")[0].value) : item.children.filter(ar => ar.name == "productname")[0].value}
+                      packageDuration={null}
+                      packagePrice={item.children.filter(ar => ar.name == "price")[0].value}
+                      onPress={()=>onSelectPackage(item.children.filter(ar => ar.name == "barcode")[0].value)}
+                      selectedId={selectedPackage}
+                    />
+                  )
+                }
               }}
               ItemSeparatorComponent={()=>{
                 return(
