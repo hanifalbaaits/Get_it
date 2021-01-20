@@ -88,7 +88,12 @@ export default function HistoryScreen(props){
               return(
                 <CardHistory 
                   date={moment(item.children.filter(ar => ar.name == "daterequest")[0].value).locale('id').format('DD MMMM YYYY')}
-                  status={'PENDING'}
+                  status={
+                    item.children.filter(ar => ar.name == "status")[0].value === 'request' ? 'PENDING' : 
+                    item.children.filter(ar => ar.name == "status")[0].value === 'reject' ? 'FAILED' :
+                    item.children.filter(ar => ar.name == "status")[0].value === 'complete' ? 'SUCCESS' :
+                    'FAILED'
+                  }
                   price={currencyFormat(item.children.filter(ar => ar.name == "nominal_transfer")[0].value.slice(0,-3)+"000")}
                   packageName={'ISI SALDO'}
                   onPress={()=>props.navigation.navigate('HistoryDetailStack', {screen: 'HistoryDetailScreen', params: {item, type: 'deposit'}})}

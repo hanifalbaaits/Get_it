@@ -47,7 +47,14 @@ export default function HistoryDetailScreen(props){
       <ScrollView 
         contentContainerStyle={{width: '100%', alignItems: 'center'}}>
         <CardHistoryStatus 
-          status={props.route.params.type === 'deposit' ? 'PENDING' : props.route.params.item.children.filter(ar => ar.name == "Status")[0].value}
+          status={
+            props.route.params.type === 'deposit' ? (
+              props.route.params.item.children.filter(ar => ar.name == "status")[0].value === 'request' ? 'PENDING' :
+              props.route.params.item.children.filter(ar => ar.name == "status")[0].value === 'reject' ? 'FAILED' :
+              props.route.params.item.children.filter(ar => ar.name == "status")[0].value === 'complete' ? 'SUCCESS' :
+              'FAILED'
+            ) : 
+            props.route.params.item.children.filter(ar => ar.name == "Status")[0].value}
           date={props.route.params.type === 'deposit' ? 
           '' : 
           moment(props.route.params.item.children.filter(ar => ar.name == "Date")[0].value).locale('id').format('DD MMM YYYY, HH:mm')}
@@ -117,7 +124,7 @@ export default function HistoryDetailScreen(props){
           }
           <Text style={[styles.textHeader, {width: undefined}]}>
             {props.route.params.type === 'deposit' ? 
-            `Rp.${currencyFormat(0)}` : 
+            `Rp.${currencyFormat(props.route.params.item.children.filter(ar => ar.name == "nominal_transfer")[0].value)}` : 
             `Rp.${currencyFormat(props.route.params.item.children.filter(ar => ar.name == "Price")[0].value)}`}
           </Text>
         </View>
