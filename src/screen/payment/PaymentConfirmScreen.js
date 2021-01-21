@@ -72,7 +72,7 @@ export default function PaymentConfirmScreen(props){
       <CardPaymentMethod 
         logoPayment={require('../../assets/images/logo-colorfull.png')}
         title={'Saldo Get.id'}
-        balance={profileReducer.balance !== null ? profileReducer.balance.split('|')[0] !== 99 : 0}
+        balance={profileReducer.balance !== null ? profileReducer.balance.split('|')[0] !== 99 ? profileReducer.balance.split('|')[0] : 0 : 0}
       />
       <Image 
         source={require('../../assets/images/bottom-wave.png')}
