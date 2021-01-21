@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet, Linking } from 'react-native';
 import { heightPercentage, widthPercentage } from '../../helper/dimension';
 import { Fonts, Colors, Dimens } from '../../base';
 
@@ -15,6 +15,10 @@ export default function CardPromo({title, image, onPress}){
         resizeMode={'cover'}
       />
     )
+  }
+
+  function openPromo(){
+    Linking.openURL('http://getiton.id/index.php/Promote');
   }
 
   if(title){
@@ -62,7 +66,7 @@ export default function CardPromo({title, image, onPress}){
     }
   } else {
     return(
-      <TouchableOpacity style={styles.rootContainer} onPress={onPress}>
+      <TouchableOpacity style={styles.rootContainer} onPress={()=>openPromo()}>
         <ImagePromo />
       </TouchableOpacity>
     )

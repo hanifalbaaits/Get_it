@@ -74,7 +74,7 @@ export default function HomeScreen(props){
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={()=>{
             return(
-              <Text style={styles.headerFlatlist}>Info & Promo</Text>
+              <Text style={styles.headerFlatlist}>Info dan Promo</Text>
             )
           }}
           renderItem={({item})=>{

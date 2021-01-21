@@ -29,7 +29,6 @@ export default function PromoScreen(){
           renderItem={({item, index}) => {
             return(
               <CardPromo 
-                title={'Promo '+(index+1)}
                 image={item.children.filter(ar => ar.name == "pathfile")[0].value}
               />
             )
